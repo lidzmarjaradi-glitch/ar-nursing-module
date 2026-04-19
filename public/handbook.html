@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Skills Handbook | AR Learning Module</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #c9463d;
+            --cream: #faf8f5;
+            --gold: #b8860b;
+            --teal: #2a6b62;
+            --text-dark: #2d2d2d;
+            --border: #e0dcd5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        /* Print Styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            body {
+                background: white;
+            }
+            
+            .handbook-page {
+                break-after: page;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+            }
+            
+            .print-controls {
+                display: none !important;
+            }
+        }
+
+        /* Screen-only controls */
+        .print-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-back:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Handbook Container */
+        .handbook-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Handbook Page */
+        .handbook-page {
+            background: white;
+            margin-bottom: 2rem;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            text-align: center;
+            padding: 4rem 3rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cover-page h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .cover-page .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .cover-logo {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cover-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .cover-feature {
+            text-align: center;
+        }
+
+        .cover-feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cover-feature p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .cover-footer {
+            margin-top: 4rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Chapter Header */
+        .chapter-header {
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-number {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+        }
+
+        /* Content Section */
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-text p {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .section-text ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-text li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* QR Section */
+        .qr-section {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f6f3;
+            border-radius: 12px;
+            border: 2px dashed var(--border);
+        }
+
+        .qr-section .organ-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .qr-section h4 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+        }
+
+        .qr-instruction {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* Clinical Note Box */
+        .clinical-note {
+            background: linear-gradient(135deg, rgba(42, 107, 98, 0.1) 0%, rgba(42, 107, 98, 0.05) 100%);
+            border-left: 4px solid var(--teal);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .clinical-note h4 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .clinical-note p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(201, 70, 61, 0.1) 0%, rgba(201, 70, 61, 0.05) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box h4 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+
+        .warning-box p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Key Structures List */
+        .structures-box {
+            background: #f8f6f3;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .structures-box h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .structures-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem 1.5rem;
+        }
+
+        .structure-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .structure-item::before {
+            content: '•';
+            color: var(--teal);
+            font-weight: bold;
+        }
+
+        /* Page Number */
+        .page-number {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 2rem;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* Table of Contents */
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px dotted var(--border);
+        }
+
+        .toc-item a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .toc-item a:hover {
+            color: var(--accent);
+        }
+
+        .toc-page {
+            font-family: 'Source Sans 3', sans-serif;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .handbook-container {
+                padding: 1rem;
+            }
+
+            .handbook-page {
+                padding: 1.5rem;
+            }
+
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+
+            .cover-page h1 {
+                font-size: 2rem;
+            }
+
+            .cover-features {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .print-controls {
+                top: 10px;
+                right: 10px;
+            }
+
+            .control-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-controls no-print">
+        <a href="index.html" class="control-btn btn-back">← Back</a>
+        <button class="control-btn btn-print" onclick="window.print()">🖨️ Print Handbook</button>
+    </div>
+
+    <div class="handbook-container">
+        <!-- Cover Page -->
+        <div class="handbook-page cover-page">
+            <div class="cover-logo">🩺</div>
+            <h1>Clinical Skills Handbook</h1>
+            <p class="subtitle">Augmented Reality Learning Module for Nursing Students</p>
+            
+            <div class="cover-features">
+                <div class="cover-feature">
+                    <div class="cover-feature-icon">📱</div>
+                    <p>Interactive 3D Models</p>
+                </div>
+                <div class="cover-feature">
+                    <div class="cover-feature-icon">🔬</div>
+                    <p>Detailed Anatomy</p>
+                </div>
+                <div class="cover-feature">
+                    <div class="cover-feature-icon">📖</div>
+                    <p>Clinical Procedures</p>
+                </div>
+            </div>
+            
+            <div class="cover-footer">
+                <p>Scan QR codes with your mobile device to view 3D anatomical models</p>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="handbook-page">
+            <div class="chapter-header">
+                <div class="chapter-number">Contents</div>
+                <h1 class="chapter-title">Table of Contents</h1>
+            </div>
+            
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#chapter1">Chapter 1: Cardiovascular System – The Heart</a>
+                    <span class="toc-page">3</span>
+                </li>
+                <li class="toc-item">
+                    <a href="#chapter2">Chapter 2: Respiratory System – The Lungs</a>
+                    <span class="toc-page">5</span>
+                </li>
+                <li class="toc-item">
+                    <a href="#chapter3">Chapter 3: Urinary System – The Kidney</a>
+                    <span class="toc-page">7</span>
+                </li>
+                <li class="toc-item">
+                    <a href="#chapter4">Chapter 4: Nervous System – The Brain</a>
+                    <span class="toc-page">9</span>
+                </li>
+                <li class="toc-item">
+                    <a href="#chapter5">Chapter 5: Clinical Procedures – Injection Technique</a>
+                    <span class="toc-page">11</span>
+                </li>
+            </ul>
+            
+            <div class="clinical-note" style="margin-top: 3rem;">
+                <h4>📱 How to Use This Handbook</h4>
+                <p>This handbook is enhanced with Augmented Reality features. Each chapter contains a QR code that, when scanned with your mobile device, displays an interactive 3D model. You can rotate, zoom, and explore each anatomical structure in detail to supplement your learning.</p>
+            </div>
+            
+            <span class="page-number">2</span>
+        </div>
+
+        <!-- Chapter 1: Heart -->
+        <div class="handbook-page" id="chapter1">
+            <div class="chapter-header">
+                <div class="chapter-number">Chapter 1</div>
+                <h1 class="chapter-title">Cardiovascular System – The Heart</h1>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-text">
+                    <h3>Anatomy Overview</h3>
+                    <p>The heart is a muscular organ approximately the size of a closed fist, located in the thoracic cavity between the lungs. It functions as the central pump of the cardiovascular system, circulating blood throughout the body to deliver oxygen and nutrients while removing metabolic waste products.</p>
+                    
+                    <p>The heart consists of four chambers: two upper chambers called atria that receive blood, and two lower chambers called ventricles that pump blood out of the heart. The right side of the heart handles deoxygenated blood from the body, while the left side manages oxygenated blood from the lungs.</p>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="organ-icon">🫀</div>
+                    <h4>View in AR</h4>
+                    <div class="qr-code" id="qr-heart">
+                        <img src="" alt="Heart QR Code" id="heart-qr-img">
+                    </div>
+                    <p class="qr-instruction">Scan to explore the 3D heart model</p>
+                </div>
+            </div>
+
+            <div class="structures-box">
+                <h4>Key Anatomical Structures</h4>
+                <div class="structures-grid">
+                    <div class="structure-item">Right Atrium</div>
+                    <div class="structure-item">Left Atrium</div>
+                    <div class="structure-item">Right Ventricle</div>
+                    <div class="structure-item">Left Ventricle</div>
+                    <div class="structure-item">Aorta</div>
+                    <div class="structure-item">Pulmonary Artery</div>
+                    <div class="structure-item">Superior Vena Cava</div>
+                    <div class="structure-item">Inferior Vena Cava</div>
+                </div>
+            </div>
+
+            <div class="clinical-note">
+                <h4>🩺 Clinical Relevance</h4>
+                <p>Understanding cardiac anatomy is essential for proper auscultation of heart sounds. The four main auscultation points correspond to the closure of the four heart valves: aortic (right 2nd intercostal space), pulmonic (left 2nd intercostal space), tricuspid (left lower sternal border), and mitral (5th intercostal space, midclavicular line).</p>
+            </div>
+            
+            <h3 style="margin-top: 1.5rem; font-family: 'Playfair Display', serif; color: var(--primary);">Clinical Assessment</h3>
+            <p>When assessing cardiovascular function, nurses should evaluate:</p>
+            <ul>
+                <li>Heart rate and rhythm through pulse palpation</li>
+                <li>Blood pressure measurements</li>
+                <li>Heart sounds via auscultation</li>
+                <li>Peripheral circulation including capillary refill</li>
+                <li>Signs of cardiac distress or failure</li>
+            </ul>
+
+            <span class="page-number">3</span>
+        </div>
+
+        <!-- Chapter 2: Lungs -->
+        <div class="handbook-page" id="chapter2">
+            <div class="chapter-header">
+                <div class="chapter-number">Chapter 2</div>
+                <h1 class="chapter-title">Respiratory System – The Lungs</h1>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-text">
+                    <h3>Anatomy Overview</h3>
+                    <p>The lungs are paired organs located in the thoracic cavity, protected by the rib cage. The right lung has three lobes (superior, middle, and inferior), while the left lung has two lobes (superior and inferior) with a cardiac notch to accommodate the heart.</p>
+                    
+                    <p>Gas exchange occurs at the alveoli, tiny air sacs at the terminal ends of the bronchial tree. Each lung contains approximately 300 million alveoli, providing a surface area of about 70 square meters for efficient oxygen and carbon dioxide exchange.</p>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="organ-icon">🫁</div>
+                    <h4>View in AR</h4>
+                    <div class="qr-code" id="qr-lungs">
+                        <img src="" alt="Lungs QR Code" id="lungs-qr-img">
+                    </div>
+                    <p class="qr-instruction">Scan to explore the 3D lung model</p>
+                </div>
+            </div>
+
+            <div class="structures-box">
+                <h4>Key Anatomical Structures</h4>
+                <div class="structures-grid">
+                    <div class="structure-item">Trachea</div>
+                    <div class="structure-item">Main Bronchi</div>
+                    <div class="structure-item">Bronchioles</div>
+                    <div class="structure-item">Alveoli</div>
+                    <div class="structure-item">Pleura</div>
+                    <div class="structure-item">Diaphragm</div>
+                    <div class="structure-item">Pulmonary Vessels</div>
+                    <div class="structure-item">Hilum</div>
+                </div>
+            </div>
+
+            <div class="clinical-note">
+                <h4>🩺 Clinical Relevance</h4>
+                <p>Respiratory assessment includes auscultation of breath sounds at multiple locations. Normal breath sounds include vesicular (peripheral lung), bronchial (over trachea), and bronchovesicular (near sternum). Abnormal sounds such as crackles, wheezes, or stridor indicate pathology requiring further evaluation.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ Clinical Alert</h4>
+                <p>Decreased breath sounds on one side may indicate pneumothorax, pleural effusion, or atelectasis. Immediate assessment and intervention may be required.</p>
+            </div>
+            
+            <span class="page-number">5</span>
+        </div>
+
+        <!-- Chapter 3: Kidney -->
+        <div class="handbook-page" id="chapter3">
+            <div class="chapter-header">
+                <div class="chapter-number">Chapter 3</div>
+                <h1 class="chapter-title">Urinary System – The Kidney</h1>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-text">
+                    <h3>Anatomy Overview</h3>
+                    <p>The kidneys are bean-shaped organs located retroperitoneally on either side of the spine. Each kidney is approximately 11 cm long and weighs about 150 grams. They filter blood to produce urine, regulate electrolyte balance, and maintain acid-base homeostasis.</p>
+                    
+                    <p>Each kidney contains approximately one million nephrons, the functional units responsible for filtration. Blood enters through the renal artery and exits through the renal vein, while urine drains via the ureter to the bladder.</p>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="organ-icon">🫘</div>
+                    <h4>View in AR</h4>
+                    <div class="qr-code" id="qr-kidney">
+                        <img src="" alt="Kidney QR Code" id="kidney-qr-img">
+                    </div>
+                    <p class="qr-instruction">Scan to explore the 3D kidney model</p>
+                </div>
+            </div>
+
+            <div class="structures-box">
+                <h4>Key Anatomical Structures</h4>
+                <div class="structures-grid">
+                    <div class="structure-item">Renal Cortex</div>
+                    <div class="structure-item">Renal Medulla</div>
+                    <div class="structure-item">Renal Pelvis</div>
+                    <div class="structure-item">Nephrons</div>
+                    <div class="structure-item">Ureter</div>
+                    <div class="structure-item">Renal Artery</div>
+                    <div class="structure-item">Renal Vein</div>
+                    <div class="structure-item">Renal Capsule</div>
+                </div>
+            </div>
+
+            <div class="clinical-note">
+                <h4>🩺 Clinical Relevance</h4>
+                <p>Kidney assessment includes monitoring urine output (normal: 0.5-1 mL/kg/hr), evaluating laboratory values (BUN, creatinine, GFR), and physical examination for costovertebral angle tenderness. Understanding kidney anatomy aids in recognizing signs of renal dysfunction.</p>
+            </div>
+            
+            <span class="page-number">7</span>
+        </div>
+
+        <!-- Chapter 4: Brain -->
+        <div class="handbook-page" id="chapter4">
+            <div class="chapter-header">
+                <div class="chapter-number">Chapter 4</div>
+                <h1 class="chapter-title">Nervous System – The Brain</h1>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-text">
+                    <h3>Anatomy Overview</h3>
+                    <p>The brain is the control center of the nervous system, weighing approximately 1.4 kg in adults. It is protected by the skull, meninges, and cerebrospinal fluid. The brain regulates all body functions, processes sensory information, and enables cognition, emotion, and behavior.</p>
+                    
+                    <p>The cerebrum, the largest part of the brain, is divided into two hemispheres connected by the corpus callosum. Each hemisphere contains four lobes: frontal, parietal, temporal, and occipital, each with specialized functions.</p>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="organ-icon">🧠</div>
+                    <h4>View in AR</h4>
+                    <div class="qr-code" id="qr-brain">
+                        <img src="" alt="Brain QR Code" id="brain-qr-img">
+                    </div>
+                    <p class="qr-instruction">Scan to explore the 3D brain model</p>
+                </div>
+            </div>
+
+            <div class="structures-box">
+                <h4>Key Anatomical Structures</h4>
+                <div class="structures-grid">
+                    <div class="structure-item">Cerebrum</div>
+                    <div class="structure-item">Cerebellum</div>
+                    <div class="structure-item">Brain Stem</div>
+                    <div class="structure-item">Frontal Lobe</div>
+                    <div class="structure-item">Parietal Lobe</div>
+                    <div class="structure-item">Temporal Lobe</div>
+                    <div class="structure-item">Occipital Lobe</div>
+                    <div class="structure-item">Corpus Callosum</div>
+                </div>
+            </div>
+
+            <div class="clinical-note">
+                <h4>🩺 Clinical Relevance</h4>
+                <p>Neurological assessment includes evaluating level of consciousness (Glasgow Coma Scale), pupillary response, motor function, and cranial nerve function. Understanding brain anatomy helps localize lesions and predict deficits associated with stroke or trauma.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ Clinical Alert</h4>
+                <p>Signs of increased intracranial pressure (headache, vomiting, altered consciousness, papilledema) require immediate medical attention as they may indicate life-threatening conditions.</p>
+            </div>
+            
+            <span class="page-number">9</span>
+        </div>
+
+        <!-- Chapter 5: Syringe -->
+        <div class="handbook-page" id="chapter5">
+            <div class="chapter-header">
+                <div class="chapter-number">Chapter 5</div>
+                <h1 class="chapter-title">Clinical Procedures – Injection Technique</h1>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-text">
+                    <h3>Equipment Overview</h3>
+                    <p>The medical syringe is a fundamental tool for medication administration. Understanding its components ensures safe and effective injection technique. Syringes come in various sizes (1mL, 3mL, 5mL, 10mL) and are typically disposable to prevent cross-contamination.</p>
+                    
+                    <p>Proper technique includes maintaining sterile principles, selecting appropriate needle gauge and length for the injection route, and understanding anatomical landmarks for safe administration sites.</p>
+                </div>
+                
+                <div class="qr-section">
+                    <div class="organ-icon">💉</div>
+                    <h4>View in AR</h4>
+                    <div class="qr-code" id="qr-syringe">
+                        <img src="" alt="Syringe QR Code" id="syringe-qr-img">
+                    </div>
+                    <p class="qr-instruction">Scan to explore the 3D syringe model</p>
+                </div>
+            </div>
+
+            <div class="structures-box">
+                <h4>Syringe Components</h4>
+                <div class="structures-grid">
+                    <div class="structure-item">Barrel</div>
+                    <div class="structure-item">Plunger</div>
+                    <div class="structure-item">Tip</div>
+                    <div class="structure-item">Graduation Marks</div>
+                    <div class="structure-item">Needle Hub</div>
+                    <div class="structure-item">Needle Shaft</div>
+                    <div class="structure-item">Bevel</div>
+                    <div class="structure-item">Lumen</div>
+                </div>
+            </div>
+
+            <div class="clinical-note">
+                <h4>🩺 Clinical Relevance</h4>
+                <p>Injection routes include intradermal (ID), subcutaneous (SC), intramuscular (IM), and intravenous (IV). Each route requires specific needle selection and technique. IM injections commonly use the deltoid, ventrogluteal, or vastus lateralis sites.</p>
+            </div>
+
+            <h3 style="margin-top: 1.5rem; font-family: 'Playfair Display', serif; color: var(--primary);">Safe Injection Practices</h3>
+            <ul>
+                <li>Verify the "5 Rights": Right patient, drug, dose, route, and time</li>
+                <li>Perform hand hygiene and use aseptic technique</li>
+                <li>Aspirate before IM injections (except vaccines per current guidelines)</li>
+                <li>Dispose of sharps immediately in designated containers</li>
+                <li>Document the procedure and monitor for adverse reactions</li>
+            </ul>
+            
+            <span class="page-number">11</span>
+        </div>
+    </div>
+
+    <script>
+        // Load QR codes for each organ
+        async function loadQRCodes() {
+            const organs = ['heart', 'lungs', 'kidney', 'brain', 'syringe'];
+            
+            for (const organ of organs) {
+                try {
+                    const response = await fetch(`/api/qrcode/${organ}`);
+                    const data = await response.json();
+                    const img = document.getElementById(`${organ}-qr-img`);
+                    if (img) {
+                        img.src = data.qrCode;
+                    }
+                } catch (error) {
+                    console.error(`Failed to load QR code for ${organ}:`, error);
+                }
+            }
+        }
+
+        // Initialize
+        loadQRCodes();
+    </script>
+</body>
+</html>
+
+

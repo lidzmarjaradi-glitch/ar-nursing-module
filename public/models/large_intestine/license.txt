@@ -1,0 +1,11 @@
+Model Information:
+* title:	Digestive System 2
+* source:	https://sketchfab.com/3d-models/digestive-system-2-6e072566838d4797a10b849cce737f3a
+* author:	Naveera Zafar (https://sketchfab.com/naveera1zafar)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Digestive System 2" (https://sketchfab.com/3d-models/digestive-system-2-6e072566838d4797a10b849cce737f3a) by Naveera Zafar (https://sketchfab.com/naveera1zafar) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

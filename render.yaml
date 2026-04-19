@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ar-nursing-module
+    runtime: node
+    plan: free
+    buildCommand: npm install && node scripts/download_heart.js
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SKETCHFAB_TOKEN
+        value: 729b48cfa92d4fc49908b4340ba16666

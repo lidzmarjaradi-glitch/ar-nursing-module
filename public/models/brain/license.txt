@@ -1,0 +1,29 @@
+Model Information:
+* title:	Brain Model (Right) - General anatomy
+* source:	https://sketchfab.com/3d-models/brain-model-right-general-anatomy-dfc9e4a0796b40c7893dd0dad8b25543
+* author:	Dr. Alex Cheroske (https://sketchfab.com/aquaman27)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Brain Model (Right) - General anatomy" (https://sketchfab.com/3d-models/brain-model-right-general-anatomy-dfc9e4a0796b40c7893dd0dad8b25543) by Dr. Alex Cheroske (https://sketchfab.com/aquaman27) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+
+---
+Project copy: installed under ar-nursing-module/public/models/brain/ (scene.gltf, scene.bin, textures/).
+Viewer scale is set in public/ar-viewer.html → modelConfig.brain.scale (tune if the brain looks too large or small).
+
+Numbered regions (app tooltips; Somso-style key — verify against your texture / Sketchfab)
+---------------------------------------------------------------------------
+Sketchfab metadata lists the source as “Brain right Somso”. The AR viewer maps
+glTF meshes Object_2…Object_13 to callouts 1…12 and uses the names in
+ar-viewer.html → CHEROSKE_SOMSO_RIGHT_BRAIN_CALLOUTS. If a number on the
+printed model does not match, adjust that table to match the official key.
+
+1 Frontal lobe          7 Insula
+2 Precentral gyrus      8 Cerebellum (hemisphere)
+3 Postcentral gyrus     9 Midbrain
+4 Parietal lobe         10 Pons
+5 Occipital lobe        11 Medulla oblongata
+6 Temporal lobe         12 Lateral (Sylvian) fissure

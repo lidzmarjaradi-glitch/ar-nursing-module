@@ -1,0 +1,11 @@
+Model Information:
+* title:	HUMAN MALE AND FEMALE PELVIS.
+* source:	https://sketchfab.com/3d-models/human-male-and-female-pelvis-6e04b899c5204a4eae1d20c4ec5c4ef7
+* author:	ramon.gonzalez.cabrera (https://sketchfab.com/ramon.gonzalez.cabrera)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "HUMAN MALE AND FEMALE PELVIS." (https://sketchfab.com/3d-models/human-male-and-female-pelvis-6e04b899c5204a4eae1d20c4ec5c4ef7) by ramon.gonzalez.cabrera (https://sketchfab.com/ramon.gonzalez.cabrera) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

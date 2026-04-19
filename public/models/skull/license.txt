@@ -1,0 +1,11 @@
+Model Information:
+* title:	Sagittal cut of the human cranium and mandible 2
+* source:	https://sketchfab.com/3d-models/sagittal-cut-of-the-human-cranium-and-mandible-2-5e73a548332742c8bc722d5f14ae35f0
+* author:	E-learning UMCG (https://sketchfab.com/eLearningUMCG)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Sagittal cut of the human cranium and mandible 2" (https://sketchfab.com/3d-models/sagittal-cut-of-the-human-cranium-and-mandible-2-5e73a548332742c8bc722d5f14ae35f0) by E-learning UMCG (https://sketchfab.com/eLearningUMCG) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)

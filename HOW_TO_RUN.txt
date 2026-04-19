@@ -1,0 +1,194 @@
+================================================================================
+           AR NURSING CLINICAL SKILLS LEARNING MODULE
+                    HOW TO RUN THE SYSTEM
+================================================================================
+
+PREREQUISITES:
+--------------
+1. Node.js installed on your computer (version 14 or higher)
+   - Check if installed: Open Command Prompt and type: node --version
+   - If not installed, download from: https://nodejs.org/
+
+2. All project files should be in the folder:
+   "ar-nursing-module"
+
+
+STEP-BY-STEP INSTRUCTIONS TO RUN:
+----------------------------------
+
+STEP 1: Open Command Prompt or PowerShell
+   - Press Windows Key + R
+   - Type: cmd
+   - Press Enter
+
+STEP 2: Navigate to the Project Folder
+   - Type: cd "C:\Users\ridzh\OneDrive\Desktop\Undergrad Thesis\Development of an Augmented Reality\ar-nursing-module"
+   - Press Enter
+
+STEP 3: Install Dependencies (FIRST TIME ONLY)
+   - Type: npm install
+   - Press Enter
+   - Wait for installation to complete (may take a few minutes)
+
+STEP 4: Start the Server
+   - Type: npm start
+   - Press Enter
+   - Wait for the server to start (you'll see a success message)
+
+STEP 5: Open in Browser
+   - Open your web browser (Chrome, Edge, or Firefox)
+   - Go to: http://localhost:3000
+
+
+AVAILABLE PAGES:
+----------------
+1. HOME PAGE / HANDBOOK
+   URL: http://localhost:3000
+   - Main landing page with organ information
+
+2. AR VIEWER (Main Application)
+   URL: http://localhost:3000/ar-viewer.html
+   - Interactive 3D models of organs
+   - Features:
+     * Human Heart - Realistic 3D heart model
+     * Human Lungs - Realistic 3D lungs model
+     * Human Kidney - Realistic 3D kidney model
+     * Human Brain - Realistic 3D brain model
+     * Medical Syringe - Procedural 3D model
+
+3. PRINTABLE HANDBOOK
+   URL: http://localhost:3000/handbook.html
+   - Printable version of the handbook
+
+
+FOR MOBILE DEVICES (on same WiFi):
+-----------------------------------
+1. Make sure your phone/tablet is on the SAME WiFi network as your computer
+2. On your computer, look at the server startup message for the Network IP
+   Example: http://192.168.190.1:3000
+3. On your mobile device browser, enter that URL
+
+
+HOW TO USE THE AR VIEWER:
+--------------------------
+1. Click on any organ button at the bottom (Heart, Lungs, Kidney, Brain, Syringe)
+2. The 3D model will load in the center
+3. ROTATE: Click and drag on the model
+4. ZOOM: Use mouse scroll wheel or pinch on touchscreen
+5. RESET VIEW: Click the 🎯 button
+6. INFO PANEL: View detailed information on the right side
+7. STRUCTURES: Click on structure names to highlight them
+
+
+CONTROLS:
+---------
+🔄 Reset Rotation - Returns model to original orientation
+🎯 Reset Camera - Centers and resets the view
+➕ Zoom In - Makes the model larger
+➖ Zoom Out - Makes the model smaller
+ℹ️ Toggle Info - Show/hide information panel
+
+
+HOW TO STOP THE SERVER:
+------------------------
+1. Go to the Command Prompt window where the server is running
+2. Press: Ctrl + C
+3. Confirm: Type Y and press Enter
+
+
+TROUBLESHOOTING:
+----------------
+
+Problem: "npm is not recognized"
+Solution: Node.js is not installed. Install Node.js from https://nodejs.org/
+
+Problem: "Port 3000 is already in use"
+Solution: 
+   - Another program is using port 3000
+   - Close other applications or restart your computer
+   - Or change the port in server.js
+
+Problem: 3D Models not loading
+Solution:
+   - Clear browser cache (Ctrl + Shift + Delete)
+   - Refresh the page (Ctrl + F5)
+   - Make sure models are in the public/models/ folder
+
+Problem: Blank page
+Solution:
+   - Check if server is running in Command Prompt
+   - Check console for errors (Press F12 in browser)
+   - Try different browser
+
+Problem: Slow loading
+Solution:
+   - Wait for models to fully load (especially brain model)
+   - Close unnecessary browser tabs
+   - Check internet connection for CDN resources
+
+
+SYSTEM REQUIREMENTS:
+--------------------
+- Operating System: Windows 10/11, macOS, or Linux
+- Browser: Chrome, Edge, Firefox, or Safari (latest versions)
+- RAM: At least 4GB recommended
+- Internet: Required for loading external libraries
+- Screen Resolution: 1280x720 or higher recommended
+
+
+FILE STRUCTURE:
+---------------
+ar-nursing-module/
+├── server.js                    (Main server file)
+├── package.json                 (Project configuration)
+├── public/
+│   ├── index.html              (Home page)
+│   ├── ar-viewer.html          (Main AR viewer)
+│   ├── handbook.html           (Printable handbook)
+│   └── models/                 (3D model files)
+│       ├── heart/
+│       ├── lungs/
+│       ├── kidney/
+│       └── brain/
+
+
+IMPORTANT NOTES:
+----------------
+1. Keep the Command Prompt window open while using the application
+2. The server must be running for the application to work
+3. Always use Ctrl+C to stop the server properly
+4. Don't close the Command Prompt window while using the app
+5. Models may take a few seconds to load depending on their size
+
+
+TECHNICAL SUPPORT:
+------------------
+- Check console errors: Press F12 in browser → Console tab
+- Server logs: Check the Command Prompt window for error messages
+- Model files: Verify all model files exist in public/models/
+
+
+FOR DEVELOPERS:
+---------------
+- Main server code: server.js
+- AR Viewer code: public/ar-viewer.html
+- Model configuration: Lines 15-21 in ar-viewer.html
+- Port configuration: Line in server.js (default: 3000)
+
+
+VERSION INFORMATION:
+--------------------
+Project: AR Nursing Clinical Skills Learning Module
+Last Updated: February 2026
+Node.js: v14+ required
+Three.js: r128
+
+
+================================================================================
+                            END OF INSTRUCTIONS
+================================================================================
+
+For questions or issues, refer to the documentation files:
+- README.md
+- INTERACTIVE_FEATURES.md
+- MODEL_CREDITS.md

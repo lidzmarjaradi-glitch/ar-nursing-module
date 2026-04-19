@@ -1,0 +1,453 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 32103,
+      "max": [
+        -38.65309524536133,
+        -975.1646118164063,
+        209.59144592285156
+      ],
+      "min": [
+        -135.79371643066406,
+        -1103.8660888671875,
+        123.60733032226563
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 385236,
+      "componentType": 5126,
+      "count": 32103,
+      "max": [
+        0.9999828934669495,
+        0.9997465014457703,
+        0.9999850392341614
+      ],
+      "min": [
+        -0.9999817609786987,
+        -1.0,
+        -0.9999628663063049
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 192618,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 770472,
+      "componentType": 5126,
+      "count": 8658,
+      "max": [
+        -35.00640106201172,
+        -939.861328125,
+        194.76773071289063
+      ],
+      "min": [
+        -104.52465057373047,
+        -1019.6029663085938,
+        121.74885559082031
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 874368,
+      "componentType": 5126,
+      "count": 8658,
+      "max": [
+        0.9999979138374329,
+        0.9997879862785339,
+        0.9996934533119202
+      ],
+      "min": [
+        -0.9999979734420776,
+        -0.9996607899665833,
+        -0.9998200535774231
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 770472,
+      "componentType": 5125,
+      "count": 51840,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 978264,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        13.45963191986084,
+        -860.647705078125,
+        217.4506378173828
+      ],
+      "min": [
+        -143.0321807861328,
+        -1092.5225830078125,
+        57.92121505737305
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 1764648,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.999982476234436,
+        0.9997658133506775,
+        0.99998539686203
+      ],
+      "min": [
+        -0.9999990463256836,
+        -0.9999995231628418,
+        -0.9998853802680969
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 977832,
+      "componentType": 5125,
+      "count": 368085,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 2551032,
+      "componentType": 5126,
+      "count": 46512,
+      "max": [
+        -17.61337661743164,
+        -860.4767456054688,
+        219.3475341796875
+      ],
+      "min": [
+        -143.0321807861328,
+        -1087.502685546875,
+        57.937843322753906
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3109176,
+      "componentType": 5126,
+      "count": 46512,
+      "max": [
+        0.9999641180038452,
+        0.999605119228363,
+        0.9999901652336121
+      ],
+      "min": [
+        -0.9999990463256836,
+        -0.9999948740005493,
+        -0.9998605847358704
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 2450172,
+      "componentType": 5125,
+      "count": 234888,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "HumanX Medical Simulators (https://sketchfab.com/humanx)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/humanx-medical-case-study-004-d5ffdd5aec6c46f7ae84ed87e665ef88",
+      "title": "HumanX Medical Case Study #004"
+    },
+    "generator": "Sketchfab-16.54.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 3389724,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 3667320,
+      "byteOffset": 3389724,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 7057044,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Femur",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7991027380144088,
+          0.5775804404296506,
+          0.3813260114325303,
+          1.0
+        ],
+        "roughnessFactor": 0.8579073764796235
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Brackets",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7999999999999999,
+          0.004392769999999995,
+          0.019022700000000003,
+          1.0
+        ],
+        "metallicFactor": 0.6567639063280954
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.7991027380144088,
+          0.5775804404296506,
+          0.3813260114325303,
+          1.0
+        ],
+        "roughnessFactor": 0.9615267398910168
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 7,
+            "POSITION": 6
+          },
+          "indices": 8,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_3",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 10,
+            "POSITION": 9
+          },
+          "indices": 11,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "root"
+    },
+    {
+      "children": [
+        3,
+        5,
+        7
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "GLTF_SceneRootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        65.57941436767578,
+        1103.7398681640625,
+        -158.67503356933594,
+        1.0
+      ],
+      "name": "Femur_2"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_4"
+    },
+    {
+      "children": [
+        6
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        65.57941436767578,
+        1103.7398681640625,
+        -158.67503356933594,
+        1.0
+      ],
+      "name": "Brackets_3"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_6"
+    },
+    {
+      "children": [
+        8,
+        9
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        65.57941436767578,
+        1103.7398681640625,
+        -158.67503356933594,
+        1.0
+      ],
+      "name": "Hipbone combined_4"
+    },
+    {
+      "mesh": 2,
+      "name": "Object_8"
+    },
+    {
+      "mesh": 3,
+      "name": "Object_9"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

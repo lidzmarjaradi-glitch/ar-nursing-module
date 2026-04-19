@@ -1,0 +1,206 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 11169,
+      "max": [
+        9.33062744140625,
+        6.6362528800964355,
+        2.220057964324951
+      ],
+      "min": [
+        -2.1149179935455322,
+        -5.612240791320801,
+        -2.220062017440796
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 134028,
+      "componentType": 5126,
+      "count": 11169,
+      "max": [
+        0.9999810457229614,
+        0.9998842477798462,
+        0.9998323321342468
+      ],
+      "min": [
+        -0.9999943971633911,
+        -0.9997097849845886,
+        -0.9999951720237732
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 59271,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 268056,
+      "componentType": 5126,
+      "count": 1346,
+      "max": [
+        0.7447900176048279,
+        0.519910991191864,
+        0.6306489706039429
+      ],
+      "min": [
+        -1.8673629760742188,
+        -2.1752099990844727,
+        -1.3165210485458374
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 284208,
+      "componentType": 5126,
+      "count": 1346,
+      "max": [
+        0.9994884729385376,
+        0.9984859228134155,
+        0.9987878799438477
+      ],
+      "min": [
+        -0.9993730187416077,
+        -0.9992955327033997,
+        -0.9993309378623962
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 237084,
+      "componentType": 5125,
+      "count": 7476,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Novaky (https://sketchfab.com/Novaky)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/foot-skeletonskin-47acc754a2754d73902dab2ec46fd416",
+      "title": "Foot Skeleton&Skin"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 266988,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 300360,
+      "byteOffset": 266988,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 567348,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "material_0",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        -0.3186059892177582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -7.07447410026059e-17,
+        0.3186059892177582,
+        0.0,
+        0.0,
+        0.3186059892177582,
+        7.07447410026059e-17,
+        0.0,
+        -0.004961252212524414,
+        2.492712084650999e-18,
+        -0.011226177215576172,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3
+      ],
+      "name": "Foot Skeleton&Skin.obj.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

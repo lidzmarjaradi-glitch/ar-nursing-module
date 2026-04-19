@@ -1,0 +1,19 @@
+{
+  "name": "ar-nursing-clinical-skills",
+  "version": "1.0.0",
+  "description": "Augmented Reality Learning Module for Nursing Clinical Skills",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "qrcode": "^1.5.3"
+  },
+  "keywords": ["augmented-reality", "nursing", "education", "3d-models", "clinical-skills"],
+  "author": "AR Nursing Module Team",
+  "license": "MIT"
+}
+
+

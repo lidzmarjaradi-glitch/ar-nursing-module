@@ -1,0 +1,11 @@
+Model Information:
+* title:	Thyroid
+* source:	https://sketchfab.com/3d-models/thyroid-b7e522c4f5dc4cea97d04a3d6773e96f
+* author:	ShapeShiftingBlob (https://sketchfab.com/ShapeShiftingBlob)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Thyroid" (https://sketchfab.com/3d-models/thyroid-b7e522c4f5dc4cea97d04a3d6773e96f) by ShapeShiftingBlob (https://sketchfab.com/ShapeShiftingBlob) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

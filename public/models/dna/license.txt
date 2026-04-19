@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cell Shaded Double Helix
+* source:	https://sketchfab.com/3d-models/cell-shaded-double-helix-fc666762303f465fa6e82233552de89c
+* author:	sucholudek (https://sketchfab.com/sucholudek)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cell Shaded Double Helix" (https://sketchfab.com/3d-models/cell-shaded-double-helix-fc666762303f465fa6e82233552de89c) by sucholudek (https://sketchfab.com/sucholudek) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	The human spinal column
+* source:	https://sketchfab.com/3d-models/the-human-spinal-column-bcd9eee09ce044ef98a69c315aa792e2
+* author:	3D (https://sketchfab.com/scratchi)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "The human spinal column" (https://sketchfab.com/3d-models/the-human-spinal-column-bcd9eee09ce044ef98a69c315aa792e2) by 3D (https://sketchfab.com/scratchi) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

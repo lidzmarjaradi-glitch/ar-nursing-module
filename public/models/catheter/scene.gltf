@@ -1,0 +1,1101 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 214,
+      "max": [
+        8.839740753173828,
+        10.250517845153809,
+        0.3130545914173126
+      ],
+      "min": [
+        -10.589750289916992,
+        -29.51309585571289,
+        -0.018026620149612427
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 2568,
+      "componentType": 5126,
+      "count": 214,
+      "max": [
+        0.9945111274719238,
+        0.9986224174499512,
+        1.0
+      ],
+      "min": [
+        -0.9999997615814209,
+        -0.9986225962638855,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 588,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 5136,
+      "componentType": 5126,
+      "count": 1065,
+      "max": [
+        4.7865095138549805,
+        13.943432807922363,
+        24.34687614440918
+      ],
+      "min": [
+        -4.7865095138549805,
+        -4.760289192199707,
+        -6.966818809509277
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 17916,
+      "componentType": 5126,
+      "count": 1065,
+      "max": [
+        1.0,
+        0.9979526996612549,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9945220351219177,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 1065,
+      "max": [
+        1.0277777910232544,
+        1.0
+      ],
+      "min": [
+        0.0027390718460083008,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 2352,
+      "componentType": 5125,
+      "count": 4122,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 30696,
+      "componentType": 5126,
+      "count": 1348,
+      "max": [
+        12.375142097473145,
+        9.241270065307617,
+        6.263025283813477
+      ],
+      "min": [
+        -20.43576431274414,
+        -13.416685104370117,
+        -5.471972465515137
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 46872,
+      "componentType": 5126,
+      "count": 1348,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 8520,
+      "componentType": 5126,
+      "count": 1348,
+      "max": [
+        11.61887264251709,
+        9.241270065307617
+      ],
+      "min": [
+        -20.43576431274414,
+        -13.416685104370117
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 18840,
+      "componentType": 5125,
+      "count": 5220,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 63048,
+      "componentType": 5126,
+      "count": 258,
+      "max": [
+        0.32683712244033813,
+        4.780307769775391,
+        10.102775573730469
+      ],
+      "min": [
+        -0.526790201663971,
+        -4.780307769775391,
+        0.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 66144,
+      "componentType": 5126,
+      "count": 258,
+      "max": [
+        0.9597076773643494,
+        1.0,
+        0.9991558194160461
+      ],
+      "min": [
+        -0.9597076773643494,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 19304,
+      "componentType": 5126,
+      "count": 258,
+      "max": [
+        1.2384510040283203,
+        11.764302253723145
+      ],
+      "min": [
+        -0.2384480983018875,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 39720,
+      "componentType": 5125,
+      "count": 516,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 69240,
+      "componentType": 5126,
+      "count": 240,
+      "max": [
+        0.4991815686225891,
+        0.49644917249679565,
+        20.83966064453125
+      ],
+      "min": [
+        -0.4991869032382965,
+        -0.4964500069618225,
+        -45.92446517944336
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 72120,
+      "componentType": 5126,
+      "count": 240,
+      "max": [
+        1.0,
+        0.9993994235992432,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9993993639945984,
+        -0.6838361620903015
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 21368,
+      "componentType": 5126,
+      "count": 240,
+      "max": [
+        0.9972609281539917,
+        1.0
+      ],
+      "min": [
+        0.002739071613177657,
+        2.9802322387695313e-08
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 41784,
+      "componentType": 5125,
+      "count": 888,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 75000,
+      "componentType": 5126,
+      "count": 1096,
+      "max": [
+        19.770389556884766,
+        6.615326881408691,
+        0.3679974377155304
+      ],
+      "min": [
+        -20.544254302978516,
+        -5.872897148132324,
+        -17.07459259033203
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 88152,
+      "componentType": 5126,
+      "count": 1096,
+      "max": [
+        0.9999831914901733,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -0.9998315572738647,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 23288,
+      "componentType": 5126,
+      "count": 1096,
+      "max": [
+        0.9999998807907104,
+        1.0
+      ],
+      "min": [
+        0.0,
+        0.0026487112045288086
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 45336,
+      "componentType": 5125,
+      "count": 4806,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 101304,
+      "componentType": 5126,
+      "count": 2656,
+      "max": [
+        68.40650177001953,
+        51.97075653076172,
+        1.8268316984176636
+      ],
+      "min": [
+        -40.77635192871094,
+        -37.234039306640625,
+        -1.8238197565078735
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 133176,
+      "componentType": 5126,
+      "count": 2656,
+      "max": [
+        0.9998884797096252,
+        0.9999990463256836,
+        1.0
+      ],
+      "min": [
+        -0.9998884797096252,
+        -0.9999989867210388,
+        -0.9999999403953552
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 64560,
+      "componentType": 5125,
+      "count": 15552,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 165048,
+      "componentType": 5126,
+      "count": 4667,
+      "max": [
+        19.986053466796875,
+        8.912553787231445,
+        5.141763687133789
+      ],
+      "min": [
+        -8.603363037109375,
+        -8.379977226257324,
+        -0.10000000149011612
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 221052,
+      "componentType": 5126,
+      "count": 4667,
+      "max": [
+        0.9999733567237854,
+        0.9999836087226868,
+        1.0
+      ],
+      "min": [
+        -0.9999988079071045,
+        -0.9999908804893494,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 32056,
+      "componentType": 5126,
+      "count": 4667,
+      "max": [
+        19.986053466796875,
+        8.912553787231445
+      ],
+      "min": [
+        -8.603363037109375,
+        -8.379977226257324
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 126768,
+      "componentType": 5125,
+      "count": 19449,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 277056,
+      "componentType": 5126,
+      "count": 1892,
+      "max": [
+        3.3681640625,
+        6.033440589904785,
+        31.480981826782227
+      ],
+      "min": [
+        -3.3416056632995605,
+        -6.033441066741943,
+        -0.09518492966890335
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 299760,
+      "componentType": 5126,
+      "count": 1892,
+      "max": [
+        1.0,
+        0.9995700120925903,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -0.9995700716972351,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 69392,
+      "componentType": 5126,
+      "count": 1892,
+      "max": [
+        66.07115936279297,
+        29.319055557250977
+      ],
+      "min": [
+        -10.164712905883789,
+        0.0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 204564,
+      "componentType": 5125,
+      "count": 7980,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 322464,
+      "componentType": 5126,
+      "count": 572,
+      "max": [
+        3.1514930725097656,
+        5.948946952819824,
+        -3.3447749614715576
+      ],
+      "min": [
+        -22.05233383178711,
+        -4.8213210105896,
+        -14.056042671203613
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 329328,
+      "componentType": 5126,
+      "count": 572,
+      "max": [
+        2.271298171763192e-06,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -0.9965454936027527,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 84528,
+      "componentType": 5126,
+      "count": 572,
+      "max": [
+        0.9997085332870483,
+        0.7843632698059082
+      ],
+      "min": [
+        0.00029146671295166016,
+        0.17583632469177246
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 236484,
+      "componentType": 5125,
+      "count": 1776,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "3D (https://sketchfab.com/scratchi)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/peripheral-venous-catheter-69f883fdc4b54b51aca2864eb4b9c646",
+      "title": "Peripheral venous catheter"
+    },
+    "generator": "Sketchfab-12.67.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 243588,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 89104,
+      "byteOffset": 243588,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 336192,
+      "byteOffset": 332692,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 668884,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "catheter_01",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          0.8464433773127852,
+          0.0,
+          1.0
+        ],
+        "metallicFactor": 0.29,
+        "roughnessFactor": 0.22
+      }
+    },
+    {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "name": "catheter_glass-front",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          1.0,
+          1.0,
+          0.71
+        ],
+        "roughnessFactor": 0.13
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "catheter_02",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.1542627968560867,
+          0.1542627968560867,
+          0.1542627968560867,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.28
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "catheter_05_needle",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.49203814104980514,
+          0.49203814104980514,
+          0.49203814104980514,
+          1.0
+        ],
+        "roughnessFactor": 0.2
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "catheter_03",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.775209617965722,
+          0.775209617965722,
+          0.775209617965722,
+          1.0
+        ],
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.37
+      }
+    },
+    {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "name": "catheter_04",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          1.0,
+          1.0,
+          0.56
+        ],
+        "roughnessFactor": 0.23
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Line001_catheter_01_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Cylinder001_catheter_glass-front_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3,
+            "TEXCOORD_0": 5
+          },
+          "indices": 6,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Line002_catheter_02_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 8,
+            "POSITION": 7,
+            "TEXCOORD_0": 9
+          },
+          "indices": 10,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Box002_catheter_02_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 12,
+            "POSITION": 11,
+            "TEXCOORD_0": 13
+          },
+          "indices": 14,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object001_catheter_05_needle_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 16,
+            "POSITION": 15,
+            "TEXCOORD_0": 17
+          },
+          "indices": 18,
+          "material": 3,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Line003_catheter_03_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 20,
+            "POSITION": 19,
+            "TEXCOORD_0": 21
+          },
+          "indices": 22,
+          "material": 4,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Line004_catheter_04_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 24,
+            "POSITION": 23
+          },
+          "indices": 25,
+          "material": 5,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Line005_catheter_01_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 27,
+            "POSITION": 26,
+            "TEXCOORD_0": 28
+          },
+          "indices": 29,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Cylinder003_catheter_01_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 31,
+            "POSITION": 30,
+            "TEXCOORD_0": 32
+          },
+          "indices": 33,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object002_catheter_03_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 35,
+            "POSITION": 34,
+            "TEXCOORD_0": 36
+          },
+          "indices": 37,
+          "material": 4,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "catheter09.fbx"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "Object_2"
+    },
+    {
+      "children": [
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5
+      ],
+      "name": "Line001",
+      "rotation": [
+        -0.7071068286895752,
+        -0.0,
+        0.0,
+        0.7071068286895752
+      ],
+      "translation": [
+        -3.524991512298584,
+        0.0,
+        -9.302742004394531
+      ]
+    },
+    {
+      "mesh": 0,
+      "name": "Line001_catheter_01_0"
+    },
+    {
+      "children": [
+        7
+      ],
+      "name": "Cylinder001",
+      "rotation": [
+        -0.5000000596046448,
+        -0.4999999403953552,
+        0.4999999403953552,
+        0.5000000596046448
+      ],
+      "translation": [
+        6.698269367218018,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mesh": 1,
+      "name": "Cylinder001_catheter_glass-front_0"
+    },
+    {
+      "children": [
+        9
+      ],
+      "name": "Line002",
+      "rotation": [
+        -0.7071068286895752,
+        -0.0,
+        0.0,
+        0.7071068286895752
+      ],
+      "translation": [
+        -25.76427459716797,
+        0.0,
+        -1.534416913986206
+      ]
+    },
+    {
+      "mesh": 2,
+      "name": "Line002_catheter_02_0"
+    },
+    {
+      "children": [
+        11
+      ],
+      "name": "Box002",
+      "rotation": [
+        -0.7071068286895752,
+        -0.0,
+        0.0,
+        0.7071068286895752
+      ],
+      "translation": [
+        -15.175043106079102,
+        0.0,
+        -0.001381218433380127
+      ]
+    },
+    {
+      "mesh": 3,
+      "name": "Box002_catheter_02_0"
+    },
+    {
+      "children": [
+        13
+      ],
+      "name": "Object001",
+      "rotation": [
+        -0.5000001192092896,
+        -0.4999999701976776,
+        0.4999999701976776,
+        0.5000001192092896
+      ],
+      "translation": [
+        6.698269367218018,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mesh": 4,
+      "name": "Object001_catheter_05_needle_0"
+    },
+    {
+      "children": [
+        15
+      ],
+      "name": "Line003",
+      "rotation": [
+        8.146034247147327e-08,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "translation": [
+        -51.471797943115234,
+        0.21130304038524628,
+        8.497802734375
+      ]
+    },
+    {
+      "mesh": 5,
+      "name": "Line003_catheter_03_0"
+    },
+    {
+      "children": [
+        17
+      ],
+      "name": "Line004",
+      "rotation": [
+        -0.7071068286895752,
+        -0.0,
+        0.0,
+        0.7071068286895752
+      ],
+      "translation": [
+        -82.94620513916016,
+        0.0,
+        4.134321689605713
+      ]
+    },
+    {
+      "mesh": 6,
+      "name": "Line004_catheter_04_0"
+    },
+    {
+      "children": [
+        19
+      ],
+      "name": "Line005",
+      "rotation": [
+        -0.7035438418388367,
+        0.07089481502771378,
+        0.07089481502771378,
+        0.7035438418388367
+      ],
+      "scale": [
+        1.0483750104904175,
+        1.0483750104904175,
+        1.0483750104904175
+      ],
+      "translation": [
+        -62.873573303222656,
+        -2.5157623291015625,
+        43.95659637451172
+      ]
+    },
+    {
+      "mesh": 7,
+      "name": "Line005_catheter_01_0"
+    },
+    {
+      "children": [
+        21
+      ],
+      "name": "Cylinder003",
+      "rotation": [
+        -0.5,
+        0.5,
+        -0.5,
+        0.5
+      ],
+      "translation": [
+        -30.306522369384766,
+        0.0,
+        39.12763595581055
+      ]
+    },
+    {
+      "mesh": 8,
+      "name": "Cylinder003_catheter_01_0"
+    },
+    {
+      "children": [
+        23
+      ],
+      "name": "Object002",
+      "rotation": [
+        8.146034247147327e-08,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "translation": [
+        -51.471797943115234,
+        0.21130304038524628,
+        8.497802734375
+      ]
+    },
+    {
+      "mesh": 9,
+      "name": "Object002_catheter_03_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}

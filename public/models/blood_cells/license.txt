@@ -1,0 +1,11 @@
+Model Information:
+* title:	Components of blood
+* source:	https://sketchfab.com/3d-models/components-of-blood-3ae309d331a049918b5788718ee58f35
+* author:	arloopa (https://sketchfab.com/arloopa)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Components of blood" (https://sketchfab.com/3d-models/components-of-blood-3ae309d331a049918b5788718ee58f35) by arloopa (https://sketchfab.com/arloopa) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

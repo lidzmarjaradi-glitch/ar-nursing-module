@@ -1,0 +1,11 @@
+Model Information:
+* title:	Bony Pelvis and Pelvic Organs from MRI
+* source:	https://sketchfab.com/3d-models/bony-pelvis-and-pelvic-organs-from-mri-ad38f2971a054b4db2cd05e3efce9c59
+* author:	audreybyrd (https://sketchfab.com/audreybyrd)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Bony Pelvis and Pelvic Organs from MRI" (https://sketchfab.com/3d-models/bony-pelvis-and-pelvic-organs-from-mri-ad38f2971a054b4db2cd05e3efce9c59) by audreybyrd (https://sketchfab.com/audreybyrd) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

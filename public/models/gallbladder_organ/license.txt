@@ -1,0 +1,11 @@
+Model Information:
+* title:	肝臟、膽囊
+* source:	https://sketchfab.com/3d-models/0b7dc5fb59de459d8c24fac79290c67d
+* author:	10930903MandyHo (https://sketchfab.com/10930903MandyHo)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "肝臟、膽囊" (https://sketchfab.com/3d-models/0b7dc5fb59de459d8c24fac79290c67d) by 10930903MandyHo (https://sketchfab.com/10930903MandyHo) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

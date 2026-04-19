@@ -1,0 +1,8 @@
+Model Information:
+* title:        Female Reproductive Organs-Whole
+* source:       https://sketchfab.com/3d-models/a7638a209026490fa3c8a3f9eecafcf9
+* author:       CVallance (https://sketchfab.com/CVallance)
+
+Model License:
+* license type: CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements: Author must be credited. Commercial use is allowed.

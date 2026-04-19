@@ -1,0 +1,11 @@
+Model Information:
+* title:	Human Lungs, Trachea, Larynx, Hyoid Bone
+* source:	https://sketchfab.com/3d-models/human-lungs-trachea-larynx-hyoid-bone-95d655e6f4bb4d519dc97e867585c7ec
+* author:	sykpresents (https://sketchfab.com/sykpresents)
+
+Model License:
+* license type:	CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions can not be distributed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Human Lungs, Trachea, Larynx, Hyoid Bone" (https://sketchfab.com/3d-models/human-lungs-trachea-larynx-hyoid-bone-95d655e6f4bb4d519dc97e867585c7ec) by sykpresents (https://sketchfab.com/sykpresents) licensed under CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)

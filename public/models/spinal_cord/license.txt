@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cauda Equina - 4-22
+* source:	https://sketchfab.com/3d-models/cauda-equina-4-22-5d39455bf3c040a6ba3ab030b7b46890
+* author:	aandp (https://sketchfab.com/aandp)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cauda Equina - 4-22" (https://sketchfab.com/3d-models/cauda-equina-4-22-5d39455bf3c040a6ba3ab030b7b46890) by aandp (https://sketchfab.com/aandp) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

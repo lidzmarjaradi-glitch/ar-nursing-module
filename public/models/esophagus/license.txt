@@ -1,0 +1,8 @@
+Model Information:
+* title:        Human Digestive Organ
+* source:       https://sketchfab.com/3d-models/0e45d8761e384ca8953c1b6b4294d443
+* author:       mr_izal (https://sketchfab.com/mr_izal)
+
+Model License:
+* license type: CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements: Author must be credited. Commercial use is allowed.

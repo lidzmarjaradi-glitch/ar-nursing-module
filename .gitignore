@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Temporary/dev files
+*.ps1
+search_*.js
+search_results.txt
+download_results.json
+pituitary_new.zip
+pituitary_temp/
+temp_model*.zip
+
+# Backup files
+public/ar-viewer-original.html
+public/models/spinal_cord_backup/
+
+# Oversized model files (>100 MB GitHub hard limit) — downloaded at Render build time
+public/models/heart/scene.bin
