@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/ar-viewer.css?v=3.3">
+    <link rel="stylesheet" href="css/ar-viewer.css?v=3.4">
 
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -71,11 +71,11 @@
         <div class="guided-detail" id="guidedDetail">Details about this structure...</div>
         <div class="guided-clinical" id="guidedClinical">Clinical relevance...</div>
         <div class="guided-nav">
-            <button class="guided-nav-btn" id="guidedPrev">← Prev</button>
+            <button class="guided-nav-btn secondary" id="guidedPrev">← Prev</button>
             <div class="guided-progress">
                 <div class="guided-progress-fill" id="guidedProgressFill"></div>
             </div>
-            <button class="guided-nav-btn" id="guidedNext">Next →</button>
+            <button class="guided-nav-btn primary" id="guidedNext">Next →</button>
         </div>
     </div>
 
@@ -154,7 +154,7 @@
             <h4>🩺 Clinical Relevance</h4>
             <p id="infoClinical">Loading...</p>
         </div>
-        <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem;">Key Structures:</h4>
+        <h4 class="key-structures-heading">Key Structures</h4>
         <div class="structures-grid" id="structuresGrid">
             <!-- Populated dynamically -->
         </div>
