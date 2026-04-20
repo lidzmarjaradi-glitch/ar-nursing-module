@@ -1294,18 +1294,6 @@ body {
 
 /* ══════════ GUIDED PANEL — compact bottom-left info card ══════════ */
 
-@keyframes panelSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
 .guided-panel {
     position: fixed;
     bottom: 80px;
@@ -1329,7 +1317,6 @@ body {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
-    animation: panelSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ══════════ GUIDED — FLOATING NAV (bottom-right) ══════════ */
@@ -1467,16 +1454,6 @@ body {
 }
 
 /* ══════════ QUIZ PANEL — bottom sheet ══════════ */
-@keyframes sheetSlideUp {
-    from {
-        transform: translateY(100%);
-    }
-
-    to {
-        transform: translateY(0);
-    }
-}
-
 .quiz-panel {
     position: fixed;
     bottom: 0;
@@ -1492,7 +1469,7 @@ body {
     transform: translateY(100%);
     opacity: 0;
     pointer-events: none;
-    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
     box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5);
     will-change: transform, opacity;
     max-height: 72dvh;
@@ -1503,7 +1480,6 @@ body {
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
-    animation: sheetSlideUp 0.38s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Drag handle visual */
