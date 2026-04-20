@@ -10,6 +10,9 @@ pituitary_new.zip
 pituitary_temp/
 temp_model*.zip
 
+# Editor settings (local only)
+.vscode/
+
 # Backup files
 public/ar-viewer-original.html
 public/models/spinal_cord_backup/
