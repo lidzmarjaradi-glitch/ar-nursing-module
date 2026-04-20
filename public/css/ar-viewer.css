@@ -767,7 +767,7 @@ body {
     line-height: 1.25;
 }
 
-.info-panel > p,
+.info-panel>p,
 .info-panel #infoDescription {
     font-size: 0.84rem;
     color: var(--text-dim);
@@ -1274,6 +1274,7 @@ body.panel-open .controls-hint {
     display: flex;
     flex-direction: column;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+    will-change: transform, opacity;
 }
 
 .guided-panel.visible {
@@ -1361,8 +1362,10 @@ body.panel-open .controls-hint {
     display: flex;
     align-items: center;
     gap: 5px;
-    min-height: 36px;
+    min-height: 44px;
     white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .guided-nav-btn:hover {
@@ -1438,6 +1441,7 @@ body.panel-open .controls-hint {
     justify-content: flex-start;
     overflow-y: auto;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+    will-change: transform, opacity;
 }
 
 .quiz-panel.visible {
@@ -1486,28 +1490,48 @@ body.panel-open .controls-hint {
 }
 
 .quiz-feedback {
-    padding: 8px 12px;
+    padding: 9px 12px;
     border-radius: var(--r-sm);
     font-size: 0.85rem;
     margin-bottom: 0.7rem;
     display: none;
     line-height: 1.5;
+    text-align: left;
+    font-weight: 500;
 }
 
 .quiz-feedback.correct {
-    display: block;
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
     background: rgba(0, 210, 160, 0.1);
     color: #00d2a0;
     border: 1px solid rgba(0, 210, 160, 0.2);
     animation: feedbackIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.quiz-feedback.correct::before {
+    content: '✔';
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
 .quiz-feedback.wrong {
-    display: block;
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
     background: rgba(247, 113, 156, 0.1);
     color: var(--rose);
     border: 1px solid rgba(247, 113, 156, 0.2);
     animation: feedbackIn 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quiz-feedback.wrong::before {
+    content: '✖';
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 1px;
 }
 
 .quiz-choices {
@@ -1746,6 +1770,7 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
     .structure-item {
         padding: 8px 12px;
         font-size: 0.8rem;
+        min-height: 44px;
     }
 
     .toggle-info {
