@@ -29,18 +29,20 @@ const BASE_URL = process.env.PUBLIC_URL ||
         : `http://${LOCAL_IP}:${PORT}`);
 
 // Serve static files
-// - JS/CSS: no-cache so browsers always revalidate (cache-busted by ?v= params)
-// - 3D model files (.gltf/.glb/.bin) and textures: cache for 7 days
-//   These are large binaries that never change for a given URL path.
-//   On model update the path changes, so stale-cache is not a concern.
+// - JS/CSS/GLTF: no-cache so browsers always revalidate.
+//   .gltf files are JSON manifests that reference other assets and CAN change
+//   between deploys at the same URL (e.g. texture format updates). They must
+//   not be cached immutably.
+// - GLB/BIN/textures: cache for 7 days with immutable.
+//   These are large binaries whose URL does not change when their content
+//   changes (textures co-exist alongside originals), so 7-day immutable is safe.
 app.use(express.static(path.join(__dirname, 'public'), {
     setHeaders(res, filePath) {
-        if (filePath.endsWith('.js') || filePath.endsWith('.css')) {
+        if (filePath.endsWith('.js') || filePath.endsWith('.css') || filePath.endsWith('.gltf')) {
             res.setHeader('Cache-Control', 'no-cache, must-revalidate');
         } else if (
-            filePath.endsWith('.gltf') || filePath.endsWith('.glb') ||
-            filePath.endsWith('.bin')  ||
-            filePath.endsWith('.png')  || filePath.endsWith('.jpg') ||
+            filePath.endsWith('.glb')  || filePath.endsWith('.bin')  ||
+            filePath.endsWith('.png')  || filePath.endsWith('.jpg')  ||
             filePath.endsWith('.jpeg') || filePath.endsWith('.webp') ||
             filePath.endsWith('.ktx2') || filePath.endsWith('.basis')
         ) {
