@@ -14,9 +14,10 @@ let isAutoRotating = false;
 const VIEW_ZOOM = { min: 1.5, max: 14 };
 let raycaster, mouse;
 
-// --- Panel-aware camera view offset (smooth centering) ---
-const PANEL_OCCUPIED_PX = 340;  // panel width (320) + right margin (20)
-const PANEL_SHIFT_PX = PANEL_OCCUPIED_PX / 2;
+// --- Panel-aware camera view offset ---
+// Panel is now bottom-left (not right), so no horizontal shift needed.
+const PANEL_OCCUPIED_PX = 0;
+const PANEL_SHIFT_PX = 0;
 let viewOffsetTarget = 0;   // target shift in px (0 = centered, PANEL_SHIFT_PX = panel open)
 let viewOffsetCurrent = 0;   // current (lerped) shift
 

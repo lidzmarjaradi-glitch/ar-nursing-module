@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/ar-viewer.css?v=3.5">
+    <link rel="stylesheet" href="css/ar-viewer.css?v=4.0">
 
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -64,29 +64,38 @@
         <button class="mode-btn" data-mode="quiz"><span class="mode-icon">❓</span> Quiz</button>
     </div>
 
-    <!-- Guided learning panel -->
-    <div class="guided-panel" id="guidedPanel">
-        <div class="guided-step-counter" id="guidedStepCounter">Step 1 of 10</div>
-        <div class="guided-title" id="guidedTitle">Structure Name</div>
-        <div class="guided-detail" id="guidedDetail">Details about this structure...</div>
-        <div class="guided-clinical" id="guidedClinical">Clinical relevance...</div>
-        <div class="guided-nav">
-            <button class="guided-nav-btn secondary" id="guidedPrev">← Prev</button>
-            <div class="guided-progress">
-                <div class="guided-progress-fill" id="guidedProgressFill"></div>
-            </div>
-            <button class="guided-nav-btn primary" id="guidedNext">Next →</button>
+    <!-- Guided: top-center step pill (separate from card) -->
+    <div class="guided-step-pill" id="guidedStepPill">
+        <span id="guidedStepCounter">Step 1 of 10</span>
+        <div class="guided-progress">
+            <div class="guided-progress-fill" id="guidedProgressFill"></div>
         </div>
     </div>
 
-    <!-- Quiz mode panel -->
+    <!-- Guided: compact info card (bottom-left) -->
+    <div class="guided-panel" id="guidedPanel">
+        <div class="guided-title" id="guidedTitle">Structure Name</div>
+        <div class="guided-detail" id="guidedDetail">Details about this structure...</div>
+        <div class="guided-clinical" id="guidedClinical">🩺 Clinical relevance...</div>
+    </div>
+
+    <!-- Guided: floating navigation (bottom-right) -->
+    <div class="guided-float-nav" id="guidedFloatNav">
+        <button class="guided-nav-btn secondary" id="guidedPrev">← Prev</button>
+        <button class="guided-nav-btn primary" id="guidedNext">Next →</button>
+    </div>
+
+    <!-- Quiz: bottom sheet -->
     <div class="quiz-panel" id="quizPanel">
-        <div class="quiz-score-bar" id="quizScoreBar">
-            <div>Score: <span class="quiz-score-correct" id="quizCorrect">0</span> / <span id="quizTotal">0</span></div>
-            <div>Question <span id="quizQuestionNum">1</span> of <span id="quizQuestionTotal">5</span></div>
+        <div class="quiz-sheet-handle"></div>
+        <div class="quiz-sheet-top">
+            <div class="quiz-score-bar" id="quizScoreBar">
+                <div>Score: <span class="quiz-score-correct" id="quizCorrect">0</span> / <span id="quizTotal">0</span></div>
+                <div>Question <span id="quizQuestionNum">1</span> of <span id="quizQuestionTotal">5</span></div>
+            </div>
+            <div class="quiz-question" id="quizQuestion">What structure is highlighted?</div>
+            <div class="quiz-instruction" id="quizInstruction">Select the correct answer</div>
         </div>
-        <div class="quiz-question" id="quizQuestion">What structure is highlighted?</div>
-        <div class="quiz-instruction" id="quizInstruction">Select the correct answer</div>
         <div class="quiz-choices" id="quizChoices"></div>
         <div class="quiz-feedback" id="quizFeedback"></div>
         <div class="quiz-actions" id="quizActions">

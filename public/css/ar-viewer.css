@@ -717,30 +717,29 @@ body {
     line-height: 1;
 }
 
-/* ══════════ INFO PANEL ══════════ */
+/* ══════════ INFO PANEL — bottom-left compact card ══════════ */
 .info-panel {
     position: fixed;
-    top: 75px;
-    right: 14px;
-    width: 330px;
+    bottom: 80px;
+    left: 14px;
+    width: min(290px, calc(100vw - 28px));
     background: var(--glass-heavy);
     backdrop-filter: blur(28px);
     border-radius: var(--r-xl);
-    padding: 1.4rem 1.3rem;
+    padding: 1.1rem 1.2rem 1rem;
     border: 1px solid var(--border);
     z-index: 90;
-    transform: translateX(0);
+    transform: translateY(0);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-    max-height: calc(100dvh - 95px);
-    max-height: calc(100vh - 95px);
+    max-height: min(380px, calc(100dvh - 200px));
     overflow-y: auto;
     overflow-x: hidden;
     opacity: 1;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    box-shadow: 0 8px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .info-panel.hidden {
-    transform: translateX(400px);
+    transform: translateY(16px);
     opacity: 0;
     pointer-events: none;
 }
@@ -915,11 +914,11 @@ body {
     background: var(--border);
 }
 
-/* ══════════ TOGGLE INFO BUTTON ══════════ */
+/* ══════════ TOGGLE INFO BUTTON — bottom-left ══════════ */
 .toggle-info {
     position: fixed;
-    top: 75px;
-    right: 14px;
+    bottom: 80px;
+    left: 14px;
     width: 42px;
     height: 42px;
     border-radius: var(--r-md);
@@ -954,8 +953,9 @@ body {
     transform: scale(0.9);
 }
 
+/* When panel is open, button sits to the right of the 290px panel + 14px left + 6px gap */
 .toggle-info.panel-open {
-    right: 356px;
+    left: 320px;
 }
 
 .toggle-info svg {
@@ -985,13 +985,9 @@ body {
     align-items: center;
     gap: 8px;
     backdrop-filter: blur(20px);
-    transition: opacity 0.35s ease, transform 0.35s ease, left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.35s ease, transform 0.35s ease;
     max-width: 520px;
     animation: bannerFadeIn 0.5s ease;
-}
-
-body.panel-open .accuracy-banner {
-    left: calc(50% - 170px);
 }
 
 .accuracy-banner-icon {
@@ -1048,12 +1044,8 @@ body.panel-open .accuracy-banner {
     gap: 0;
     backdrop-filter: blur(20px);
     border: 1px solid var(--border);
-    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.3s;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-}
-
-body.panel-open .controls-hint {
-    left: calc(50% - 170px);
 }
 
 .hint-item {
@@ -1241,62 +1233,46 @@ body.panel-open .controls-hint {
     }
 }
 
-/* ══════════ GUIDED PANEL ══════════ */
-
-@keyframes panelSlideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-16px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-    }
-}
-
-.guided-panel {
+/* ══════════ GUIDED — TOP-CENTER STEP PILL ══════════ */
+.guided-step-pill {
     position: fixed;
-    top: 100px;
-    left: 14px;
-    bottom: 115px;
-    transform: translateX(-14px);
-    width: min(340px, calc(100vw - 28px));
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: var(--glass-heavy);
-    backdrop-filter: blur(28px);
-    border-radius: var(--r-xl);
-    border: 1px solid var(--border);
-    padding: 1.3rem 1.4rem 1rem;
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--accent);
+    border-radius: var(--r-pill);
+    padding: 6px 16px;
     z-index: 96;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
-    will-change: transform, opacity;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35), 0 0 14px var(--accent-glow);
+    white-space: nowrap;
 }
 
-.guided-panel.visible {
+.guided-step-pill.visible {
     opacity: 1;
     pointer-events: auto;
-    transform: translateX(0);
-    animation: panelSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%) translateY(0);
 }
 
-.guided-step-counter {
-    font-size: 0.7rem;
+.guided-step-pill #guidedStepCounter {
+    font-size: 0.72rem;
+    font-weight: 700;
     color: var(--accent-bright);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin-bottom: 0.4rem;
-    font-weight: 700;
+    letter-spacing: 0.1em;
     display: flex;
     align-items: center;
     gap: 6px;
 }
 
-.guided-step-counter::before {
+.guided-step-pill #guidedStepCounter::before {
     content: '';
     display: inline-block;
     width: 6px;
@@ -1307,45 +1283,124 @@ body.panel-open .controls-hint {
     flex-shrink: 0;
 }
 
+.guided-step-pill .guided-progress {
+    width: 72px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* ══════════ GUIDED PANEL — compact bottom-left info card ══════════ */
+
+@keyframes panelSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.guided-panel {
+    position: fixed;
+    bottom: 80px;
+    left: 14px;
+    width: min(290px, calc(100vw - 28px));
+    background: var(--glass-heavy);
+    backdrop-filter: blur(28px);
+    border-radius: var(--r-xl);
+    border: 1px solid var(--border);
+    padding: 1.1rem 1.2rem 1rem;
+    z-index: 96;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(10px);
+    box-shadow: 0 8px 36px rgba(0, 0, 0, 0.5);
+    will-change: transform, opacity;
+}
+
+.guided-panel.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    animation: panelSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ══════════ GUIDED — FLOATING NAV (bottom-right) ══════════ */
+.guided-float-nav {
+    position: fixed;
+    bottom: 80px;
+    right: 14px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 96;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(10px);
+}
+
+.guided-float-nav.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.guided-step-counter {
+    /* Legacy — now lives inside .guided-step-pill; keep empty rule for safety */
+    display: none;
+}
+
 .guided-title {
     font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #fff;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.3rem;
     font-weight: 700;
+    line-height: 1.3;
 }
 
 .guided-detail {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: var(--text-dim);
     line-height: 1.6;
     margin-bottom: 0.5rem;
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .guided-clinical {
-    font-size: 0.76rem;
+    font-size: 0.75rem;
     color: var(--cyan);
-    padding: 8px 10px;
+    padding: 7px 10px;
     background: linear-gradient(135deg, rgba(56, 217, 197, 0.08), transparent);
     border: 1px solid rgba(56, 217, 197, 0.1);
     border-left: 3px solid var(--cyan);
     border-radius: var(--r-sm);
-    margin-bottom: 0.7rem;
     line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .guided-clinical::before {
     content: '🩺 ';
 }
 
-.guided-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.7rem;
+/* Hide nav + progress from guided panel — moved to guided-float-nav + guided-step-pill */
+.guided-nav,
+.guided-progress {
+    display: none;
 }
 
 .guided-nav-btn {
@@ -1402,14 +1457,7 @@ body.panel-open .controls-hint {
     opacity: 1;
 }
 
-.guided-progress {
-    flex: 1;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 2px;
-    overflow: hidden;
-}
-
+/* guided-progress-fill is now inside the step pill */
 .guided-progress-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--cyan));
@@ -1418,37 +1466,61 @@ body.panel-open .controls-hint {
     box-shadow: 0 0 8px var(--accent-glow);
 }
 
-/* ══════════ QUIZ PANEL ══════════ */
+/* ══════════ QUIZ PANEL — bottom sheet ══════════ */
+@keyframes sheetSlideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
 .quiz-panel {
     position: fixed;
-    top: 100px;
-    left: 14px;
-    bottom: 115px;
-    transform: translateX(-14px);
-    width: min(340px, calc(100vw - 28px));
+    bottom: 0;
+    left: 0;
+    right: 0;
     background: var(--glass-heavy);
-    backdrop-filter: blur(28px);
-    border-radius: var(--r-xl);
+    backdrop-filter: blur(32px);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
     border: 1px solid var(--border);
-    padding: 1.3rem 1.4rem 1rem;
+    border-bottom: none;
+    padding: 0 1.2rem 1rem;
     z-index: 96;
+    transform: translateY(100%);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: auto;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5);
     will-change: transform, opacity;
+    max-height: 72dvh;
+    overflow-y: auto;
 }
 
 .quiz-panel.visible {
+    transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
-    transform: translateX(0);
-    animation: panelSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: sheetSlideUp 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Drag handle visual */
+.quiz-sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 2px;
+    margin: 10px auto 8px;
+    flex-shrink: 0;
+}
+
+/* Header row: score + counter */
+.quiz-sheet-top {
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.7rem;
 }
 
 .quiz-score-bar {
@@ -1457,8 +1529,8 @@ body.panel-open .controls-hint {
     align-items: center;
     font-size: 0.74rem;
     color: var(--text-faint);
-    margin-bottom: 0.8rem;
-    padding: 6px 10px;
+    margin-bottom: 0.5rem;
+    padding: 5px 8px;
     background: var(--glass-light);
     border-radius: var(--r-sm);
     border: 1px solid var(--border);
@@ -1477,16 +1549,17 @@ body.panel-open .controls-hint {
 }
 
 .quiz-question {
-    font-size: 1.02rem;
+    font-size: 0.92rem;
     color: #fff;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.2rem;
     font-weight: 600;
+    line-height: 1.35;
 }
 
 .quiz-instruction {
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     color: var(--text-faint);
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.6rem;
 }
 
 .quiz-feedback {
@@ -1535,10 +1608,10 @@ body.panel-open .controls-hint {
 }
 
 .quiz-choices {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 5px;
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.6rem;
 }
 
 .quiz-choice-btn {
@@ -1744,22 +1817,20 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
 
     .info-panel {
         width: calc(100% - 1.5rem);
-        right: 0.75rem;
         left: 0.75rem;
-        top: auto;
         bottom: 80px;
-        max-height: 50vh;
-        padding: 1.1rem;
+        max-height: 42vh;
+        padding: 1rem;
         border-radius: var(--r-lg);
     }
 
     .info-panel.hidden {
-        transform: translateY(calc(100dvh + 100px));
-        transform: translateY(calc(100vh + 100px));
+        transform: translateY(16px);
+        opacity: 0;
     }
 
     .info-panel h2 {
-        font-size: 1.2rem;
+        font-size: 1.05rem;
     }
 
     .structures-grid {
@@ -1774,14 +1845,14 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
     }
 
     .toggle-info {
-        top: 60px;
-        right: 0.75rem;
+        bottom: 80px;
+        left: 0.75rem;
         width: 36px;
         height: 36px;
     }
 
     .toggle-info.panel-open {
-        right: 0.75rem;
+        left: calc(100% - 1.5rem + 6px);
     }
 
     .controls-hint {
@@ -1800,10 +1871,6 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
         width: 80%;
         height: 1px;
         margin: 2px 0;
-    }
-
-    body.panel-open .controls-hint {
-        left: 50%;
     }
 
     .rotation-controls {
@@ -1877,22 +1944,39 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
         font-size: 0.73rem;
     }
 
-    .guided-panel,
-    .quiz-panel {
-        top: 84px;
+    .guided-step-pill {
+        top: 100px;
+        max-width: calc(100vw - 100px);
+    }
+
+    .guided-panel {
         left: 6px;
-        bottom: 68px;
-        width: min(280px, calc(100vw - 12px));
-        padding: 1rem 1rem 0.75rem;
+        bottom: 80px;
+        width: calc(100vw - 12px);
+        padding: 0.9rem 1rem 0.85rem;
+    }
+
+    .guided-float-nav {
+        right: 6px;
+        bottom: 80px;
     }
 
     .guided-title {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .guided-detail {
-        max-height: 70px;
+        -webkit-line-clamp: 3;
         font-size: 0.76rem;
+    }
+
+    .quiz-panel {
+        max-height: 68dvh;
+        border-radius: var(--r-lg) var(--r-lg) 0 0;
+    }
+
+    .quiz-choices {
+        grid-template-columns: 1fr;
     }
 
     .hint-icon {

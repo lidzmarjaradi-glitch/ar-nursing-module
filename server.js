@@ -41,8 +41,8 @@ app.use(express.static(path.join(__dirname, 'public'), {
         if (filePath.endsWith('.js') || filePath.endsWith('.css') || filePath.endsWith('.gltf')) {
             res.setHeader('Cache-Control', 'no-cache, must-revalidate');
         } else if (
-            filePath.endsWith('.glb')  || filePath.endsWith('.bin')  ||
-            filePath.endsWith('.png')  || filePath.endsWith('.jpg')  ||
+            filePath.endsWith('.glb') || filePath.endsWith('.bin') ||
+            filePath.endsWith('.png') || filePath.endsWith('.jpg') ||
             filePath.endsWith('.jpeg') || filePath.endsWith('.webp') ||
             filePath.endsWith('.ktx2') || filePath.endsWith('.basis')
         ) {
