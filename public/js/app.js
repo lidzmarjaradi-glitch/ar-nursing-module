@@ -350,7 +350,7 @@ async function init() {
                 const cfg = modelConfig[id];
                 if (cfg && cfg.path && !_prefetched.has(id) && !_gltfRawCache[id]) {
                     _prefetched.add(id);
-                    fetch(cfg.path, { priority: 'low' }).catch(() => {});
+                    fetch(cfg.path, { priority: 'low' }).catch(() => { });
                 }
             });
             card.addEventListener('click', () => {
@@ -365,9 +365,9 @@ async function init() {
             if (e.key === 'Escape') closeModelPanel();
         });
 
-        // Check URL params for initial model (default to first model in list)
+        // Check URL params for initial model (default to skull)
         const urlParams = new URLSearchParams(window.location.search);
-        const initialModel = urlParams.get('model') || (modelsData.length ? modelsData[0].id : 'skull');
+        const initialModel = urlParams.get('model') || 'skull';
 
         // Initialize scene and load first model
         initScene();
