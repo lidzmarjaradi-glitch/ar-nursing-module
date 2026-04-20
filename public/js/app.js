@@ -340,19 +340,8 @@ async function init() {
         }
         catContainer.innerHTML = catHTML;
 
-        // Add click + hover-prefetch handlers to cards.
-        // Hovering starts a low-priority fetch so the browser caches the file
-        // before the user clicks — cuts perceived load time on fast networks.
-        const _prefetched = new Set();
+        // Add click handlers to cards
         document.querySelectorAll('.model-card').forEach(card => {
-            card.addEventListener('pointerenter', () => {
-                const id = card.dataset.model;
-                const cfg = modelConfig[id];
-                if (cfg && cfg.path && !_prefetched.has(id) && !_gltfRawCache[id]) {
-                    _prefetched.add(id);
-                    fetch(cfg.path, { priority: 'low' }).catch(() => { });
-                }
-            });
             card.addEventListener('click', () => {
                 closeModelPanel();
                 document.getElementById('loadingOverlay').classList.remove('hidden');
@@ -365,9 +354,30 @@ async function init() {
             if (e.key === 'Escape') closeModelPanel();
         });
 
-        // Check URL params for initial model (default to skull)
+        // Check URL params for initial model (default to first model in list)
         const urlParams = new URLSearchParams(window.location.search);
-        const initialModel = urlParams.get('model') || 'skull';
+        const DEFAULT_MODEL = 'skull';
+        const rawModel = urlParams.get('model') || '';
+        const isValidModel = rawModel && modelConfig[rawModel];
+        let initialModel;
+
+        if (!rawModel) {
+            // No param at all — use default silently
+            initialModel = DEFAULT_MODEL;
+        } else if (!isValidModel) {
+            // Invalid param — show message, redirect to default after brief delay
+            initialModel = DEFAULT_MODEL;
+            const lt = document.getElementById('loadingText');
+            const ls = document.getElementById('loadingSub');
+            if (lt) lt.textContent = 'Model not found';
+            if (ls) ls.textContent = `"${rawModel}" is not a valid model. Loading default…`;
+            // Clean the URL so the bad param doesn't linger
+            history.replaceState({}, '', `${window.location.pathname}?model=${DEFAULT_MODEL}`);
+            // Brief pause so the user sees the message (800ms), then proceed
+            await new Promise(resolve => setTimeout(resolve, 800));
+        } else {
+            initialModel = rawModel;
+        }
 
         // Initialize scene and load first model
         initScene();
