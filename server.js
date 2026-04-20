@@ -28,11 +28,23 @@ const BASE_URL = process.env.PUBLIC_URL ||
         ? 'https://ar-nursing-module.onrender.com'
         : `http://${LOCAL_IP}:${PORT}`);
 
-// Serve static files — no-cache for JS/CSS so browsers always revalidate
+// Serve static files
+// - JS/CSS: no-cache so browsers always revalidate (cache-busted by ?v= params)
+// - 3D model files (.gltf/.glb/.bin) and textures: cache for 7 days
+//   These are large binaries that never change for a given URL path.
+//   On model update the path changes, so stale-cache is not a concern.
 app.use(express.static(path.join(__dirname, 'public'), {
     setHeaders(res, filePath) {
         if (filePath.endsWith('.js') || filePath.endsWith('.css')) {
             res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+        } else if (
+            filePath.endsWith('.gltf') || filePath.endsWith('.glb') ||
+            filePath.endsWith('.bin')  ||
+            filePath.endsWith('.png')  || filePath.endsWith('.jpg') ||
+            filePath.endsWith('.jpeg') || filePath.endsWith('.webp') ||
+            filePath.endsWith('.ktx2') || filePath.endsWith('.basis')
+        ) {
+            res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
         }
     }
 }));
