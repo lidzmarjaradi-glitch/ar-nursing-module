@@ -126,6 +126,26 @@ function showLoadingError(msg) {
     if (spinner) spinner.style.borderTopColor = '#e63946';
     if (dots) dots.style.display = 'none';
     if (retry) retry.classList.remove('hidden');
+    setLoadingProgress('error');
+}
+
+// Update the CSS progress bar.
+// pct: 0-100 = real fill %, -1 = shimmer (CSS-driven, survives JS blocking), 'error' = red full
+function setLoadingProgress(pct) {
+    const fill = document.getElementById('loadingProgressFill');
+    if (!fill) return;
+    if (pct === 'error') {
+        fill.classList.remove('parsing');
+        fill.classList.add('error');
+        fill.style.width = '100%';
+    } else if (pct < 0) {
+        fill.classList.remove('error');
+        fill.classList.add('parsing'); // CSS shimmer — runs on compositor, never freezes
+        fill.style.width = '';
+    } else {
+        fill.classList.remove('parsing', 'error');
+        fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
 }
 
 // ─── In-memory parsed-scene cache ───
@@ -134,17 +154,12 @@ function showLoadingError(msg) {
 // of re-downloading and re-parsing the binary.
 const _gltfRawCache = {};
 
-// ─── Draco decoder singleton ───
-// Shared across all loadExternalModel calls; decoder WASM is fetched once.
+// ─── Draco loader — initialised once, shared across all model loads ───
 let _dracoLoader = null;
-function _getDracoLoader() {
-    if (!_dracoLoader && typeof THREE !== 'undefined' && THREE.DRACOLoader) {
-        _dracoLoader = new THREE.DRACOLoader();
-        // Use Google's hosted Draco WASM decoder (CDN-cached, no server cost)
-        _dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
-        _dracoLoader.preload();
-    }
-    return _dracoLoader;
+if (typeof THREE.DRACOLoader !== 'undefined') {
+    _dracoLoader = new THREE.DRACOLoader();
+    _dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+    _dracoLoader.preload(); // fetch decoder WASM in background now
 }
 
 // ─── External GLTF loader ───
@@ -153,54 +168,62 @@ function loadExternalModel(modelId, onComplete) {
     const config = modelConfig[modelId];
     if (!config || config.type !== 'external') { onComplete(null); return; }
 
+    // Reset progress bar for each load
+    setLoadingProgress(0);
+
     // Cache hit — skip network + parse, just clone + process
     if (_gltfRawCache[modelId]) {
-        setLoadingState('Loading 3D Model...', 'Preparing from cache...');
-        // One rAF so the overlay text paints before the CPU-heavy clone
+        setLoadingState('Loading from cache...', 'Cloning scene data...');
+        setLoadingProgress(-1);
         requestAnimationFrame(() => {
             _processGltfScene(modelId, config, _gltfRawCache[modelId].clone(true), onComplete);
         });
         return;
     }
 
-    // First load: download + parse
+    // First load: download + Draco decode + build scene
     const TIMEOUT_MS = 120000;
     let timeoutId = setTimeout(() => {
         showLoadingError('Model is taking too long to load. Try refreshing the page.');
     }, TIMEOUT_MS);
 
     const loader = new THREE.GLTFLoader();
-    const draco = _getDracoLoader();
-    if (draco) loader.setDRACOLoader(draco);
+    if (_dracoLoader) loader.setDRACOLoader(_dracoLoader);
+
     loader.load(
         config.path,
         (gltf) => {
             clearTimeout(timeoutId);
-            // Process original scene first so the model renders ASAP.
-            // Cache a clean clone in the background after the first render.
+            // Draco decode is complete by the time onLoad fires.
+            // _processGltfScene will update text to 'Building scene...'.
             const rawScene = gltf.scene;
             _processGltfScene(modelId, config, rawScene.clone(true), (model) => {
                 onComplete(model);
-                // Defer cache work until after the first frame is painted
+                // Store clean clone in background after first render
                 setTimeout(() => { _gltfRawCache[modelId] = rawScene.clone(true); }, 200);
             });
         },
         (progress) => {
             const loaded = progress.loaded || 0;
-            const total = progress.total || 0;
+            const total  = progress.total  || 0;
             if (total > 0) {
-                const pct = Math.round(loaded / total * 100);
-                const mb = (loaded / 1048576).toFixed(1);
-                const totalMb = (total / 1048576).toFixed(1);
+                const pct     = Math.min(100, Math.round(loaded / total * 100));
+                const mb      = (loaded / 1048576).toFixed(1);
+                const totalMb = (total  / 1048576).toFixed(1);
                 if (pct >= 100) {
-                    const sizeMb = Math.round(total / 1048576);
-                    const eta = sizeMb > 80 ? ' — large file, may take ~60 s' : '';
-                    setLoadingState('Parsing 3D model...', 'Decoding ' + sizeMb + ' MB geometry' + eta);
+                    // Download done — Draco decode now running (JS blocks here).
+                    // CSS shimmer keeps the UI visually active through this phase.
+                    setLoadingState('Decoding geometry...', 'Decompressing 3D data — please wait...');
+                    setLoadingProgress(-1);
                 } else {
-                    setLoadingState('Loading 3D Model... ' + pct + '%', mb + ' / ' + totalMb + ' MB');
+                    setLoadingState('Downloading model...  ' + pct + '%', mb + ' MB of ' + totalMb + ' MB');
+                    setLoadingProgress(pct * 0.85); // 0-85% for download; 85-100% for decode+build
                 }
             } else {
-                setLoadingState('Loading 3D Model...', (loaded / 1048576).toFixed(1) + ' MB downloaded');
+                // No Content-Length — show raw bytes
+                const mb = (loaded / 1048576).toFixed(1);
+                setLoadingState('Downloading model...', mb + ' MB downloaded');
+                setLoadingProgress(-1);
             }
         },
         (error) => {
@@ -216,6 +239,8 @@ function loadExternalModel(modelId, onComplete) {
 // Takes a raw (or cloned-raw) THREE.Group and applies:
 //   material overrides, userData tags, annotation builders, size normalisation.
 function _processGltfScene(modelId, config, model, onComplete) {
+    setLoadingState('Building scene...', 'Preparing materials \u0026 annotations...');
+    setLoadingProgress(-1); // keep shimmer while materials/annotations are built
     if (modelId === 'lungs' || modelId === 'kidney') {
         model.scale.set(1, 1, 1);
     } else {
@@ -315,6 +340,7 @@ function _processGltfScene(modelId, config, model, onComplete) {
         buildNewModelGltfAnnotations(model, modelId);
     }
 
+    setLoadingProgress(100); // scene fully built
     onComplete(model);
 }
 

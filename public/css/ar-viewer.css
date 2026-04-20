@@ -310,6 +310,50 @@ body {
     }
 }
 
+/* ── Loading progress bar ── */
+.loading-progress-track {
+    width: 200px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.loading-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-bright, #7c6aef), var(--cyan, #00d2ff));
+    border-radius: 3px;
+    transition: width 0.25s ease;
+}
+
+/* CSS-driven shimmer — runs on compositor, never freezes even during JS parse/decode */
+.loading-progress-fill.parsing {
+    width: 100% !important;
+    transition: none;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--accent-bright, #7c6aef) 20%,
+        var(--cyan, #00d2ff) 50%,
+        var(--accent-bright, #7c6aef) 80%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: loadShimmer 1.6s linear infinite;
+}
+
+.loading-progress-fill.error {
+    background: #e63946 !important;
+    animation: none !important;
+    width: 100% !important;
+}
+
+@keyframes loadShimmer {
+    from { background-position: 200% 0; }
+    to   { background-position: -200% 0; }
+}
+
 .loading-text {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.9rem;
@@ -322,7 +366,7 @@ body {
 .loading-sub {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.75rem;
-    color: rgba(255,255,255,0.38);
+    color: rgba(255, 255, 255, 0.38);
     text-align: center;
     min-height: 1.1em;
     max-width: 260px;
@@ -331,16 +375,22 @@ body {
 .loading-retry {
     margin-top: 4px;
     padding: 8px 22px;
-    background: rgba(124,106,239,0.18);
-    border: 1px solid rgba(124,106,239,0.5);
+    background: rgba(124, 106, 239, 0.18);
+    border: 1px solid rgba(124, 106, 239, 0.5);
     border-radius: 20px;
     color: var(--text);
     font-size: 0.82rem;
     cursor: pointer;
     transition: background 0.2s;
 }
-.loading-retry:hover { background: rgba(124,106,239,0.32); }
-.loading-retry.hidden { display: none; }
+
+.loading-retry:hover {
+    background: rgba(124, 106, 239, 0.32);
+}
+
+.loading-retry.hidden {
+    display: none;
+}
 
 .loading-dots {
     display: flex;
@@ -1765,6 +1815,7 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
 
 /* Very narrow phones: shrink guided/quiz panel so the 3D model gets more space */
 @media (max-width: 420px) {
+
     .guided-panel,
     .quiz-panel {
         width: min(200px, calc(100vw - 12px));
