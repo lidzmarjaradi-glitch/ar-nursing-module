@@ -15,6 +15,7 @@ function setupControls() {
 
     canvas.addEventListener('pointermove', (e) => {
         if (!organMesh) return;
+        if (e.pointerType === 'touch') return;  // no hover on touch — saves CPU
         if (e.buttons & 1) return;
         const rect = canvas.getBoundingClientRect();
         mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -279,8 +280,9 @@ function showTooltip(structureName, x, y) {
     header.textContent = structureName;
     content.textContent = structureInfo[currentModelId][structureName] || 'Information not available.';
 
-    // Position tooltip
-    tooltip.style.left = Math.min(x + 20, window.innerWidth - 320) + 'px';
+    // Position tooltip — clamped to viewport with padding for narrow phones
+    const tipW = Math.min(300, window.innerWidth - 24);
+    tooltip.style.left = Math.min(x + 20, window.innerWidth - tipW - 12) + 'px';
     tooltip.style.top = Math.min(y + 20, window.innerHeight - 200) + 'px';
 
     tooltip.classList.add('visible');
