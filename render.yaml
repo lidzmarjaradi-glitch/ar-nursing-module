@@ -8,5 +8,7 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      # Set SKETCHFAB_TOKEN manually in the Render dashboard (Environment tab).
+      # Required to download the heart model at build time.
       - key: SKETCHFAB_TOKEN
-        value: 729b48cfa92d4fc49908b4340ba16666
+        sync: false

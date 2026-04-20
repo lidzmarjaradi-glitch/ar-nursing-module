@@ -10,7 +10,12 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const TOKEN = process.env.SKETCHFAB_TOKEN || '729b48cfa92d4fc49908b4340ba16666';
+const TOKEN = process.env.SKETCHFAB_TOKEN;
+if (!TOKEN) {
+    console.error('ERROR: SKETCHFAB_TOKEN environment variable is not set.');
+    console.error('Set it in the Render dashboard under Environment Variables.');
+    process.exit(1);
+}
 const HEART_UID = 'a3f0ea2030214a6bbaa97e7357eebd58';
 const DEST_DIR = path.join(__dirname, '..', 'public', 'models', 'heart');
 const BIN_PATH = path.join(DEST_DIR, 'scene.bin');
