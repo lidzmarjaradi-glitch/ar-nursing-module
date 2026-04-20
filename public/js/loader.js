@@ -134,6 +134,19 @@ function showLoadingError(msg) {
 // of re-downloading and re-parsing the binary.
 const _gltfRawCache = {};
 
+// ─── Draco decoder singleton ───
+// Shared across all loadExternalModel calls; decoder WASM is fetched once.
+let _dracoLoader = null;
+function _getDracoLoader() {
+    if (!_dracoLoader && typeof THREE !== 'undefined' && THREE.DRACOLoader) {
+        _dracoLoader = new THREE.DRACOLoader();
+        // Use Google's hosted Draco WASM decoder (CDN-cached, no server cost)
+        _dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+        _dracoLoader.preload();
+    }
+    return _dracoLoader;
+}
+
 // ─── External GLTF loader ───
 
 function loadExternalModel(modelId, onComplete) {
@@ -157,6 +170,8 @@ function loadExternalModel(modelId, onComplete) {
     }, TIMEOUT_MS);
 
     const loader = new THREE.GLTFLoader();
+    const draco = _getDracoLoader();
+    if (draco) loader.setDRACOLoader(draco);
     loader.load(
         config.path,
         (gltf) => {

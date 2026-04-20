@@ -340,8 +340,19 @@ async function init() {
         }
         catContainer.innerHTML = catHTML;
 
-        // Add click handlers to cards
+        // Add click + hover-prefetch handlers to cards.
+        // Hovering starts a low-priority fetch so the browser caches the file
+        // before the user clicks — cuts perceived load time on fast networks.
+        const _prefetched = new Set();
         document.querySelectorAll('.model-card').forEach(card => {
+            card.addEventListener('pointerenter', () => {
+                const id = card.dataset.model;
+                const cfg = modelConfig[id];
+                if (cfg && cfg.path && !_prefetched.has(id) && !_gltfRawCache[id]) {
+                    _prefetched.add(id);
+                    fetch(cfg.path, { priority: 'low' }).catch(() => {});
+                }
+            });
             card.addEventListener('click', () => {
                 closeModelPanel();
                 document.getElementById('loadingOverlay').classList.remove('hidden');
