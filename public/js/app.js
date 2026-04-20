@@ -66,6 +66,18 @@ function loadModel(modelId) {
 }
 
 function finalizeModelLoad(modelId) {
+    try {
+        _doFinalizeModelLoad(modelId);
+    } catch (err) {
+        console.error('finalizeModelLoad error:', err);
+    } finally {
+        // Always hide the loading overlay, even if post-processing throws
+        const ov = document.getElementById('loadingOverlay');
+        if (ov) ov.classList.add('hidden');
+    }
+}
+
+function _doFinalizeModelLoad(modelId) {
     stopAutoRotate();
     resetOrbitView();
 
@@ -225,7 +237,7 @@ function finalizeModelLoad(modelId) {
     }
 
     updateHeartLabelsToggleVisibility();
-}
+}  // end _doFinalizeModelLoad
 
 // ====== MODE SYSTEM CORE ======
 

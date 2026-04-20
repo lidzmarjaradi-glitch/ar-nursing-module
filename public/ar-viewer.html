@@ -15,7 +15,7 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/ar-viewer.css?v=3.1">
+    <link rel="stylesheet" href="css/ar-viewer.css?v=3.2">
 
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -28,9 +28,11 @@
 <body>
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-brand">
-            <div class="loading-spinner"></div>
-            <p class="loading-text">Loading 3D Model</p>
+            <div class="loading-spinner" id="loadingSpinner"></div>
+            <p class="loading-text" id="loadingText">Loading 3D Model</p>
+            <p class="loading-sub" id="loadingSub"></p>
             <div class="loading-dots"><span></span><span></span><span></span></div>
+            <button class="loading-retry hidden" id="loadingRetry" onclick="location.reload()">Retry</button>
         </div>
     </div>
 
@@ -260,17 +262,17 @@
 
 
     <!-- Application modules (order matters) -->
-    <script src="js/config.js?v=3.1"></script>
-    <script src="js/data.js?v=3.1"></script>
-    <script src="js/state.js?v=3.1"></script>
-    <script src="js/scene.js?v=3.1"></script>
-    <script src="js/controls.js?v=3.1"></script>
-    <script src="js/labels.js?v=3.1"></script>
-    <script src="js/annotations.js?v=3.1"></script>
-    <script src="js/loader.js?v=3.1"></script>
-    <script src="js/procedural.js?v=3.1"></script>
-    <script src="js/modes.js?v=3.1"></script>
-    <script src="js/app.js?v=3.1"></script>
+    <script src="js/config.js?v=3.2"></script>
+    <script src="js/data.js?v=3.2"></script>
+    <script src="js/state.js?v=3.2"></script>
+    <script src="js/scene.js?v=3.2"></script>
+    <script src="js/controls.js?v=3.2"></script>
+    <script src="js/labels.js?v=3.2"></script>
+    <script src="js/annotations.js?v=3.2"></script>
+    <script src="js/loader.js?v=3.2"></script>
+    <script src="js/procedural.js?v=3.2"></script>
+    <script src="js/modes.js?v=3.2"></script>
+    <script src="js/app.js?v=3.2"></script>
 </body>
 
 </html>

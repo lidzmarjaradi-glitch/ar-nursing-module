@@ -88,12 +88,19 @@ function loadSTLModel(modelId, onComplete) {
         },
         (progress) => {
             if (progress.total > 0) {
-                const percent = (progress.loaded / progress.total * 100).toFixed(0);
-                document.querySelector('.loading-text').textContent = `Loading 3D Model... ${percent}%`;
+                const pct = Math.round(progress.loaded / progress.total * 100);
+                const mb = (progress.loaded / 1048576).toFixed(1);
+                const totalMb = (progress.total / 1048576).toFixed(1);
+                if (pct >= 100) {
+                    setLoadingState('Processing 3D model…', 'Finalising geometry — please wait');
+                } else {
+                    setLoadingState(`Loading 3D Model… ${pct}%`, `${mb} / ${totalMb} MB`);
+                }
             }
         },
         (error) => {
             console.error('Error loading STL model:', error);
+            showLoadingError('Could not load the 3D model file.');
             onComplete(createOrganGeometry(modelId, true));
         }
     );
@@ -104,6 +111,23 @@ function loadSTLModel(modelId, onComplete) {
 
 // ─── External model loader ───
 
+function setLoadingState(text, sub) {
+    const lt = document.getElementById('loadingText');
+    const ls = document.getElementById('loadingSub');
+    if (lt) lt.textContent = text;
+    if (ls) ls.textContent = sub || '';
+}
+
+function showLoadingError(msg) {
+    setLoadingState('Failed to load model', msg || 'Check your connection and retry.');
+    const spinner = document.getElementById('loadingSpinner');
+    const dots = document.querySelector('.loading-dots');
+    const retry = document.getElementById('loadingRetry');
+    if (spinner) spinner.style.borderTopColor = '#e63946';
+    if (dots) dots.style.display = 'none';
+    if (retry) retry.classList.remove('hidden');
+}
+
 function loadExternalModel(modelId, onComplete) {
     const config = modelConfig[modelId];
     if (!config || config.type !== 'external') {
@@ -111,10 +135,17 @@ function loadExternalModel(modelId, onComplete) {
         return;
     }
 
+    // Timeout: if model hasn't loaded in 120 s, show error + retry
+    const TIMEOUT_MS = 120000;
+    let timeoutId = setTimeout(() => {
+        showLoadingError('Model is taking too long to load. Try refreshing the page.');
+    }, TIMEOUT_MS);
+
     const loader = new THREE.GLTFLoader();
     loader.load(
         config.path,
         (gltf) => {
+            clearTimeout(timeoutId);
             const model = gltf.scene;
             if (modelId === 'lungs' || modelId === 'kidney') {
                 model.scale.set(1, 1, 1);
@@ -260,11 +291,28 @@ function loadExternalModel(modelId, onComplete) {
             onComplete(model);
         },
         (progress) => {
-            const percent = (progress.loaded / progress.total * 100).toFixed(0);
-            document.querySelector('.loading-text').textContent = `Loading 3D Model... ${percent}%`;
+            const loaded = progress.loaded || 0;
+            const total = progress.total || 0;
+            if (total > 0) {
+                const pct = Math.round(loaded / total * 100);
+                const mb = (loaded / 1048576).toFixed(1);
+                const totalMb = (total / 1048576).toFixed(1);
+                if (pct >= 100) {
+                    setLoadingState('Processing 3D model…', 'Finalising geometry and materials — please wait');
+                } else {
+                    setLoadingState(`Loading 3D Model… ${pct}%`, `${mb} / ${totalMb} MB`);
+                }
+            } else {
+                // No Content-Length — show bytes only
+                const mb = (loaded / 1048576).toFixed(1);
+                setLoadingState('Loading 3D Model…', `${mb} MB downloaded`);
+            }
         },
         (error) => {
+            clearTimeout(timeoutId);
             console.error('Error loading model:', error);
+            showLoadingError('Could not load the 3D model file.');
+            // Fall back to procedural shape so the viewer stays functional
             onComplete(createOrganGeometry(modelId, true));
         }
     );

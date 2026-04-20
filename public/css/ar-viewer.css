@@ -319,6 +319,29 @@ body {
     text-transform: uppercase;
 }
 
+.loading-sub {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.38);
+    text-align: center;
+    min-height: 1.1em;
+    max-width: 260px;
+}
+
+.loading-retry {
+    margin-top: 4px;
+    padding: 8px 22px;
+    background: rgba(124,106,239,0.18);
+    border: 1px solid rgba(124,106,239,0.5);
+    border-radius: 20px;
+    color: var(--text);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.loading-retry:hover { background: rgba(124,106,239,0.32); }
+.loading-retry.hidden { display: none; }
+
 .loading-dots {
     display: flex;
     gap: 6px;
