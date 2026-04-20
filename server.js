@@ -21,7 +21,12 @@ function getLocalIPAddress() {
 }
 
 const LOCAL_IP = getLocalIPAddress();
-const BASE_URL = `http://${LOCAL_IP}:${PORT}`;
+// In production use PUBLIC_URL env var or the known Render hostname.
+// Locally fall back to the LAN IP so phones on the same Wi-Fi can connect.
+const BASE_URL = process.env.PUBLIC_URL ||
+    (process.env.NODE_ENV === 'production'
+        ? 'https://ar-nursing-module.onrender.com'
+        : `http://${LOCAL_IP}:${PORT}`);
 
 // Serve static files — no-cache for JS/CSS so browsers always revalidate
 app.use(express.static(path.join(__dirname, 'public'), {

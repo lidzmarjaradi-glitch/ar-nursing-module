@@ -759,22 +759,70 @@
     </div>
 
     <script>
-        // Load QR codes for each organ
-        async function loadQRCodes() {
-            const organs = ['heart', 'lungs', 'kidney', 'brain', 'syringe'];
-            
-            for (const organ of organs) {
-                try {
-                    const response = await fetch(`/api/qrcode/${organ}`);
-                    const data = await response.json();
-                    const img = document.getElementById(`${organ}-qr-img`);
-                    if (img) {
-                        img.src = data.qrCode;
-                    }
-                } catch (error) {
-                    console.error(`Failed to load QR code for ${organ}:`, error);
+        const QR_ORGANS = ['heart', 'lungs', 'kidney', 'brain', 'syringe'];
+
+        async function loadQRCode(organ) {
+            const container = document.getElementById(`qr-${organ}`);
+            const img = document.getElementById(`${organ}-qr-img`);
+            if (!container || !img) return;
+
+            // Show loading placeholder
+            img.alt = 'Loading QR code…';
+            img.style.opacity = '0.4';
+
+            // Remove any previous error
+            const prevErr = container.querySelector('.qr-error');
+            if (prevErr) prevErr.remove();
+
+            try {
+                const controller = new AbortController();
+                const tid = setTimeout(() => controller.abort(), 8000);
+                const response = await fetch(`/api/qrcode/${organ}`, { signal: controller.signal });
+                clearTimeout(tid);
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                if (!data.qrCode) throw new Error('No QR data returned');
+
+                img.src = data.qrCode;
+                img.alt = `QR code for ${organ} AR model`;
+                img.style.opacity = '1';
+
+                // Add a small tap-to-open link below the image for desktop/fallback
+                const existingLink = container.querySelector('.qr-direct-link');
+                if (!existingLink && data.url) {
+                    const link = document.createElement('a');
+                    link.href = data.url;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.className = 'qr-direct-link';
+                    link.textContent = 'Open directly ↗';
+                    link.style.cssText = 'display:block;font-family:"Source Sans 3",sans-serif;font-size:0.7rem;color:#2a6b62;margin-top:4px;text-decoration:underline;';
+                    container.appendChild(link);
                 }
+            } catch (err) {
+                console.error(`QR load failed for ${organ}:`, err.message);
+                img.style.display = 'none';
+
+                const errDiv = document.createElement('div');
+                errDiv.className = 'qr-error';
+                errDiv.style.cssText = 'font-family:"Source Sans 3",sans-serif;font-size:0.75rem;color:#c9463d;padding:0.5rem;';
+                errDiv.innerHTML = `
+                    <span>⚠️ QR unavailable</span><br>
+                    <button onclick="retryQR('${organ}')" style="margin-top:6px;padding:4px 10px;border:1px solid #c9463d;background:white;color:#c9463d;border-radius:4px;cursor:pointer;font-size:0.7rem;">Retry</button>
+                `;
+                container.appendChild(errDiv);
             }
+        }
+
+        function retryQR(organ) {
+            const img = document.getElementById(`${organ}-qr-img`);
+            if (img) img.style.display = 'block';
+            loadQRCode(organ);
+        }
+
+        function loadQRCodes() {
+            QR_ORGANS.forEach(organ => loadQRCode(organ));
         }
 
         // Initialize
