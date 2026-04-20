@@ -1762,3 +1762,26 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
         bottom: 56px;
     }
 }
+
+/* Very narrow phones: shrink guided/quiz panel so the 3D model gets more space */
+@media (max-width: 420px) {
+    .guided-panel,
+    .quiz-panel {
+        width: min(200px, calc(100vw - 12px));
+        padding: 0.75rem 0.75rem 0.6rem;
+    }
+
+    .guided-detail {
+        max-height: 60px;
+        font-size: 0.72rem;
+    }
+
+    .quiz-question {
+        font-size: 0.82rem;
+    }
+
+    .quiz-option {
+        font-size: 0.75rem;
+        padding: 7px 10px;
+    }
+}
