@@ -256,22 +256,22 @@
   ],
   "images": [
     {
-      "uri": "textures/mouth_baseColor.png"
+      "uri": "textures/mouth_baseColor.webp"
     },
     {
-      "uri": "textures/mouth_metallicRoughness.png"
+      "uri": "textures/mouth_metallicRoughness.webp"
     },
     {
-      "uri": "textures/mouth_normal.png"
+      "uri": "textures/mouth_normal.webp"
     },
     {
-      "uri": "textures/teeth_baseColor.png"
+      "uri": "textures/teeth_baseColor.webp"
     },
     {
-      "uri": "textures/teeth_metallicRoughness.png"
+      "uri": "textures/teeth_metallicRoughness.webp"
     },
     {
-      "uri": "textures/teeth_normal.png"
+      "uri": "textures/teeth_normal.webp"
     }
   ],
   "materials": [

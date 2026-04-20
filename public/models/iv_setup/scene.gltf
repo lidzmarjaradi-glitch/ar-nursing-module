@@ -350,40 +350,40 @@
   ],
   "images": [
     {
-      "uri": "textures/material0_002_baseColor.png"
+      "uri": "textures/material0_002_baseColor.webp"
     },
     {
-      "uri": "textures/material0_002_metallicRoughness.png"
+      "uri": "textures/material0_002_metallicRoughness.webp"
     },
     {
-      "uri": "textures/material0_002_normal.png"
+      "uri": "textures/material0_002_normal.webp"
     },
     {
-      "uri": "textures/material0_003_baseColor.png"
+      "uri": "textures/material0_003_baseColor.webp"
     },
     {
-      "uri": "textures/material0_003_metallicRoughness.png"
+      "uri": "textures/material0_003_metallicRoughness.webp"
     },
     {
-      "uri": "textures/material0_003_normal.png"
+      "uri": "textures/material0_003_normal.webp"
     },
     {
-      "uri": "textures/material0_001_baseColor.jpeg"
+      "uri": "textures/material0_001_baseColor.webp"
     },
     {
-      "uri": "textures/material0_001_metallicRoughness.png"
+      "uri": "textures/material0_001_metallicRoughness.webp"
     },
     {
-      "uri": "textures/material0_001_normal.png"
+      "uri": "textures/material0_001_normal.webp"
     },
     {
-      "uri": "textures/material0_baseColor.png"
+      "uri": "textures/material0_baseColor.webp"
     },
     {
-      "uri": "textures/material0_metallicRoughness.png"
+      "uri": "textures/material0_metallicRoughness.webp"
     },
     {
-      "uri": "textures/material0_normal.png"
+      "uri": "textures/material0_normal.webp"
     }
   ],
   "materials": [

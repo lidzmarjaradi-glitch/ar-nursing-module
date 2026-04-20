@@ -346,16 +346,16 @@
   ],
   "images": [
     {
-      "uri": "textures/material_baseColor.jpeg"
+      "uri": "textures/material_baseColor.webp"
     },
     {
-      "uri": "textures/Body_Low_SP_blinn1SG1_baseColor.png"
+      "uri": "textures/Body_Low_SP_blinn1SG1_baseColor.webp"
     },
     {
-      "uri": "textures/Body_Low_SP_blinn1SG1_metallicRoughness.png"
+      "uri": "textures/Body_Low_SP_blinn1SG1_metallicRoughness.webp"
     },
     {
-      "uri": "textures/Body_Low_SP_blinn1SG1_normal.jpeg"
+      "uri": "textures/Body_Low_SP_blinn1SG1_normal.webp"
     }
   ],
   "materials": [

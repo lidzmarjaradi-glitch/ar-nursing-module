@@ -272,31 +272,31 @@
   ],
   "images": [
     {
-      "uri": "textures/bone_baseColor.png"
+      "uri": "textures/bone_baseColor.webp"
     },
     {
-      "uri": "textures/bone_metallicRoughness.png"
+      "uri": "textures/bone_metallicRoughness.webp"
     },
     {
-      "uri": "textures/bone_normal.png"
+      "uri": "textures/bone_normal.webp"
     },
     {
-      "uri": "textures/mash_baseColor.png"
+      "uri": "textures/mash_baseColor.webp"
     },
     {
-      "uri": "textures/mash_metallicRoughness.png"
+      "uri": "textures/mash_metallicRoughness.webp"
     },
     {
-      "uri": "textures/mash_normal.png"
+      "uri": "textures/mash_normal.webp"
     },
     {
-      "uri": "textures/Opacyty_baseColor.png"
+      "uri": "textures/Opacyty_baseColor.webp"
     },
     {
-      "uri": "textures/Opacyty_metallicRoughness.png"
+      "uri": "textures/Opacyty_metallicRoughness.webp"
     },
     {
-      "uri": "textures/Opacyty_normal.png"
+      "uri": "textures/Opacyty_normal.webp"
     }
   ],
   "materials": [

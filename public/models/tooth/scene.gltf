@@ -1891,55 +1891,55 @@
   ],
   "images": [
     {
-      "uri": "textures/Mandible_ll1_baseColor.jpeg"
+      "uri": "textures/Mandible_ll1_baseColor.webp"
     },
     {
-      "uri": "textures/Mandible_l2_baseColor.jpeg"
+      "uri": "textures/Mandible_l2_baseColor.webp"
     },
     {
-      "uri": "textures/Mandible_ll3_baseColor.jpeg"
+      "uri": "textures/Mandible_ll3_baseColor.webp"
     },
     {
-      "uri": "textures/Mandible_ll4_baseColor.jpeg"
+      "uri": "textures/Mandible_ll4_baseColor.webp"
     },
     {
-      "uri": "textures/Mandible_ll5_baseColor.jpeg"
+      "uri": "textures/Mandible_ll5_baseColor.webp"
     },
     {
-      "uri": "textures/Mandible_blinn10_baseColor.jpeg"
+      "uri": "textures/Mandible_blinn10_baseColor.webp"
     },
     {
-      "uri": "textures/Mandible_ll7_baseColor.jpeg"
+      "uri": "textures/Mandible_ll7_baseColor.webp"
     },
     {
-      "uri": "textures/Mandible_ll8_baseColor.jpeg"
+      "uri": "textures/Mandible_ll8_baseColor.webp"
     },
     {
-      "uri": "textures/material_baseColor.jpeg"
+      "uri": "textures/material_baseColor.webp"
     },
     {
-      "uri": "textures/material_metallicRoughness.png"
+      "uri": "textures/material_metallicRoughness.webp"
     },
     {
-      "uri": "textures/blinn14_baseColor.jpeg"
+      "uri": "textures/blinn14_baseColor.webp"
     },
     {
-      "uri": "textures/blinn15_baseColor.jpeg"
+      "uri": "textures/blinn15_baseColor.webp"
     },
     {
-      "uri": "textures/blinn18_baseColor.jpeg"
+      "uri": "textures/blinn18_baseColor.webp"
     },
     {
-      "uri": "textures/blinn19_baseColor.jpeg"
+      "uri": "textures/blinn19_baseColor.webp"
     },
     {
-      "uri": "textures/blinn16_baseColor.jpeg"
+      "uri": "textures/blinn16_baseColor.webp"
     },
     {
-      "uri": "textures/blinn17_baseColor.jpeg"
+      "uri": "textures/blinn17_baseColor.webp"
     },
     {
-      "uri": "textures/blinn20_baseColor.jpeg"
+      "uri": "textures/blinn20_baseColor.webp"
     }
   ],
   "materials": [

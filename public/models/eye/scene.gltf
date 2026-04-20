@@ -367,34 +367,34 @@
   ],
   "images": [
     {
-      "uri": "textures/material_baseColor.png"
+      "uri": "textures/material_baseColor.webp"
     },
     {
-      "uri": "textures/material_metallicRoughness.png"
+      "uri": "textures/material_metallicRoughness.webp"
     },
     {
-      "uri": "textures/material_normal.png"
+      "uri": "textures/material_normal.webp"
     },
     {
-      "uri": "textures/sclera_baseColor.png"
+      "uri": "textures/sclera_baseColor.webp"
     },
     {
-      "uri": "textures/sclera_metallicRoughness.png"
+      "uri": "textures/sclera_metallicRoughness.webp"
     },
     {
-      "uri": "textures/sclera_normal.png"
+      "uri": "textures/sclera_normal.webp"
     },
     {
-      "uri": "textures/sclera_transmission.png"
+      "uri": "textures/sclera_transmission.webp"
     },
     {
-      "uri": "textures/Iris_baseColor.png"
+      "uri": "textures/Iris_baseColor.webp"
     },
     {
-      "uri": "textures/Iris_metallicRoughness.png"
+      "uri": "textures/Iris_metallicRoughness.webp"
     },
     {
-      "uri": "textures/Iris_normal.png"
+      "uri": "textures/Iris_normal.webp"
     }
   ],
   "materials": [

@@ -132,10 +132,10 @@
   ],
   "images": [
     {
-      "uri": "textures/material_diffuse.png"
+      "uri": "textures/material_diffuse.webp"
     },
     {
-      "uri": "textures/material_specularGlossiness.png"
+      "uri": "textures/material_specularGlossiness.webp"
     }
   ],
   "materials": [

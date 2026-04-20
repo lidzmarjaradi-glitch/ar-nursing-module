@@ -164,6 +164,135 @@ if (typeof THREE.DRACOLoader !== 'undefined') {
 
 // ─── External GLTF loader ───
 
+// For multi-file .gltf models, GLTFLoader.onProgress only fires for the
+// 9–14 KB root JSON, never for the .bin or textures. This function fetches
+// every asset with ReadableStream so progress shows real MB downloaded.
+async function _loadGltfWithProgress(modelId, config, timeoutId, onGltfLoad, onError) {
+    const gltfUrl = config.path;
+    const base = gltfUrl.substring(0, gltfUrl.lastIndexOf('/') + 1);
+
+    setLoadingState('Downloading model...', 'Fetching model manifest...');
+    setLoadingProgress(0);
+
+    // 1. Fetch the root .gltf JSON (tiny — no streaming needed)
+    let gltfJson;
+    try {
+        const res = await fetch(gltfUrl);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        gltfJson = await res.json();
+    } catch (err) { onError(err); return; }
+
+    // 2. Collect all external asset URIs (.bin + textures)
+    const assetUris = [];
+    if (gltfJson.buffers) {
+        gltfJson.buffers.forEach(function(b) {
+            if (b.uri && !b.uri.startsWith('data:')) assetUris.push(b.uri);
+        });
+    }
+    if (gltfJson.images) {
+        gltfJson.images.forEach(function(img) {
+            if (img.uri && !img.uri.startsWith('data:')) assetUris.push(img.uri);
+        });
+    }
+
+    // 3. Fetch all assets in parallel with streaming progress
+    const bytesLoaded = new Array(assetUris.length).fill(0);
+    const bytesTotal  = new Array(assetUris.length).fill(0);
+    const blobs = {}; // relative uri → blob URL
+
+    function updateProgress() {
+        var loaded = 0, total = 0;
+        for (var i = 0; i < bytesLoaded.length; i++) { loaded += bytesLoaded[i]; total += bytesTotal[i]; }
+        if (total > 0) {
+            var pct = Math.min(99, Math.round(loaded / total * 100));
+            var mb  = (loaded / 1048576).toFixed(1);
+            var tot = (total  / 1048576).toFixed(1);
+            setLoadingState('Downloading model...  ' + pct + '%', mb + ' MB of ' + tot + ' MB');
+            setLoadingProgress(pct * 0.85);
+        } else {
+            var mb2 = (loaded / 1048576).toFixed(1);
+            setLoadingState('Downloading model...', mb2 + ' MB downloaded');
+            setLoadingProgress(-1);
+        }
+    }
+
+    function fetchAsset(uri, idx) {
+        var url = base + uri;
+        return fetch(url).then(function(res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status + ' for ' + uri);
+            var cl = res.headers.get('Content-Length');
+            if (cl) bytesTotal[idx] = parseInt(cl, 10);
+            // Use ReadableStream if available, else arrayBuffer fallback
+            if (res.body && res.body.getReader) {
+                var reader = res.body.getReader();
+                var chunks = [];
+                function pump() {
+                    return reader.read().then(function(result) {
+                        if (result.done) {
+                            var blob = new Blob(chunks);
+                            blobs[uri] = URL.createObjectURL(blob);
+                            bytesLoaded[idx] = blob.size;
+                            if (!cl) bytesTotal[idx] = blob.size;
+                            updateProgress();
+                            return;
+                        }
+                        chunks.push(result.value);
+                        bytesLoaded[idx] += result.value.length;
+                        updateProgress();
+                        return pump();
+                    });
+                }
+                return pump();
+            } else {
+                return res.arrayBuffer().then(function(buf) {
+                    blobs[uri] = URL.createObjectURL(new Blob([buf]));
+                    bytesLoaded[idx] = buf.byteLength;
+                    if (!cl) bytesTotal[idx] = buf.byteLength;
+                    updateProgress();
+                });
+            }
+        });
+    }
+
+    try {
+        await Promise.all(assetUris.map(function(uri, idx) { return fetchAsset(uri, idx); }));
+    } catch (err) {
+        Object.values(blobs).forEach(function(u) { try { URL.revokeObjectURL(u); } catch(e) {} });
+        onError(err);
+        return;
+    }
+
+    setLoadingState('Decoding geometry...', 'Decompressing 3D data — please wait...');
+    setLoadingProgress(-1);
+
+    // 4. Build a LoadingManager that redirects asset URIs to our pre-fetched blobs
+    var manager = new THREE.LoadingManager();
+    manager.setURLModifier(function(url) {
+        var key = url.startsWith(base) ? url.slice(base.length) : url;
+        return blobs[key] || url;
+    });
+
+    var loader = new THREE.GLTFLoader(manager);
+    if (_dracoLoader) loader.setDRACOLoader(_dracoLoader);
+
+    loader.load(
+        gltfUrl,
+        function(gltf) {
+            clearTimeout(timeoutId);
+            setTimeout(function() {
+                Object.values(blobs).forEach(function(u) { try { URL.revokeObjectURL(u); } catch(e) {} });
+            }, 1000);
+            onGltfLoad(gltf);
+        },
+        null, // progress already tracked above
+        function(err) {
+            clearTimeout(timeoutId);
+            Object.values(blobs).forEach(function(u) { try { URL.revokeObjectURL(u); } catch(e) {} });
+            onError(err);
+        }
+    );
+}
+
 function loadExternalModel(modelId, onComplete) {
     const config = modelConfig[modelId];
     if (!config || config.type !== 'external') { onComplete(null); return; }
@@ -181,12 +310,35 @@ function loadExternalModel(modelId, onComplete) {
         return;
     }
 
-    // First load: download + Draco decode + build scene
     const TIMEOUT_MS = 120000;
     let timeoutId = setTimeout(() => {
         showLoadingError('Model is taking too long to load. Try refreshing the page.');
     }, TIMEOUT_MS);
 
+    const isGltf = config.path.endsWith('.gltf');
+
+    if (isGltf) {
+        // Multi-file .gltf: use fetch-based streaming progress
+        _loadGltfWithProgress(
+            modelId, config, timeoutId,
+            function(gltf) {
+                const rawScene = gltf.scene;
+                _processGltfScene(modelId, config, rawScene.clone(true), function(model) {
+                    onComplete(model);
+                    setTimeout(function() { _gltfRawCache[modelId] = rawScene.clone(true); }, 200);
+                });
+            },
+            function(err) {
+                clearTimeout(timeoutId);
+                console.error('Error loading GLTF model:', err);
+                showLoadingError('Could not load the 3D model file.');
+                onComplete(createOrganGeometry(modelId, true));
+            }
+        );
+        return;
+    }
+
+    // Single-file .glb / Draco: GLTFLoader.onProgress works correctly here
     const loader = new THREE.GLTFLoader();
     if (_dracoLoader) loader.setDRACOLoader(_dracoLoader);
 
@@ -194,12 +346,9 @@ function loadExternalModel(modelId, onComplete) {
         config.path,
         (gltf) => {
             clearTimeout(timeoutId);
-            // Draco decode is complete by the time onLoad fires.
-            // _processGltfScene will update text to 'Building scene...'.
             const rawScene = gltf.scene;
             _processGltfScene(modelId, config, rawScene.clone(true), (model) => {
                 onComplete(model);
-                // Store clean clone in background after first render
                 setTimeout(() => { _gltfRawCache[modelId] = rawScene.clone(true); }, 200);
             });
         },
@@ -211,16 +360,13 @@ function loadExternalModel(modelId, onComplete) {
                 const mb      = (loaded / 1048576).toFixed(1);
                 const totalMb = (total  / 1048576).toFixed(1);
                 if (pct >= 100) {
-                    // Download done — Draco decode now running (JS blocks here).
-                    // CSS shimmer keeps the UI visually active through this phase.
                     setLoadingState('Decoding geometry...', 'Decompressing 3D data — please wait...');
                     setLoadingProgress(-1);
                 } else {
                     setLoadingState('Downloading model...  ' + pct + '%', mb + ' MB of ' + totalMb + ' MB');
-                    setLoadingProgress(pct * 0.85); // 0-85% for download; 85-100% for decode+build
+                    setLoadingProgress(pct * 0.85);
                 }
             } else {
-                // No Content-Length — show raw bytes
                 const mb = (loaded / 1048576).toFixed(1);
                 setLoadingState('Downloading model...', mb + ' MB downloaded');
                 setLoadingProgress(-1);

@@ -122,13 +122,13 @@
   ],
   "images": [
     {
-      "uri": "textures/diaphragm_mat_1_baseColor.png"
+      "uri": "textures/diaphragm_mat_1_baseColor.webp"
     },
     {
-      "uri": "textures/diaphragm_mat_1_metallicRoughness.png"
+      "uri": "textures/diaphragm_mat_1_metallicRoughness.webp"
     },
     {
-      "uri": "textures/diaphragm_mat_1_normal.png"
+      "uri": "textures/diaphragm_mat_1_normal.webp"
     }
   ],
   "materials": [

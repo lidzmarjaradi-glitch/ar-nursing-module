@@ -197,22 +197,22 @@
   ],
   "images": [
     {
-      "uri": "textures/bone_baseColor.png"
+      "uri": "textures/bone_baseColor.webp"
     },
     {
-      "uri": "textures/bone_metallicRoughness.png"
+      "uri": "textures/bone_metallicRoughness.webp"
     },
     {
-      "uri": "textures/bone_normal.png"
+      "uri": "textures/bone_normal.webp"
     },
     {
-      "uri": "textures/muscules_baseColor.png"
+      "uri": "textures/muscules_baseColor.webp"
     },
     {
-      "uri": "textures/muscules_metallicRoughness.png"
+      "uri": "textures/muscules_metallicRoughness.webp"
     },
     {
-      "uri": "textures/muscules_normal.png"
+      "uri": "textures/muscules_normal.webp"
     }
   ],
   "materials": [

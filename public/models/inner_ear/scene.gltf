@@ -585,31 +585,31 @@
   ],
   "images": [
     {
-      "uri": "textures/initialShadingGroup_baseColor.jpeg"
+      "uri": "textures/initialShadingGroup_baseColor.webp"
     },
     {
-      "uri": "textures/lambert11SG_baseColor.jpeg"
+      "uri": "textures/lambert11SG_baseColor.webp"
     },
     {
-      "uri": "textures/lambert12SG_baseColor.jpeg"
+      "uri": "textures/lambert12SG_baseColor.webp"
     },
     {
-      "uri": "textures/lambert13SG_baseColor.png"
+      "uri": "textures/lambert13SG_baseColor.webp"
     },
     {
-      "uri": "textures/lambert5SG_baseColor.jpeg"
+      "uri": "textures/lambert5SG_baseColor.webp"
     },
     {
-      "uri": "textures/lambert6SG_baseColor.jpeg"
+      "uri": "textures/lambert6SG_baseColor.webp"
     },
     {
-      "uri": "textures/lambert7SG_baseColor.png"
+      "uri": "textures/lambert7SG_baseColor.webp"
     },
     {
-      "uri": "textures/lambert8SG_baseColor.png"
+      "uri": "textures/lambert8SG_baseColor.webp"
     },
     {
-      "uri": "textures/lambert9SG_baseColor.png"
+      "uri": "textures/lambert9SG_baseColor.webp"
     }
   ],
   "materials": [

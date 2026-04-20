@@ -662,85 +662,85 @@
   ],
   "images": [
     {
-      "uri": "textures/Material.007_diffuse.png"
+      "uri": "textures/Material.007_diffuse.webp"
     },
     {
-      "uri": "textures/Material.007_specularGlossiness.png"
+      "uri": "textures/Material.007_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.007_emissive.png"
+      "uri": "textures/Material.007_emissive.webp"
     },
     {
-      "uri": "textures/Material.003_diffuse.png"
+      "uri": "textures/Material.003_diffuse.webp"
     },
     {
-      "uri": "textures/Material.003_specularGlossiness.png"
+      "uri": "textures/Material.003_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.003_emissive.png"
+      "uri": "textures/Material.003_emissive.webp"
     },
     {
-      "uri": "textures/Material.010_diffuse.png"
+      "uri": "textures/Material.010_diffuse.webp"
     },
     {
-      "uri": "textures/Material.010_specularGlossiness.png"
+      "uri": "textures/Material.010_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.009_specularGlossiness.png"
+      "uri": "textures/Material.009_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.009_emissive.png"
+      "uri": "textures/Material.009_emissive.webp"
     },
     {
-      "uri": "textures/Material.011_diffuse.png"
+      "uri": "textures/Material.011_diffuse.webp"
     },
     {
-      "uri": "textures/Material.011_specularGlossiness.png"
+      "uri": "textures/Material.011_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.011_emissive.png"
+      "uri": "textures/Material.011_emissive.webp"
     },
     {
-      "uri": "textures/Material_diffuse.png"
+      "uri": "textures/Material_diffuse.webp"
     },
     {
-      "uri": "textures/Material_specularGlossiness.png"
+      "uri": "textures/Material_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material_emissive.png"
+      "uri": "textures/Material_emissive.webp"
     },
     {
-      "uri": "textures/Material.006_diffuse.png"
+      "uri": "textures/Material.006_diffuse.webp"
     },
     {
-      "uri": "textures/Material.006_specularGlossiness.png"
+      "uri": "textures/Material.006_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.006_emissive.png"
+      "uri": "textures/Material.006_emissive.webp"
     },
     {
-      "uri": "textures/Material.005_specularGlossiness.png"
+      "uri": "textures/Material.005_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.001_specularGlossiness.png"
+      "uri": "textures/Material.001_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.008_diffuse.png"
+      "uri": "textures/Material.008_diffuse.webp"
     },
     {
-      "uri": "textures/Material.008_specularGlossiness.png"
+      "uri": "textures/Material.008_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.008_emissive.png"
+      "uri": "textures/Material.008_emissive.webp"
     },
     {
-      "uri": "textures/Material.004_diffuse.png"
+      "uri": "textures/Material.004_diffuse.webp"
     },
     {
-      "uri": "textures/Material.004_specularGlossiness.png"
+      "uri": "textures/Material.004_specularGlossiness.webp"
     },
     {
-      "uri": "textures/Material.004_emissive.png"
+      "uri": "textures/Material.004_emissive.webp"
     }
   ],
   "materials": [
