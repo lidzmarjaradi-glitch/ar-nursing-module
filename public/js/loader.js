@@ -92,9 +92,9 @@ function loadSTLModel(modelId, onComplete) {
                 const mb = (progress.loaded / 1048576).toFixed(1);
                 const totalMb = (progress.total / 1048576).toFixed(1);
                 if (pct >= 100) {
-                    setLoadingState('Processing 3D model…', 'Finalising geometry — please wait');
+                    setLoadingState('Finalizing...', 'Building interactive view...');
                 } else {
-                    setLoadingState(`Loading 3D Model… ${pct}%`, `${mb} / ${totalMb} MB`);
+                    setLoadingState(`Preparing 3D model... ${pct}%`, 'Preparing interactive anatomy experience...');
                 }
             }
         },
@@ -171,7 +171,7 @@ async function _loadGltfWithProgress(modelId, config, timeoutId, onGltfLoad, onE
     const gltfUrl = config.path;
     const base = gltfUrl.substring(0, gltfUrl.lastIndexOf('/') + 1);
 
-    setLoadingState('Downloading model...', 'Fetching model manifest...');
+    setLoadingState('Preparing 3D model...', 'Preparing interactive anatomy experience...');
     setLoadingProgress(0);
 
     // 1. Fetch the root .gltf JSON (tiny — no streaming needed)
@@ -207,11 +207,10 @@ async function _loadGltfWithProgress(modelId, config, timeoutId, onGltfLoad, onE
             var pct = Math.min(99, Math.round(loaded / total * 100));
             var mb  = (loaded / 1048576).toFixed(1);
             var tot = (total  / 1048576).toFixed(1);
-            setLoadingState('Downloading model...  ' + pct + '%', mb + ' MB of ' + tot + ' MB');
+            setLoadingState('Preparing 3D model... ' + pct + '%', 'Preparing interactive anatomy experience...');
             setLoadingProgress(pct * 0.85);
         } else {
-            var mb2 = (loaded / 1048576).toFixed(1);
-            setLoadingState('Downloading model...', mb2 + ' MB downloaded');
+            setLoadingState('Preparing 3D model...', 'Preparing interactive anatomy experience...');
             setLoadingProgress(-1);
         }
     }
@@ -262,7 +261,7 @@ async function _loadGltfWithProgress(modelId, config, timeoutId, onGltfLoad, onE
         return;
     }
 
-    setLoadingState('Decoding geometry...', 'Decompressing 3D data — please wait...');
+    setLoadingState('Processing geometry...', 'Building interactive view...');
     setLoadingProgress(-1);
 
     // 4. Build a LoadingManager that redirects asset URIs to our pre-fetched blobs
@@ -302,7 +301,7 @@ function loadExternalModel(modelId, onComplete) {
 
     // Cache hit — skip network + parse, just clone + process
     if (_gltfRawCache[modelId]) {
-        setLoadingState('Loading from cache...', 'Cloning scene data...');
+        setLoadingState('Preparing 3D model...', 'Preparing interactive anatomy experience...');
         setLoadingProgress(-1);
         requestAnimationFrame(() => {
             _processGltfScene(modelId, config, _gltfRawCache[modelId].clone(true), onComplete);
@@ -360,15 +359,14 @@ function loadExternalModel(modelId, onComplete) {
                 const mb      = (loaded / 1048576).toFixed(1);
                 const totalMb = (total  / 1048576).toFixed(1);
                 if (pct >= 100) {
-                    setLoadingState('Decoding geometry...', 'Decompressing 3D data — please wait...');
+                    setLoadingState('Processing geometry...', 'Building interactive view...');
                     setLoadingProgress(-1);
                 } else {
-                    setLoadingState('Downloading model...  ' + pct + '%', mb + ' MB of ' + totalMb + ' MB');
+                    setLoadingState('Preparing 3D model... ' + pct + '%', 'Preparing interactive anatomy experience...');
                     setLoadingProgress(pct * 0.85);
                 }
             } else {
-                const mb = (loaded / 1048576).toFixed(1);
-                setLoadingState('Downloading model...', mb + ' MB downloaded');
+                setLoadingState('Preparing 3D model...', 'Preparing interactive anatomy experience...');
                 setLoadingProgress(-1);
             }
         },
