@@ -121,11 +121,11 @@ function setLoadingState(text, sub) {
 function showLoadingError(msg) {
     setLoadingState('Failed to load model', msg || 'Check your connection and retry.');
     const spinner = document.getElementById('loadingSpinner');
-    const dots   = document.querySelector('.loading-dots');
-    const retry  = document.getElementById('loadingRetry');
+    const dots = document.querySelector('.loading-dots');
+    const retry = document.getElementById('loadingRetry');
     if (spinner) spinner.style.borderTopColor = '#e63946';
-    if (dots)   dots.style.display = 'none';
-    if (retry)  retry.classList.remove('hidden');
+    if (dots) dots.style.display = 'none';
+    if (retry) retry.classList.remove('hidden');
 }
 
 // ─── In-memory parsed-scene cache ───
@@ -161,19 +161,26 @@ function loadExternalModel(modelId, onComplete) {
         config.path,
         (gltf) => {
             clearTimeout(timeoutId);
-            // Cache raw scene before ANY mutations
-            _gltfRawCache[modelId] = gltf.scene.clone(true);
-            _processGltfScene(modelId, config, gltf.scene, onComplete);
+            // Process original scene first so the model renders ASAP.
+            // Cache a clean clone in the background after the first render.
+            const rawScene = gltf.scene;
+            _processGltfScene(modelId, config, rawScene.clone(true), (model) => {
+                onComplete(model);
+                // Defer cache work until after the first frame is painted
+                setTimeout(() => { _gltfRawCache[modelId] = rawScene.clone(true); }, 200);
+            });
         },
         (progress) => {
             const loaded = progress.loaded || 0;
-            const total  = progress.total  || 0;
+            const total = progress.total || 0;
             if (total > 0) {
-                const pct     = Math.round(loaded / total * 100);
-                const mb      = (loaded / 1048576).toFixed(1);
-                const totalMb = (total  / 1048576).toFixed(1);
+                const pct = Math.round(loaded / total * 100);
+                const mb = (loaded / 1048576).toFixed(1);
+                const totalMb = (total / 1048576).toFixed(1);
                 if (pct >= 100) {
-                    setLoadingState('Processing 3D model...', 'Finalising geometry and materials - please wait');
+                    const sizeMb = Math.round(total / 1048576);
+                    const eta = sizeMb > 80 ? ' — large file, may take ~60 s' : '';
+                    setLoadingState('Parsing 3D model...', 'Decoding ' + sizeMb + ' MB geometry' + eta);
                 } else {
                     setLoadingState('Loading 3D Model... ' + pct + '%', mb + ' / ' + totalMb + ' MB');
                 }
@@ -201,13 +208,13 @@ function _processGltfScene(modelId, config, model, onComplete) {
         model.scale.set(sc, sc, sc);
     }
     model.updateMatrixWorld(true);
-    const box    = new THREE.Box3().setFromObject(model);
+    const box = new THREE.Box3().setFromObject(model);
     const center = new THREE.Vector3();
     box.getCenter(center);
     model.position.sub(center);
 
-    if (modelId === 'heart')  applyHeartVertexColorMaterials(model);
-    if (modelId === 'lungs')  applyLungUmcgSafeMaterials(model);
+    if (modelId === 'heart') applyHeartVertexColorMaterials(model);
+    if (modelId === 'lungs') applyLungUmcgSafeMaterials(model);
     if (modelId === 'kidney') applyKidneyConceptSafeMaterials(model);
 
     if (modelId === 'liver') {
@@ -255,28 +262,28 @@ function _processGltfScene(modelId, config, model, onComplete) {
         if (!child.isMesh) return;
         child.userData.structureName = getStructureFromMeshName(child.name, modelId);
         if (modelId === 'heart') {
-            const mm = /^Object_(d+)$/.exec(child.name);
+            const mm = /^Object_(\d+)$/.exec(child.name);
             if (mm) {
-                const oldKey  = String(Number(mm[1]) - 2);
+                const oldKey = String(Number(mm[1]) - 2);
                 const groupKey = HEART_PART_TO_GROUP[oldKey];
                 if (groupKey && HEART_MESH_DETAILS[groupKey]) {
-                    child.userData.organPartKey   = groupKey;
-                    child.userData.structureName  = HEART_MESH_DETAILS[groupKey].title;
+                    child.userData.organPartKey = groupKey;
+                    child.userData.structureName = HEART_MESH_DETAILS[groupKey].title;
                 }
             }
         } else if (modelId === 'kidney') {
             const kk = KIDNEY_GLTF_MESH_TO_KEY[child.name];
             if (kk) {
-                child.userData.organPartKey  = kk;
+                child.userData.organPartKey = kk;
                 child.userData.structureName = KIDNEY_MESH_DETAILS[kk].legendLabel;
             }
         }
     });
 
-    if (modelId === 'brain')  buildBrainMeshRuntimeFromGltf(model);
-    if (modelId === 'lungs')  { buildLungUmcgFromGltf(model); fitObjectToMaxDimension(model, 4); }
+    if (modelId === 'brain') buildBrainMeshRuntimeFromGltf(model);
+    if (modelId === 'lungs') { buildLungUmcgFromGltf(model); fitObjectToMaxDimension(model, 4); }
     if (modelId === 'kidney') { fitObjectToMaxDimension(model, 3.2); buildKidneyConceptAnnotations(model); }
-    if (modelId === 'heart')  markHeartNumberLabelMeshes(model);
+    if (modelId === 'heart') markHeartNumberLabelMeshes(model);
 
     const fitModels = {
         liver: 3.5, stomach: 3.5, eye: 3, tooth: 3.5, spine: 4, skin: 3.5,
@@ -301,9 +308,9 @@ function getStructureFromMeshName(meshName, modelId) {
     const mappings = {
         heart: {
             'ventricle': 'Left Ventricle',
-            'atrium':    'Atrium',
-            'aorta':     'Aorta',
-            'default':   'Heart Structure'
+            'atrium': 'Atrium',
+            'aorta': 'Aorta',
+            'default': 'Heart Structure'
         }
     };
     const modelMapping = mappings[modelId] || {};
