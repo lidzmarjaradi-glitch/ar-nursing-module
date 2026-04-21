@@ -279,11 +279,9 @@ async function init() {
     const _savedPref = (() => { try { return localStorage.getItem('infoPanelVisible'); } catch (e) { return null; } })();
     const _panel = document.getElementById('infoPanel');
     const _tbtn = document.getElementById('toggleInfo');
-    const _mobile = isMobileDevice();
-    // Always show the peek strip; only restore expanded if pref was set
+    // Always show peek strip; only expand if user previously saved expanded state
     _panel.classList.remove('hidden');
-    const _panelExpanded = _savedPref === '1' || (_savedPref == null && !_mobile);
-    if (_panelExpanded) {
+    if (_savedPref === '1') {
         _panel.classList.add('expanded');
     } else {
         _panel.classList.remove('expanded');

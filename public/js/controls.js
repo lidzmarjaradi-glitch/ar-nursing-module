@@ -63,6 +63,9 @@ function setupControls() {
             if (e.target.closest('#toggleInfo')) return; // handled above
             if (!_infoPanel || _infoPanel.classList.contains('hidden')) return;
             _infoPanel.classList.toggle('expanded');
+            // Persist expanded state
+            const isExpanded = _infoPanel.classList.contains('expanded');
+            try { localStorage.setItem('infoPanelVisible', isExpanded ? '1' : '0'); } catch (_) {}
         });
     }
 
