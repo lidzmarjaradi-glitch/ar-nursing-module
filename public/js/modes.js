@@ -283,11 +283,20 @@ function enterQuizMode() {
     setHeartNumberLabelsVisible(false);
 
     showQuizQuestion();
-    document.getElementById('quizPanel').classList.add('visible');
+    const quizPanel = document.getElementById('quizPanel');
+    quizPanel.classList.add('visible');
+    // JS fallback: ensure panel is visible even if CSS transition is suppressed
+    requestAnimationFrame(() => {
+        quizPanel.style.bottom = '0';
+        quizPanel.style.opacity = '1';
+    });
 }
 
 function exitQuizMode() {
-    document.getElementById('quizPanel').classList.remove('visible');
+    const quizPanel = document.getElementById('quizPanel');
+    quizPanel.style.bottom = '';
+    quizPanel.style.opacity = '';
+    quizPanel.classList.remove('visible');
     quizAwaitingClick = false;
     quizAnswered = false;
     quizFinished = true;
