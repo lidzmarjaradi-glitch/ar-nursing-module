@@ -105,6 +105,10 @@ function _doFinalizeModelLoad(modelId) {
     const modelData = modelsData.find(m => m.id === modelId);
     if (modelData) {
         document.getElementById('infoTitle').textContent = modelData.name;
+        const _peekName = document.getElementById('infoPeekName');
+        if (_peekName) _peekName.textContent = modelData.name;
+        const _peekBadge = document.getElementById('infoPeekBadge');
+        if (_peekBadge) _peekBadge.textContent = modelData.keyStructures && modelData.keyStructures.length ? modelData.keyStructures.length + ' structures' : '';
         document.getElementById('infoDescription').textContent = modelData.description;
         document.getElementById('infoClinical').textContent = modelData.clinicalRelevance;
 
@@ -270,27 +274,27 @@ function openModelPanel() {
 // ─── Initialization ───
 
 async function init() {
-    // Restore panel preference from localStorage (default: visible on desktop, hidden on mobile)
+    // Info panel is now a bottom sheet — always visible (collapsed by default).
+    // Restore expanded state from preference.
     const _savedPref = (() => { try { return localStorage.getItem('infoPanelVisible'); } catch (e) { return null; } })();
     const _panel = document.getElementById('infoPanel');
     const _tbtn = document.getElementById('toggleInfo');
     const _mobile = isMobileDevice();
-    const _panelVisible = _savedPref === '1' || (_savedPref == null && !_mobile);
-    if (_panelVisible) {
-        _panel.classList.remove('hidden');
-        _tbtn.classList.add('panel-open');
-        _tbtn.title = 'Hide information panel';
-        document.body.classList.add('panel-open');
-        viewOffsetTarget = _mobile ? 0 : PANEL_SHIFT_PX;
-        viewOffsetCurrent = viewOffsetTarget; // no animation on load
+    // Always show the peek strip; only restore expanded if pref was set
+    _panel.classList.remove('hidden');
+    const _panelExpanded = _savedPref === '1' || (_savedPref == null && !_mobile);
+    if (_panelExpanded) {
+        _panel.classList.add('expanded');
     } else {
-        _panel.classList.add('hidden');
-        _tbtn.classList.remove('panel-open');
-        _tbtn.title = 'Show information panel';
-        document.body.classList.remove('panel-open');
-        viewOffsetTarget = 0;
-        viewOffsetCurrent = 0;
+        _panel.classList.remove('expanded');
     }
+    if (_tbtn) {
+        _tbtn.classList.remove('panel-open');
+        _tbtn.title = 'Hide information panel';
+    }
+    document.body.classList.remove('panel-open');
+    viewOffsetTarget = 0;
+    viewOffsetCurrent = 0;
 
     // Load models data
     try {

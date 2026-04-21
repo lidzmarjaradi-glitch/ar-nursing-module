@@ -87,16 +87,15 @@ let highlightedMeshes = [];
 let currentTooltipStructure = null;
 let heartNumberLabelsVisible = true;
 
-/** Show or hide the information side panel */
+/** Show or hide the information panel (bottom sheet). Hides peek strip when show=false. */
 function setInfoPanelVisible(show, persist) {
     const _infoPanel = document.getElementById('infoPanel');
-    const _toggleInfoBtn = document.getElementById('toggleInfo');
-    if (!_infoPanel || !_toggleInfoBtn) return;
+    if (!_infoPanel) return;
     _infoPanel.classList.toggle('hidden', !show);
-    _toggleInfoBtn.classList.toggle('panel-open', show);
-    _toggleInfoBtn.title = show ? 'Hide information panel' : 'Show information panel';
+    // When hiding, also collapse expanded state
+    if (!show) _infoPanel.classList.remove('expanded');
     document.body.classList.toggle('panel-open', show);
-    viewOffsetTarget = (show && !isMobileDevice()) ? PANEL_SHIFT_PX : 0;
+    viewOffsetTarget = 0; // bottom sheet doesn't shift the camera laterally
     if (persist) {
         try { localStorage.setItem('infoPanelVisible', show ? '1' : '0'); } catch (e) { }
     }

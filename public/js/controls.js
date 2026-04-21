@@ -45,15 +45,26 @@ function setupControls() {
         setHeartNumberLabelsVisible(!heartNumberLabelsVisible);
     });
 
-    // Toggle info panel (desktop + mobile, with localStorage)
+    // Toggle info panel: toggleInfo button now acts as close/hide button inside peek strip
     const _toggleInfoBtn = document.getElementById('toggleInfo');
     const _infoPanel = document.getElementById('infoPanel');
-    _toggleInfoBtn.addEventListener('click', () => {
-        // Block toggling info panel while quiz is active and not finished
-        if (currentInteractionMode === 'quiz' && !quizFinished) return;
-        const willShow = _infoPanel.classList.contains('hidden');
-        setInfoPanelVisible(willShow, true);
-    });
+    if (_toggleInfoBtn) {
+        _toggleInfoBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // don't bubble up to peek row
+            if (currentInteractionMode === 'quiz' && !quizFinished) return;
+            setInfoPanelVisible(false, true);
+        });
+    }
+
+    // Peek strip tap: expand / collapse info body
+    const _peekEl = document.getElementById('infoSheetPeek');
+    if (_peekEl) {
+        _peekEl.addEventListener('click', (e) => {
+            if (e.target.closest('#toggleInfo')) return; // handled above
+            if (!_infoPanel || _infoPanel.classList.contains('hidden')) return;
+            _infoPanel.classList.toggle('expanded');
+        });
+    }
 
     canvas.addEventListener('click', (e) => {
         if (!organMesh) return;

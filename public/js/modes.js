@@ -140,15 +140,11 @@ function enterGuidedMode() {
     setHeartNumberLabelsVisible(true);
 
     showGuidedStep();
-    document.getElementById('guidedPanel').classList.add('visible');
-    document.getElementById('guidedStepPill').classList.add('visible');
-    document.getElementById('guidedFloatNav').classList.add('visible');
+    document.getElementById('guidedBar').classList.add('visible');
 }
 
 function exitGuidedMode() {
-    document.getElementById('guidedPanel').classList.remove('visible');
-    document.getElementById('guidedStepPill').classList.remove('visible');
-    document.getElementById('guidedFloatNav').classList.remove('visible');
+    document.getElementById('guidedBar').classList.remove('visible');
     guidedAnimating = false;
     removeHighlight();
     // Undim all labels
