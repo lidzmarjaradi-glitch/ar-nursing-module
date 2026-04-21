@@ -1593,9 +1593,11 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
         display: block;
         overflow-y: auto;
         overflow-x: hidden;
-        transform: translateY(calc(100% - 56px)); /* collapsed peek by default */
+        transform: translateY(calc(100% - 56px));
+        /* collapsed peek by default */
         opacity: 1;
-        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+        z-index: 100;
     }
 
     .info-panel.hidden {
@@ -1738,7 +1740,8 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
         /* Hidden = fully off-screen below */
         transform: translateY(100%);
         opacity: 1;
-        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+        z-index: 100;
     }
 
     .guided-panel.visible,
@@ -1844,6 +1847,7 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
         padding: 7px 10px;
     }
 }
+
 /* ═══════════════════════════════════════════════════════
    BOTTOM SHEET COMPONENTS  (mobile only; desktop no-op)
    ═══════════════════════════════════════════════════════ */
@@ -1889,7 +1893,7 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
 .sheet-chevron {
     flex-shrink: 0;
     color: var(--text-faint);
-    transition: transform 0.3s ease;
+    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .sheet-expanded .sheet-chevron {
@@ -1915,9 +1919,10 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
         -webkit-backdrop-filter: blur(28px);
     }
 
-    /* Sheet body: scrollable content area */
+    /* Sheet body: scrollable content area with safe-area bottom padding */
     .sheet-panel-body {
         padding: 0.9rem 1rem 1.2rem;
+        padding-bottom: max(1.2rem, calc(1.2rem + env(safe-area-inset-bottom, 0px)));
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
@@ -1934,6 +1939,33 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
 
     /* Rotation controls: keep at left, clear of sheets */
     body.mode-explore .controls-hint {
-        bottom: 120px; /* above collapsed info sheet */
+        bottom: 120px;
+        /* above collapsed info sheet */
+    }
+}
+
+/* ─── Sheet backdrop dim overlay ─── */
+#sheetBackdrop {
+    /* Created dynamically by mobile.js; styles here are fallbacks */
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    z-index: 95;
+    /* JS controls background via inline style; this ensures correct stacking */
+}
+
+/* Ensure sheets sit above the backdrop */
+@media (max-width: 768px) {
+    .guided-panel,
+    .quiz-panel,
+    .info-panel {
+        z-index: 100;
+    }
+
+    /* Safe area: push bottom of nav / controls above iPhone home indicator */
+    .bottom-nav,
+    .model-trigger {
+        padding-bottom: max(0px, env(safe-area-inset-bottom, 0px));
     }
 }
