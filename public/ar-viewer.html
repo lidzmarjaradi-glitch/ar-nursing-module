@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/ar-viewer.css?v=5.2">
+    <link rel="stylesheet" href="css/ar-viewer.css?v=3.4">
 
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -27,7 +27,7 @@
     <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 
-<body class="mode-explore">
+<body>
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-brand">
             <div class="loading-spinner" id="loadingSpinner"></div>
@@ -64,44 +64,49 @@
         <button class="mode-btn" data-mode="quiz"><span class="mode-icon">❓</span> Quiz</button>
     </div>
 
-    <!-- Guided: unified bottom bar -->
-    <div class="guided-bar" id="guidedBar">
-        <div class="guided-bar-inner">
-            <div class="guided-bar-step-col">
-                <span id="guidedStepCounter">Step 1 of 10</span>
+    <!-- Guided learning panel -->
+    <div class="guided-panel" id="guidedPanel">
+        <div class="sheet-handle-bar" id="guidedSheetHandle">
+            <div class="sheet-drag-nub"></div>
+            <span class="sheet-handle-label">📖 Guided Tour</span>
+            <svg class="sheet-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        </div>
+        <div class="sheet-panel-body">
+            <div class="guided-step-counter" id="guidedStepCounter">Step 1 of 10</div>
+            <div class="guided-title" id="guidedTitle">Structure Name</div>
+            <div class="guided-detail" id="guidedDetail">Details about this structure...</div>
+            <div class="guided-clinical" id="guidedClinical">Clinical relevance...</div>
+            <div class="guided-nav">
+                <button class="guided-nav-btn" id="guidedPrev">← Prev</button>
                 <div class="guided-progress">
                     <div class="guided-progress-fill" id="guidedProgressFill"></div>
                 </div>
-            </div>
-            <div class="guided-bar-text-col">
-                <div class="guided-title" id="guidedTitle">Structure Name</div>
-                <div class="guided-detail" id="guidedDetail">Details about this structure...</div>
-            </div>
-            <div class="guided-bar-nav-col">
-                <button class="guided-nav-btn secondary" id="guidedPrev">← Prev</button>
-                <button class="guided-nav-btn primary" id="guidedNext">Next →</button>
+                <button class="guided-nav-btn" id="guidedNext">Next →</button>
             </div>
         </div>
-        <div class="guided-clinical" id="guidedClinical"></div>
     </div>
 
-    <!-- Quiz: bottom sheet -->
+    <!-- Quiz mode panel -->
     <div class="quiz-panel" id="quizPanel">
-        <div class="quiz-sheet-handle"></div>
-        <div class="quiz-sheet-top">
+        <div class="sheet-handle-bar" id="quizSheetHandle">
+            <div class="sheet-drag-nub"></div>
+            <span class="sheet-handle-label">❓ Quiz Mode</span>
+            <svg class="sheet-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        </div>
+        <div class="sheet-panel-body">
             <div class="quiz-score-bar" id="quizScoreBar">
                 <div>Score: <span class="quiz-score-correct" id="quizCorrect">0</span> / <span id="quizTotal">0</span></div>
                 <div>Question <span id="quizQuestionNum">1</span> of <span id="quizQuestionTotal">5</span></div>
             </div>
             <div class="quiz-question" id="quizQuestion">What structure is highlighted?</div>
             <div class="quiz-instruction" id="quizInstruction">Select the correct answer</div>
-        </div>
-        <div class="quiz-choices" id="quizChoices"></div>
-        <div class="quiz-feedback" id="quizFeedback"></div>
-        <div class="quiz-actions" id="quizActions">
-            <button class="quiz-btn" id="quizSkip">Skip</button>
-            <button class="quiz-btn primary" id="quizNext" style="display:none;">Next Question →</button>
-            <button class="quiz-btn primary" id="quizRestart" style="display:none;">Restart Quiz</button>
+            <div class="quiz-choices" id="quizChoices"></div>
+            <div class="quiz-feedback" id="quizFeedback"></div>
+            <div class="quiz-actions" id="quizActions">
+                <button class="quiz-btn" id="quizSkip">Skip</button>
+                <button class="quiz-btn primary" id="quizNext" style="display:none;">Next Question →</button>
+                <button class="quiz-btn primary" id="quizRestart" style="display:none;">Restart Quiz</button>
+            </div>
         </div>
     </div>
 
@@ -156,29 +161,20 @@
         </button>
     </div>
 
-    <!-- Info: bottom sheet (explore mode) -->
     <div class="info-panel" id="infoPanel">
-        <div class="info-sheet-handle"></div>
-        <div class="info-sheet-peek" id="infoSheetPeek">
-            <div class="info-peek-left">
-                <span class="info-peek-name" id="infoPeekName">Loading...</span>
-                <span class="info-peek-badge" id="infoPeekBadge"></span>
-            </div>
-            <div class="info-peek-right">
-                <svg class="info-peek-chevron" id="infoPeekChevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                <button class="toggle-info" id="toggleInfo" title="Hide information panel" aria-label="Hide information panel">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
-                </button>
-            </div>
+        <div class="sheet-handle-bar" id="infoSheetHandle">
+            <div class="sheet-drag-nub"></div>
+            <span class="sheet-handle-label" id="infoSheetLabel">ℹ️ Model Info</span>
+            <svg class="sheet-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
         </div>
-        <div class="info-sheet-body" id="infoSheetBody">
+        <div class="sheet-panel-body">
             <h2 id="infoTitle">Loading...</h2>
             <p id="infoDescription">Loading information...</p>
             <div class="clinical-relevance">
                 <h4>🩺 Clinical Relevance</h4>
                 <p id="infoClinical">Loading...</p>
             </div>
-            <h4 class="key-structures-heading">Key Structures</h4>
+            <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem;">Key Structures:</h4>
             <div class="structures-grid" id="structuresGrid">
                 <!-- Populated dynamically -->
             </div>
@@ -191,6 +187,15 @@
             </div>
         </div>
     </div>
+
+    <button class="toggle-info panel-open" id="toggleInfo" title="Toggle information panel">
+        <svg viewBox="0 0 24 24">
+            <rect x="15" y="3" width="6" height="18" rx="1" />
+            <line x1="3" y1="6" x2="11" y2="6" />
+            <line x1="3" y1="10" x2="11" y2="10" />
+            <line x1="3" y1="14" x2="8" y2="14" />
+        </svg>
+    </button>
 
     <div class="controls-hint" id="controlsHint">
         <div class="hint-item desktop-hint">
@@ -283,17 +288,18 @@
 
 
     <!-- Application modules (order matters) -->
-    <script src="js/config.js?v=3.3"></script>
-    <script src="js/data.js?v=3.3"></script>
-    <script src="js/state.js?v=3.3"></script>
-    <script src="js/scene.js?v=3.3"></script>
-    <script src="js/controls.js?v=3.3"></script>
-    <script src="js/labels.js?v=3.3"></script>
-    <script src="js/annotations.js?v=3.3"></script>
-    <script src="js/loader.js?v=3.3"></script>
-    <script src="js/procedural.js?v=3.3"></script>
-    <script src="js/modes.js?v=3.3"></script>
-    <script src="js/app.js?v=3.3"></script>
+    <script src="js/config.js?v=3.4"></script>
+    <script src="js/data.js?v=3.4"></script>
+    <script src="js/state.js?v=3.4"></script>
+    <script src="js/scene.js?v=3.4"></script>
+    <script src="js/controls.js?v=3.4"></script>
+    <script src="js/labels.js?v=3.4"></script>
+    <script src="js/annotations.js?v=3.4"></script>
+    <script src="js/loader.js?v=3.4"></script>
+    <script src="js/procedural.js?v=3.4"></script>
+    <script src="js/modes.js?v=3.4"></script>
+    <script src="js/app.js?v=3.4"></script>
+    <script src="js/mobile.js?v=3.4"></script>
 </body>
 
 </html>
