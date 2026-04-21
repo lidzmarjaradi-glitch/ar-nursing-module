@@ -1475,7 +1475,7 @@ body {
 
 .quiz-panel.visible {
     display: flex;
-    animation: quizSheetUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation: quizSheetUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes quizSheetUp {
