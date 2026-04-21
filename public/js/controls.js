@@ -261,6 +261,27 @@ function highlightOrganPartByKey(meshKey) {
 
     organMesh.traverse((child) => {
         if (!child.isMesh || child.userData.organPartKey !== meshKey) return;
+
+        // Clone shared materials before mutating — prevents one highlight from
+        // corrupting every other mesh that shares the same material instance.
+        if (Array.isArray(child.material)) {
+            child.material = child.material.map(m => {
+                if (m && !m.userData._isHighlightClone) {
+                    const c = m.clone();
+                    c.userData._isHighlightClone = true;
+                    c.userData._originalMaterial = m;
+                    return c;
+                }
+                return m;
+            });
+        } else if (child.material && !child.material.userData._isHighlightClone) {
+            const orig = child.material;
+            const c = orig.clone();
+            c.userData._isHighlightClone = true;
+            c.userData._originalMaterial = orig;
+            child.material = c;
+        }
+
         const mats = Array.isArray(child.material) ? child.material : [child.material];
         mats.forEach((mat) => {
             if (mat && mat.emissive) {
@@ -269,15 +290,18 @@ function highlightOrganPartByKey(meshKey) {
                     mat.userData._savedEmissiveColor = mat.emissive.getHex();
                     mat.userData._savedEmissiveIntensity = mat.emissiveIntensity;
                 }
-                mat.emissive = new THREE.Color(0x2a9d8f);
+                // Use .set() — never replace the Color object reference
+                mat.emissive.set(0x2a9d8f);
                 mat.emissiveIntensity = 0.45;
+                mat.needsUpdate = true;
             } else if (mat && child.userData.isAnnotationHitMarker) {
                 // Anchor sphere: make semi-visible with highlight color
                 if (mat.userData._savedColor === undefined) {
                     mat.userData._savedColor = mat.color.getHex();
                     mat.userData._savedOpacity = mat.opacity;
                 }
-                mat.color = new THREE.Color(0x2a9d8f);
+                // Use .set() — never replace the Color object reference
+                mat.color.set(0x2a9d8f);
                 mat.opacity = 0.25;
                 mat.needsUpdate = true;
             }
@@ -419,18 +443,31 @@ function highlightStructure(structureName) {
 
     // Highlight 3D object (visual feedback)
     if (organMesh) {
-        const glowMaterial = new THREE.MeshBasicMaterial({
-            color: 0x2a9d8f,
-            transparent: true,
-            opacity: 0.3,
-            side: THREE.DoubleSide
-        });
-
         // Create highlight effect — only match explicit structureName, no index fallback
         let matched = false;
         organMesh.children.forEach((child) => {
             if (child.userData.structureName === structureName) {
                 matched = true;
+
+                // Clone shared materials before mutating
+                if (Array.isArray(child.material)) {
+                    child.material = child.material.map(m => {
+                        if (m && !m.userData._isHighlightClone) {
+                            const c = m.clone();
+                            c.userData._isHighlightClone = true;
+                            c.userData._originalMaterial = m;
+                            return c;
+                        }
+                        return m;
+                    });
+                } else if (child.material && !child.material.userData._isHighlightClone) {
+                    const orig = child.material;
+                    const c = orig.clone();
+                    c.userData._isHighlightClone = true;
+                    c.userData._originalMaterial = orig;
+                    child.material = c;
+                }
+
                 const mats = Array.isArray(child.material) ? child.material : [child.material];
                 mats.forEach((mat) => {
                     if (mat && mat.emissive) {
@@ -439,8 +476,10 @@ function highlightStructure(structureName) {
                             mat.userData._savedEmissiveColor = mat.emissive.getHex();
                             mat.userData._savedEmissiveIntensity = mat.emissiveIntensity;
                         }
-                        mat.emissive = new THREE.Color(0x2a9d8f);
+                        // Use .set() — never replace the Color object reference
+                        mat.emissive.set(0x2a9d8f);
                         mat.emissiveIntensity = 0.3;
+                        mat.needsUpdate = true;
                     }
                 });
                 highlightedMeshes.push(child);
@@ -464,32 +503,34 @@ function removeHighlight() {
 
     highlightedMeshes.forEach((mesh) => {
         if (!mesh.material) return;
-        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-        mats.forEach((mat) => {
-            if (mat && mat.emissive) {
-                // Restore original emissive state instead of zeroing it
-                if (mat.userData._savedEmissiveColor !== undefined) {
-                    mat.emissive.setHex(mat.userData._savedEmissiveColor);
-                    mat.emissiveIntensity = mat.userData._savedEmissiveIntensity;
-                    delete mat.userData._savedEmissiveColor;
-                    delete mat.userData._savedEmissiveIntensity;
-                } else {
-                    mat.emissive.set(0x000000);
-                    mat.emissiveIntensity = 0;
+
+        // If we cloned the material(s) during highlight, dispose the clone(s) and restore originals.
+        // This guarantees no mutated state leaks back to any shared material.
+        if (Array.isArray(mesh.material)) {
+            mesh.material = mesh.material.map(mat => {
+                if (mat && mat.userData._isHighlightClone && mat.userData._originalMaterial) {
+                    mat.dispose();
+                    return mat.userData._originalMaterial;
                 }
-            } else if (mat && mesh.userData.isAnnotationHitMarker) {
-                // Restore anchor sphere
-                if (mat.userData._savedColor !== undefined) {
-                    mat.color.setHex(mat.userData._savedColor);
-                    mat.opacity = mat.userData._savedOpacity;
-                    delete mat.userData._savedColor;
-                    delete mat.userData._savedOpacity;
-                } else {
-                    mat.opacity = 0.0;
+                // Fallback: restore emissive in place if somehow uncloned
+                if (mat && mat.emissive) {
+                    _restoreEmissive(mat);
                 }
-                mat.needsUpdate = true;
+                return mat;
+            });
+        } else {
+            const mat = mesh.material;
+            if (mat && mat.userData._isHighlightClone && mat.userData._originalMaterial) {
+                mesh.material = mat.userData._originalMaterial;
+                mat.dispose();
+            } else if (mat && mat.emissive) {
+                // Fallback: restore emissive in place if somehow uncloned
+                _restoreEmissive(mat);
+                if (mat && mesh.userData.isAnnotationHitMarker) {
+                    _restoreAnchorSphere(mat);
+                }
             }
-        });
+        }
     });
     highlightedMeshes = [];
 
@@ -502,4 +543,29 @@ function removeHighlight() {
         scene.remove(highlightRing);
         highlightRing = null;
     }
+}
+
+function _restoreEmissive(mat) {
+    if (mat.userData._savedEmissiveColor !== undefined) {
+        mat.emissive.set(mat.userData._savedEmissiveColor);
+        mat.emissiveIntensity = mat.userData._savedEmissiveIntensity;
+        delete mat.userData._savedEmissiveColor;
+        delete mat.userData._savedEmissiveIntensity;
+    } else {
+        mat.emissive.set(0x000000);
+        mat.emissiveIntensity = 0;
+    }
+    mat.needsUpdate = true;
+}
+
+function _restoreAnchorSphere(mat) {
+    if (mat.userData._savedColor !== undefined) {
+        mat.color.set(mat.userData._savedColor);
+        mat.opacity = mat.userData._savedOpacity;
+        delete mat.userData._savedColor;
+        delete mat.userData._savedOpacity;
+    } else {
+        mat.opacity = 0.0;
+    }
+    mat.needsUpdate = true;
 }
