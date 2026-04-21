@@ -15,6 +15,9 @@ let _highlightRingMat = null;        // cached ring MeshBasicMaterial
 // Tracked highlighted DOM elements — lets removeHighlight skip querySelectorAll.
 let _highlightedStructureItems = [];  // .structure-item elements that have .highlighted
 let _highlightedOrganPartItems = [];  // .organ-part-item elements that have .highlighted
+// Version counter — incremented by removeHighlight so pending rAF outline builds
+// can detect that the highlight has already been cleared and abort.
+let _highlightVersion = 0;
 
 /** Dispose all cached highlight geometries. Must be called before removing organMesh from scene. */
 function clearHighlightCaches() {
@@ -241,9 +244,20 @@ function highlightOrganLegendItem(meshKey) {
 function highlightOrganPartByKey(meshKey) {
     removeHighlight();
     if (!organMesh) return;
+    if (!_highlightLineMat) {
+        _highlightLineMat = new THREE.LineBasicMaterial({
+            color: 0x00ffcc, linewidth: 1, transparent: true, opacity: 0.7, depthTest: true
+        });
+    }
+
+    // Capture the version AFTER removeHighlight incremented it.
+    // If removeHighlight is called again before the deferred rAF fires,
+    // the version will differ and the rAF will abort without touching the scene.
+    const myVersion = _highlightVersion;
 
     let highlightBB = new THREE.Box3();
     let hasHighlight = false;
+    const deferredChildren = []; // meshes whose EdgesGeometry isn't cached yet
 
     organMesh.traverse((child) => {
         if (!child.isMesh || child.userData.organPartKey !== meshKey) return;
@@ -261,28 +275,14 @@ function highlightOrganPartByKey(meshKey) {
         });
         highlightedMeshes.push(child);
 
-        // Add wireframe outline — reuse cached EdgesGeometry + LineSegments (built once per mesh)
-        if (!_highlightLineMat) {
-            _highlightLineMat = new THREE.LineBasicMaterial({
-                color: 0x00ffcc, linewidth: 1, transparent: true, opacity: 0.7, depthTest: true
-            });
+        // Attach cached outline immediately; queue uncached for next-frame build
+        const cached = _highlightCache.get(child.uuid);
+        if (cached) {
+            child.parent.add(cached.outline);
+            highlightOutlines.push(cached.outline);
+        } else {
+            deferredChildren.push(child);
         }
-        let cached = _highlightCache.get(child.uuid);
-        if (!cached) {
-            const edges = new THREE.EdgesGeometry(child.geometry, 30);
-            const outline = new THREE.LineSegments(edges, _highlightLineMat);
-            outline.position.copy(child.position);
-            outline.rotation.copy(child.rotation);
-            outline.scale.copy(child.scale);
-            outline.updateMatrix();
-            outline.matrixAutoUpdate = false;
-            outline.matrix.copy(child.matrix);
-            outline.matrixWorld.copy(child.matrixWorld);
-            cached = { edges, outline };
-            _highlightCache.set(child.uuid, cached);
-        }
-        child.parent.add(cached.outline);
-        highlightOutlines.push(cached.outline);
 
         // Expand bounding box
         child.updateMatrixWorld(true);
@@ -291,9 +291,7 @@ function highlightOrganPartByKey(meshKey) {
         hasHighlight = true;
     });
 
-    // Add pulsing ring indicator at center of highlighted area
-    // Uses a unit-radius ring; scaled each frame based on camera distance
-    // so the circle looks the same size on screen regardless of model scale.
+    // Ring indicator — always immediate (uses cached geometry + material)
     if (hasHighlight) {
         const center = new THREE.Vector3();
         highlightBB.getCenter(center);
@@ -309,6 +307,35 @@ function highlightOrganPartByKey(meshKey) {
         highlightRing.renderOrder = 999;
         scene.add(highlightRing);
         highlightPulseTime = 0;
+    }
+
+    // Build uncached wireframe outlines in the next animation frame.
+    // This keeps mode switches instant — emissive + ring appear on this frame,
+    // outline appears on the next frame (≤16ms later, imperceptible to users).
+    if (deferredChildren.length > 0) {
+        requestAnimationFrame(() => {
+            // Abort if the highlight has been cleared since we queued this work
+            if (_highlightVersion !== myVersion) return;
+            deferredChildren.forEach((child) => {
+                if (!child.parent) return; // model was unloaded
+                let cached = _highlightCache.get(child.uuid);
+                if (!cached) {
+                    const edges = new THREE.EdgesGeometry(child.geometry, 30);
+                    const outline = new THREE.LineSegments(edges, _highlightLineMat);
+                    outline.position.copy(child.position);
+                    outline.rotation.copy(child.rotation);
+                    outline.scale.copy(child.scale);
+                    outline.updateMatrix();
+                    outline.matrixAutoUpdate = false;
+                    outline.matrix.copy(child.matrix);
+                    outline.matrixWorld.copy(child.matrixWorld);
+                    cached = { edges, outline };
+                    _highlightCache.set(child.uuid, cached);
+                }
+                child.parent.add(cached.outline);
+                highlightOutlines.push(cached.outline);
+            });
+        });
     }
 }
 
@@ -408,6 +435,7 @@ function highlightStructure(structureName) {
 
 // Remove highlight
 function removeHighlight() {
+    _highlightVersion++; // cancels any pending deferred outline builds
     // Use tracked arrays — avoids 3× querySelectorAll on every call
     _highlightedStructureItems.forEach(el => el.classList.remove('highlighted'));
     _highlightedStructureItems = [];
