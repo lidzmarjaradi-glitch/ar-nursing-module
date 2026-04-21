@@ -264,10 +264,19 @@ function highlightOrganPartByKey(meshKey) {
         const mats = Array.isArray(child.material) ? child.material : [child.material];
         mats.forEach((mat) => {
             if (mat && mat.emissive) {
+                // Save original emissive so removeHighlight can restore it (not zero it)
+                if (mat.userData._savedEmissiveColor === undefined) {
+                    mat.userData._savedEmissiveColor = mat.emissive.getHex();
+                    mat.userData._savedEmissiveIntensity = mat.emissiveIntensity;
+                }
                 mat.emissive = new THREE.Color(0x2a9d8f);
                 mat.emissiveIntensity = 0.45;
             } else if (mat && child.userData.isAnnotationHitMarker) {
                 // Anchor sphere: make semi-visible with highlight color
+                if (mat.userData._savedColor === undefined) {
+                    mat.userData._savedColor = mat.color.getHex();
+                    mat.userData._savedOpacity = mat.opacity;
+                }
                 mat.color = new THREE.Color(0x2a9d8f);
                 mat.opacity = 0.25;
                 mat.needsUpdate = true;
@@ -423,6 +432,11 @@ function highlightStructure(structureName) {
                 const mats = Array.isArray(child.material) ? child.material : [child.material];
                 mats.forEach((mat) => {
                     if (mat && mat.emissive) {
+                        // Save original emissive so removeHighlight can restore it (not zero it)
+                        if (mat.userData._savedEmissiveColor === undefined) {
+                            mat.userData._savedEmissiveColor = mat.emissive.getHex();
+                            mat.userData._savedEmissiveIntensity = mat.emissiveIntensity;
+                        }
                         mat.emissive = new THREE.Color(0x2a9d8f);
                         mat.emissiveIntensity = 0.3;
                     }
@@ -448,11 +462,26 @@ function removeHighlight() {
         const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         mats.forEach((mat) => {
             if (mat && mat.emissive) {
-                mat.emissive = new THREE.Color(0x000000);
-                mat.emissiveIntensity = 0;
+                // Restore original emissive state instead of zeroing it
+                if (mat.userData._savedEmissiveColor !== undefined) {
+                    mat.emissive.setHex(mat.userData._savedEmissiveColor);
+                    mat.emissiveIntensity = mat.userData._savedEmissiveIntensity;
+                    delete mat.userData._savedEmissiveColor;
+                    delete mat.userData._savedEmissiveIntensity;
+                } else {
+                    mat.emissive.set(0x000000);
+                    mat.emissiveIntensity = 0;
+                }
             } else if (mat && mesh.userData.isAnnotationHitMarker) {
-                // Restore anchor sphere to invisible
-                mat.opacity = 0.0;
+                // Restore anchor sphere
+                if (mat.userData._savedColor !== undefined) {
+                    mat.color.setHex(mat.userData._savedColor);
+                    mat.opacity = mat.userData._savedOpacity;
+                    delete mat.userData._savedColor;
+                    delete mat.userData._savedOpacity;
+                } else {
+                    mat.opacity = 0.0;
+                }
                 mat.needsUpdate = true;
             }
         });
