@@ -112,8 +112,8 @@ function enterExploreMode() {
     heartScreenLabelEntries.forEach(e => {
         if (e.labelEl) { e.labelEl.classList.remove('dimmed', 'guided-active', 'quiz-correct', 'quiz-wrong'); }
     });
-    // Restore line visibility
-    document.querySelectorAll('.heart-screen-label-line').forEach(l => l.classList.remove('guided-active-line'));
+    // Restore line visibility — use cached entries instead of querySelectorAll
+    heartScreenLabelEntries.forEach(e => { if (e.lineEl) e.lineEl.classList.remove('guided-active-line'); });
     // Re-show labels if they were on
     if (heartNumberLabelsVisible) {
         setHeartNumberLabelsVisible(true);
@@ -155,7 +155,7 @@ function exitGuidedMode() {
     heartScreenLabelEntries.forEach(e => {
         if (e.labelEl) e.labelEl.classList.remove('dimmed', 'guided-active');
     });
-    document.querySelectorAll('.heart-screen-label-line').forEach(l => l.classList.remove('guided-active-line'));
+    heartScreenLabelEntries.forEach(e => { if (e.lineEl) e.lineEl.classList.remove('guided-active-line'); });
 }
 
 function showGuidedStep() {
@@ -211,21 +211,16 @@ function showGuidedStep() {
         e.labelEl.classList.toggle('dimmed', !isActive);
         e.labelEl.classList.toggle('guided-active', isActive);
     });
-    // Dim/activate SVG lines too
-    document.querySelectorAll('.heart-screen-label-line').forEach(line => {
-        line.classList.remove('guided-active-line');
+    // Dim/activate SVG lines — use cached entries instead of querySelectorAll + find
+    heartScreenLabelEntries.forEach(e => {
+        if (e.lineEl) e.lineEl.classList.toggle('guided-active-line', e.key === key);
     });
-    // Find the SVG line for this label
-    const activeEntry = heartScreenLabelEntries.find(e => e.key === key);
-    if (activeEntry && activeEntry.lineEl) {
-        activeEntry.lineEl.classList.add('guided-active-line');
-    }
 
-    // Focus camera on the structure
-    const worldCenter = getMeshWorldCenter(key);
-    if (worldCenter) {
-        focusCameraOnPoint(worldCenter);
-    }
+    // Focus camera — deferred to next frame so panel content renders immediately
+    requestAnimationFrame(() => {
+        const worldCenter = getMeshWorldCenter(key);
+        if (worldCenter) focusCameraOnPoint(worldCenter);
+    });
 }
 
 function guidedNext() {
@@ -326,11 +321,13 @@ function showQuizQuestion() {
             e.labelEl.style.display = 'none';
         }
     });
-    document.querySelectorAll('.heart-screen-label-line').forEach(l => l.style.display = 'none');
+    heartScreenLabelEntries.forEach(e => { if (e.lineEl) e.lineEl.style.display = 'none'; });
 
-    // Focus camera on the structure so user can see it
-    const worldCenter = getMeshWorldCenter(correctKey);
-    if (worldCenter) focusCameraOnPoint(worldCenter);
+    // Focus camera — deferred so quiz panel renders on this frame
+    requestAnimationFrame(() => {
+        const worldCenter = getMeshWorldCenter(correctKey);
+        if (worldCenter) focusCameraOnPoint(worldCenter);
+    });
     highlightOrganPartByKey(correctKey);
 
     // Update panel

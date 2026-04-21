@@ -28,6 +28,8 @@ function loadModel(modelId) {
     if (currentInteractionMode !== 'explore') {
         switchMode('explore');
     }
+    // Dispose cached highlight geometries before removing the old mesh
+    clearHighlightCaches();
     // Remove existing model
     if (organMesh) {
         clearHeartCss2DLabels();
@@ -81,6 +83,8 @@ function finalizeModelLoad(modelId) {
         // Re-enable mode buttons now that model is ready (or as ready as it can be)
         modelReady = true;
         document.querySelectorAll('.mode-btn').forEach(btn => { btn.disabled = false; });
+        // Pre-warm EdgesGeometry highlight cache in background — first switch will be instant
+        prewarmHighlightCacheAsync();
     }
 }
 

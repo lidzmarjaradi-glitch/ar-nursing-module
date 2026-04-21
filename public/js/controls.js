@@ -2,6 +2,70 @@
 // controls.js — User interaction, click handlers & highlighting
 // ═══════════════════════════════════════════════════════
 
+// ─── Highlight performance cache ──────────────────────────────────────────────
+// new THREE.EdgesGeometry(mesh.geometry, 30) on complex meshes takes 100–1000ms.
+// Cache the EdgesGeometry + LineSegments per mesh UUID so they are built ONCE
+// per model load, then re-attached/detached on every subsequent highlight call.
+// Cleared and disposed in clearHighlightCaches() when a new model loads.
+const _highlightCache = new Map();  // meshUUID → { edges: EdgesGeometry, outline: LineSegments }
+let _highlightLineMat = null;        // one shared LineBasicMaterial for all outlines
+let _highlightRingGeo = null;        // cached RingGeometry (model-independent)
+let _highlightRingMat = null;        // cached ring MeshBasicMaterial
+
+// Tracked highlighted DOM elements — lets removeHighlight skip querySelectorAll.
+let _highlightedStructureItems = [];  // .structure-item elements that have .highlighted
+let _highlightedOrganPartItems = [];  // .organ-part-item elements that have .highlighted
+
+/** Dispose all cached highlight geometries. Must be called before removing organMesh from scene. */
+function clearHighlightCaches() {
+    // Detach any active outlines so their parent pointers are gone before disposal
+    highlightOutlines.forEach(o => { if (o.parent) o.parent.remove(o); });
+    highlightOutlines = [];
+    _highlightCache.forEach(({ edges }) => { if (edges) edges.dispose(); });
+    _highlightCache.clear();
+    _highlightedStructureItems = [];
+    _highlightedOrganPartItems = [];
+}
+
+/**
+ * Pre-warm the EdgesGeometry cache for every annotated mesh in the current model.
+ * Runs mesh-by-mesh with setTimeout(0) between each so it never blocks the main thread.
+ * Called 500ms after finalizeModelLoad so the viewer is already interactive.
+ */
+function prewarmHighlightCacheAsync() {
+    if (!organMesh) return;
+    if (!_highlightLineMat) {
+        _highlightLineMat = new THREE.LineBasicMaterial({
+            color: 0x00ffcc, linewidth: 1, transparent: true, opacity: 0.7, depthTest: true
+        });
+    }
+    const meshes = [];
+    organMesh.traverse((child) => {
+        if (child.isMesh && child.userData.organPartKey && !_highlightCache.has(child.uuid)) {
+            meshes.push(child);
+        }
+    });
+    if (meshes.length === 0) return;
+    let i = 0;
+    function buildNext() {
+        if (i >= meshes.length) return;
+        const child = meshes[i++];
+        if (_highlightCache.has(child.uuid)) { setTimeout(buildNext, 0); return; }
+        const edges = new THREE.EdgesGeometry(child.geometry, 30);
+        const outline = new THREE.LineSegments(edges, _highlightLineMat);
+        outline.position.copy(child.position);
+        outline.rotation.copy(child.rotation);
+        outline.scale.copy(child.scale);
+        outline.updateMatrix();
+        outline.matrixAutoUpdate = false;
+        outline.matrix.copy(child.matrix);
+        outline.matrixWorld.copy(child.matrixWorld);
+        _highlightCache.set(child.uuid, { edges, outline });
+        setTimeout(buildNext, 0);
+    }
+    setTimeout(buildNext, 500);
+}
+
 function setupControls() {
     const canvas = renderer.domElement;
 
@@ -45,29 +109,15 @@ function setupControls() {
         setHeartNumberLabelsVisible(!heartNumberLabelsVisible);
     });
 
-    // Toggle info panel: toggleInfo button now acts as close/hide button inside peek strip
+    // Toggle info panel (desktop + mobile, with localStorage)
     const _toggleInfoBtn = document.getElementById('toggleInfo');
     const _infoPanel = document.getElementById('infoPanel');
-    if (_toggleInfoBtn) {
-        _toggleInfoBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // don't bubble up to peek row
-            if (currentInteractionMode === 'quiz' && !quizFinished) return;
-            setInfoPanelVisible(false, true);
-        });
-    }
-
-    // Peek strip tap: expand / collapse info body
-    const _peekEl = document.getElementById('infoSheetPeek');
-    if (_peekEl) {
-        _peekEl.addEventListener('click', (e) => {
-            if (e.target.closest('#toggleInfo')) return; // handled above
-            if (!_infoPanel || _infoPanel.classList.contains('hidden')) return;
-            _infoPanel.classList.toggle('expanded');
-            // Persist expanded state
-            const isExpanded = _infoPanel.classList.contains('expanded');
-            try { localStorage.setItem('infoPanelVisible', isExpanded ? '1' : '0'); } catch (_) {}
-        });
-    }
+    _toggleInfoBtn.addEventListener('click', () => {
+        // Block toggling info panel while quiz is active and not finished
+        if (currentInteractionMode === 'quiz' && !quizFinished) return;
+        const willShow = _infoPanel.classList.contains('hidden');
+        setInfoPanelVisible(willShow, true);
+    });
 
     canvas.addEventListener('click', (e) => {
         if (!organMesh) return;
@@ -173,11 +223,18 @@ function showOrganPartTooltip(meshKey, x, y) {
 }
 
 function highlightOrganLegendItem(meshKey) {
+    // Clear previously tracked items — avoids querySelectorAll in removeHighlight
+    _highlightedOrganPartItems.forEach(el => el.classList.remove('highlighted'));
+    _highlightedOrganPartItems = [];
     document.querySelectorAll('.organ-part-item').forEach((el) => {
-        el.classList.toggle('highlighted', el.getAttribute('data-organ-part-key') === meshKey);
+        if (el.getAttribute('data-organ-part-key') === meshKey) {
+            el.classList.add('highlighted');
+            _highlightedOrganPartItems.push(el);
+        }
     });
-    document.querySelectorAll('.heart-screen-label').forEach((el) => {
-        el.classList.toggle('active', el.getAttribute('data-part-key') === String(meshKey));
+    // Use cached heartScreenLabelEntries instead of querySelectorAll('.heart-screen-label')
+    heartScreenLabelEntries.forEach(e => {
+        if (e.labelEl) e.labelEl.classList.toggle('active', e.key === String(meshKey));
     });
 }
 
@@ -204,25 +261,28 @@ function highlightOrganPartByKey(meshKey) {
         });
         highlightedMeshes.push(child);
 
-        // Add wireframe outline
-        const edges = new THREE.EdgesGeometry(child.geometry, 30);
-        const lineMat = new THREE.LineBasicMaterial({
-            color: 0x00ffcc,
-            linewidth: 1,
-            transparent: true,
-            opacity: 0.7,
-            depthTest: true
-        });
-        const outline = new THREE.LineSegments(edges, lineMat);
-        outline.position.copy(child.position);
-        outline.rotation.copy(child.rotation);
-        outline.scale.copy(child.scale);
-        outline.updateMatrix();
-        outline.matrixAutoUpdate = false;
-        outline.matrix.copy(child.matrix);
-        outline.matrixWorld.copy(child.matrixWorld);
-        child.parent.add(outline);
-        highlightOutlines.push(outline);
+        // Add wireframe outline — reuse cached EdgesGeometry + LineSegments (built once per mesh)
+        if (!_highlightLineMat) {
+            _highlightLineMat = new THREE.LineBasicMaterial({
+                color: 0x00ffcc, linewidth: 1, transparent: true, opacity: 0.7, depthTest: true
+            });
+        }
+        let cached = _highlightCache.get(child.uuid);
+        if (!cached) {
+            const edges = new THREE.EdgesGeometry(child.geometry, 30);
+            const outline = new THREE.LineSegments(edges, _highlightLineMat);
+            outline.position.copy(child.position);
+            outline.rotation.copy(child.rotation);
+            outline.scale.copy(child.scale);
+            outline.updateMatrix();
+            outline.matrixAutoUpdate = false;
+            outline.matrix.copy(child.matrix);
+            outline.matrixWorld.copy(child.matrixWorld);
+            cached = { edges, outline };
+            _highlightCache.set(child.uuid, cached);
+        }
+        child.parent.add(cached.outline);
+        highlightOutlines.push(cached.outline);
 
         // Expand bounding box
         child.updateMatrixWorld(true);
@@ -238,15 +298,13 @@ function highlightOrganPartByKey(meshKey) {
         const center = new THREE.Vector3();
         highlightBB.getCenter(center);
 
-        const ringGeo = new THREE.RingGeometry(0.85, 1.0, 48);
-        const ringMat = new THREE.MeshBasicMaterial({
-            color: 0x00ffcc,
-            transparent: true,
-            opacity: 0.35,
-            side: THREE.DoubleSide,
-            depthTest: false
+        // Reuse cached ring geometry + material — no new WebGL resources per highlight
+        if (!_highlightRingGeo) _highlightRingGeo = new THREE.RingGeometry(0.85, 1.0, 48);
+        if (!_highlightRingMat) _highlightRingMat = new THREE.MeshBasicMaterial({
+            color: 0x00ffcc, transparent: true, opacity: 0.35,
+            side: THREE.DoubleSide, depthTest: false
         });
-        highlightRing = new THREE.Mesh(ringGeo, ringMat);
+        highlightRing = new THREE.Mesh(_highlightRingGeo, _highlightRingMat);
         highlightRing.position.copy(center);
         highlightRing.renderOrder = 999;
         scene.add(highlightRing);
@@ -315,11 +373,11 @@ function highlightStructure(structureName) {
     // Remove previous highlight
     removeHighlight();
 
-    // Highlight in info panel
-    const structureItems = document.querySelectorAll('.structure-item');
-    structureItems.forEach(item => {
+    // Highlight in info panel — track matched items so removeHighlight avoids querySelectorAll
+    document.querySelectorAll('.structure-item').forEach(item => {
         if (item.textContent === structureName) {
             item.classList.add('highlighted');
+            _highlightedStructureItems.push(item);
         }
     });
 
@@ -350,15 +408,12 @@ function highlightStructure(structureName) {
 
 // Remove highlight
 function removeHighlight() {
-    document.querySelectorAll('.structure-item').forEach(item => {
-        item.classList.remove('highlighted');
-    });
-    document.querySelectorAll('.organ-part-item').forEach(item => {
-        item.classList.remove('highlighted');
-    });
-    document.querySelectorAll('.heart-screen-label').forEach((el) => {
-        el.classList.remove('active');
-    });
+    // Use tracked arrays — avoids 3× querySelectorAll on every call
+    _highlightedStructureItems.forEach(el => el.classList.remove('highlighted'));
+    _highlightedStructureItems = [];
+    _highlightedOrganPartItems.forEach(el => el.classList.remove('highlighted'));
+    _highlightedOrganPartItems = [];
+    heartScreenLabelEntries.forEach(e => { if (e.labelEl) e.labelEl.classList.remove('active'); });
 
     highlightedMeshes.forEach((mesh) => {
         if (!mesh.material) return;
@@ -376,19 +431,13 @@ function removeHighlight() {
     });
     highlightedMeshes = [];
 
-    // Remove wireframe outlines
-    highlightOutlines.forEach(o => {
-        if (o.parent) o.parent.remove(o);
-        if (o.geometry) o.geometry.dispose();
-        if (o.material) o.material.dispose();
-    });
+    // Detach wireframe outlines — do NOT dispose, they are cached in _highlightCache for reuse
+    highlightOutlines.forEach(o => { if (o.parent) o.parent.remove(o); });
     highlightOutlines = [];
 
-    // Remove pulsing ring
+    // Remove pulsing ring from scene — do NOT dispose geometry/material (they are cached)
     if (highlightRing) {
         scene.remove(highlightRing);
-        if (highlightRing.geometry) highlightRing.geometry.dispose();
-        if (highlightRing.material) highlightRing.material.dispose();
         highlightRing = null;
     }
 }
