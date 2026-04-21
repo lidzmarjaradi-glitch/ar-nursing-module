@@ -95,6 +95,8 @@ function setInfoPanelVisible(show, persist) {
     _infoPanel.classList.toggle('hidden', !show);
     _toggleInfoBtn.classList.toggle('panel-open', show);
     _toggleInfoBtn.title = show ? 'Hide information panel' : 'Show information panel';
+    _toggleInfoBtn.setAttribute('aria-expanded', show ? 'true' : 'false');
+    _toggleInfoBtn.setAttribute('aria-label', show ? 'Hide information panel' : 'Show information panel');
     document.body.classList.toggle('panel-open', show);
     viewOffsetTarget = (show && !isMobileDevice()) ? PANEL_SHIFT_PX : 0;
     if (persist) {

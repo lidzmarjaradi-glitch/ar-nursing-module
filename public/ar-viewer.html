@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/ar-viewer.css?v=3.8">
+    <link rel="stylesheet" href="css/ar-viewer.css?v=3.9">
 
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -59,9 +59,9 @@
 
     <!-- Mode selector bar -->
     <div class="mode-bar" id="modeBar">
-        <button class="mode-btn active" data-mode="explore" disabled><span class="mode-icon">🔍</span> Explore</button>
-        <button class="mode-btn" data-mode="guided" disabled><span class="mode-icon">📖</span> Guided</button>
-        <button class="mode-btn" data-mode="quiz" disabled><span class="mode-icon">❓</span> Quiz</button>
+        <button class="mode-btn active" data-mode="explore" disabled aria-pressed="true"><span class="mode-icon">🔍</span> Explore</button>
+        <button class="mode-btn" data-mode="guided" disabled aria-pressed="false"><span class="mode-icon">📖</span> Guided</button>
+        <button class="mode-btn" data-mode="quiz" disabled aria-pressed="false"><span class="mode-icon">❓</span> Quiz</button>
     </div>
 
     <!-- Guided learning panel -->
@@ -120,7 +120,7 @@
     </div>
 
     <div id="viewer-container">
-        <canvas id="three-canvas"></canvas>
+        <canvas id="three-canvas" role="img" aria-label="Interactive 3D anatomy model"></canvas>
         <div id="heartAnnotationOverlay" class="hidden" aria-hidden="true">
             <svg id="heartAnnotationSvg" preserveAspectRatio="none"></svg>
             <div id="heartAnnotationLabels"></div>
@@ -201,7 +201,7 @@
         </div>
     </div>
 
-    <button class="toggle-info panel-open" id="toggleInfo" title="Toggle information panel">
+    <button class="toggle-info panel-open" id="toggleInfo" title="Toggle information panel" aria-label="Toggle information panel" aria-expanded="true">
         <svg viewBox="0 0 24 24">
             <rect x="15" y="3" width="6" height="18" rx="1" />
             <line x1="3" y1="6" x2="11" y2="6" />
@@ -301,18 +301,18 @@
 
 
     <!-- Application modules (order matters) -->
-    <script src="js/config.js?v=3.8"></script>
-    <script src="js/data.js?v=3.8"></script>
-    <script src="js/state.js?v=3.8"></script>
-    <script src="js/scene.js?v=3.8"></script>
-    <script src="js/controls.js?v=3.8"></script>
-    <script src="js/labels.js?v=3.8"></script>
-    <script src="js/annotations.js?v=3.8"></script>
-    <script src="js/loader.js?v=3.8"></script>
-    <script src="js/procedural.js?v=3.8"></script>
-    <script src="js/modes.js?v=3.8"></script>
-    <script src="js/app.js?v=3.8"></script>
-    <script src="js/mobile.js?v=3.8"></script>
+    <script src="js/config.js?v=3.9"></script>
+    <script src="js/data.js?v=3.9"></script>
+    <script src="js/state.js?v=3.9"></script>
+    <script src="js/scene.js?v=3.9"></script>
+    <script src="js/controls.js?v=3.9"></script>
+    <script src="js/labels.js?v=3.9"></script>
+    <script src="js/annotations.js?v=3.9"></script>
+    <script src="js/loader.js?v=3.9"></script>
+    <script src="js/procedural.js?v=3.9"></script>
+    <script src="js/modes.js?v=3.9"></script>
+    <script src="js/app.js?v=3.9"></script>
+    <script src="js/mobile.js?v=3.9"></script>
 </body>
 
 </html>

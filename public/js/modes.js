@@ -97,7 +97,9 @@ function switchMode(mode) {
 
     // Update mode bar buttons
     document.querySelectorAll('.mode-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.mode === mode);
+        const isActive = btn.dataset.mode === mode;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     });
 
     // Enter new mode
@@ -124,6 +126,7 @@ function enterExploreMode() {
 // ====== GUIDED LEARNING MODE ======
 
 function enterGuidedMode() {
+    if (!organMesh) { switchMode('explore'); return; }
     if (!currentModelId) return;
     const detailsMap = getMeshDetailsMap(currentModelId);
     if (!detailsMap) { switchMode('explore'); return; }
@@ -253,6 +256,7 @@ function shuffleArray(arr) {
 }
 
 function enterQuizMode() {
+    if (!organMesh) { switchMode('explore'); return; }
     if (!currentModelId) return;
     const detailsMap = getMeshDetailsMap(currentModelId);
     if (!detailsMap) { switchMode('explore'); return; }

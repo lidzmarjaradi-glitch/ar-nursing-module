@@ -426,9 +426,11 @@ function highlightStructure(structureName) {
             side: THREE.DoubleSide
         });
 
-        // Create highlight effect
-        organMesh.children.forEach((child, index) => {
-            if (child.userData.structureName === structureName || index === 0) {
+        // Create highlight effect — only match explicit structureName, no index fallback
+        let matched = false;
+        organMesh.children.forEach((child) => {
+            if (child.userData.structureName === structureName) {
+                matched = true;
                 const mats = Array.isArray(child.material) ? child.material : [child.material];
                 mats.forEach((mat) => {
                     if (mat && mat.emissive) {
@@ -444,6 +446,9 @@ function highlightStructure(structureName) {
                 highlightedMeshes.push(child);
             }
         });
+        if (!matched) {
+            console.warn('[highlightStructure] No mesh found with structureName:', structureName);
+        }
     }
 }
 

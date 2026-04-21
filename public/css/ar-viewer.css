@@ -1726,6 +1726,11 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
     .mode-btn {
         padding: 6px 12px;
         font-size: 0.73rem;
+        min-height: 44px;
+    }
+
+    .guided-nav-btn {
+        min-height: 44px;
     }
 
     .guided-panel,
