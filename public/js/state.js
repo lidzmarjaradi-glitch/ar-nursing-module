@@ -6,6 +6,7 @@
 let modelsData = [];
 let currentModel = null;
 let currentModelId = null;
+let modelReady = false;   // true once finalizeModelLoad completes; gates mode switching
 let scene, camera, renderer, organMesh;
 let orbitControls = null;
 /** Left-button down position — skip raycast click if user orbited (moved past threshold). */
@@ -14,10 +15,9 @@ let isAutoRotating = false;
 const VIEW_ZOOM = { min: 1.5, max: 14 };
 let raycaster, mouse;
 
-// --- Panel-aware camera view offset ---
-// Panel is now bottom-left (not right), so no horizontal shift needed.
-const PANEL_OCCUPIED_PX = 0;
-const PANEL_SHIFT_PX = 0;
+// --- Panel-aware camera view offset (smooth centering) ---
+const PANEL_OCCUPIED_PX = 340;  // panel width (320) + right margin (20)
+const PANEL_SHIFT_PX = PANEL_OCCUPIED_PX / 2;
 let viewOffsetTarget = 0;   // target shift in px (0 = centered, PANEL_SHIFT_PX = panel open)
 let viewOffsetCurrent = 0;   // current (lerped) shift
 
@@ -87,15 +87,16 @@ let highlightedMeshes = [];
 let currentTooltipStructure = null;
 let heartNumberLabelsVisible = true;
 
-/** Show or hide the information panel (bottom sheet). Hides peek strip when show=false. */
+/** Show or hide the information side panel */
 function setInfoPanelVisible(show, persist) {
     const _infoPanel = document.getElementById('infoPanel');
-    if (!_infoPanel) return;
+    const _toggleInfoBtn = document.getElementById('toggleInfo');
+    if (!_infoPanel || !_toggleInfoBtn) return;
     _infoPanel.classList.toggle('hidden', !show);
-    // When hiding, also collapse expanded state
-    if (!show) _infoPanel.classList.remove('expanded');
+    _toggleInfoBtn.classList.toggle('panel-open', show);
+    _toggleInfoBtn.title = show ? 'Hide information panel' : 'Show information panel';
     document.body.classList.toggle('panel-open', show);
-    viewOffsetTarget = 0; // bottom sheet doesn't shift the camera laterally
+    viewOffsetTarget = (show && !isMobileDevice()) ? PANEL_SHIFT_PX : 0;
     if (persist) {
         try { localStorage.setItem('infoPanelVisible', show ? '1' : '0'); } catch (e) { }
     }

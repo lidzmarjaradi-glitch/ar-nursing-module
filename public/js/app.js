@@ -20,6 +20,10 @@
 function loadModel(modelId) {
     brainMeshDetailsRuntime = null;
     lungMeshDetailsRuntime = null;
+    // Signal that the model is not ready — blocks guided/quiz mode switching
+    // and disables the mode buttons until finalizeModelLoad completes.
+    modelReady = false;
+    document.querySelectorAll('.mode-btn').forEach(btn => { btn.disabled = true; });
     // Reset interaction mode when changing models
     if (currentInteractionMode !== 'explore') {
         switchMode('explore');
@@ -74,6 +78,9 @@ function finalizeModelLoad(modelId) {
         // Always hide the loading overlay, even if post-processing throws
         const ov = document.getElementById('loadingOverlay');
         if (ov) ov.classList.add('hidden');
+        // Re-enable mode buttons now that model is ready (or as ready as it can be)
+        modelReady = true;
+        document.querySelectorAll('.mode-btn').forEach(btn => { btn.disabled = false; });
     }
 }
 
@@ -105,10 +112,6 @@ function _doFinalizeModelLoad(modelId) {
     const modelData = modelsData.find(m => m.id === modelId);
     if (modelData) {
         document.getElementById('infoTitle').textContent = modelData.name;
-        const _peekName = document.getElementById('infoPeekName');
-        if (_peekName) _peekName.textContent = modelData.name;
-        const _peekBadge = document.getElementById('infoPeekBadge');
-        if (_peekBadge) _peekBadge.textContent = modelData.keyStructures && modelData.keyStructures.length ? modelData.keyStructures.length + ' structures' : '';
         document.getElementById('infoDescription').textContent = modelData.description;
         document.getElementById('infoClinical').textContent = modelData.clinicalRelevance;
 
@@ -274,25 +277,27 @@ function openModelPanel() {
 // ─── Initialization ───
 
 async function init() {
-    // Info panel is now a bottom sheet — always visible (collapsed by default).
-    // Restore expanded state from preference.
+    // Restore panel preference from localStorage (default: visible on desktop, hidden on mobile)
     const _savedPref = (() => { try { return localStorage.getItem('infoPanelVisible'); } catch (e) { return null; } })();
     const _panel = document.getElementById('infoPanel');
     const _tbtn = document.getElementById('toggleInfo');
-    // Always show peek strip; only expand if user previously saved expanded state
-    _panel.classList.remove('hidden');
-    if (_savedPref === '1') {
-        _panel.classList.add('expanded');
-    } else {
-        _panel.classList.remove('expanded');
-    }
-    if (_tbtn) {
-        _tbtn.classList.remove('panel-open');
+    const _mobile = isMobileDevice();
+    const _panelVisible = _savedPref === '1' || (_savedPref == null && !_mobile);
+    if (_panelVisible) {
+        _panel.classList.remove('hidden');
+        _tbtn.classList.add('panel-open');
         _tbtn.title = 'Hide information panel';
+        document.body.classList.add('panel-open');
+        viewOffsetTarget = _mobile ? 0 : PANEL_SHIFT_PX;
+        viewOffsetCurrent = viewOffsetTarget; // no animation on load
+    } else {
+        _panel.classList.add('hidden');
+        _tbtn.classList.remove('panel-open');
+        _tbtn.title = 'Show information panel';
+        document.body.classList.remove('panel-open');
+        viewOffsetTarget = 0;
+        viewOffsetCurrent = 0;
     }
-    document.body.classList.remove('panel-open');
-    viewOffsetTarget = 0;
-    viewOffsetCurrent = 0;
 
     // Load models data
     try {

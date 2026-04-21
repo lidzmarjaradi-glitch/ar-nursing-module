@@ -80,6 +80,9 @@ function focusCameraOnPoint(worldPos) {
 // ====== MODE SWITCHING ======
 
 function switchMode(mode) {
+    // Guard: block guided/quiz mode entry until the model is fully loaded.
+    // Explore mode is always allowed (loadModel calls switchMode('explore') internally).
+    if (!modelReady && mode !== 'explore') return;
     if (mode === currentInteractionMode) return;
     const prevMode = currentInteractionMode;
     currentInteractionMode = mode;
@@ -140,11 +143,12 @@ function enterGuidedMode() {
     setHeartNumberLabelsVisible(true);
 
     showGuidedStep();
-    document.getElementById('guidedBar').classList.add('visible');
+    document.getElementById('guidedPanel').classList.add('visible');
 }
 
 function exitGuidedMode() {
-    document.getElementById('guidedBar').classList.remove('visible');
+    const guidedPanelEl = document.getElementById('guidedPanel');
+    if (guidedPanelEl) guidedPanelEl.classList.remove('visible');
     guidedAnimating = false;
     removeHighlight();
     // Undim all labels
@@ -279,17 +283,17 @@ function enterQuizMode() {
     setHeartNumberLabelsVisible(false);
 
     showQuizQuestion();
-    const quizPanel = document.getElementById('quizPanel');
-    quizPanel.classList.add('visible');
+    document.getElementById('quizPanel').classList.add('visible');
 }
 
 function exitQuizMode() {
-    const quizPanel = document.getElementById('quizPanel');
-    quizPanel.classList.remove('visible');
+    const quizPanelEl = document.getElementById('quizPanel');
+    if (quizPanelEl) quizPanelEl.classList.remove('visible');
     quizAwaitingClick = false;
     quizAnswered = false;
     quizFinished = true;
-    document.getElementById('toggleInfo').classList.remove('quiz-locked');
+    const toggleInfoEl = document.getElementById('toggleInfo');
+    if (toggleInfoEl) toggleInfoEl.classList.remove('quiz-locked');
     removeHighlight();
     // Remove quiz CSS classes and restore display
     heartScreenLabelEntries.forEach(e => {
