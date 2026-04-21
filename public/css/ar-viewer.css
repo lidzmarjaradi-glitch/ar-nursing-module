@@ -1900,6 +1900,13 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
     transform: rotate(180deg);
 }
 
+/* Keyboard focus ring — visible only on keyboard navigation, not pointer */
+.sheet-handle-bar:focus-visible {
+    outline: 2px solid var(--accent, #60a5fa);
+    outline-offset: -2px;
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+}
+
 /* Panel body wrapper — transparent on desktop, scrollable on mobile */
 .sheet-panel-body {
     /* Desktop: no visual change; existing panel padding provides spacing */
@@ -1957,6 +1964,7 @@ body.mode-guided .heart-screen-label-line.guided-active-line {
 
 /* Ensure sheets sit above the backdrop */
 @media (max-width: 768px) {
+
     .guided-panel,
     .quiz-panel,
     .info-panel {

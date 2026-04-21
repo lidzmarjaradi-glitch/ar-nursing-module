@@ -18,23 +18,23 @@
     'use strict';
 
     /* ─── Constants ───────────────────────────────────────── */
-    var BREAKPOINT   = 768;
-    var HANDLE_H     = 56;       // px — height of collapsed peek
-    var MID_VH       = 0.40;     // fraction of viewport shown in mid state
-    var FLICK_VEL    = 0.45;     // px/ms — velocity threshold for flick snap
-    var EASING       = 'cubic-bezier(0.22, 1, 0.36, 1)';
-    var DURATION_MS  = 280;
-    var TRANSITION   = 'transform ' + DURATION_MS + 'ms ' + EASING;
+    var BREAKPOINT = 768;
+    var HANDLE_H = 56;       // px — height of collapsed peek
+    var MID_VH = 0.40;     // fraction of viewport shown in mid state
+    var FLICK_VEL = 0.45;     // px/ms — velocity threshold for flick snap
+    var EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+    var DURATION_MS = 280;
+    var TRANSITION = 'transform ' + DURATION_MS + 'ms ' + EASING;
 
     /* Snap indices — 0 = most collapsed, 2 = most expanded */
     var SNAP_COLLAPSED = 0;
-    var SNAP_MID       = 1;
-    var SNAP_EXPANDED  = 2;
+    var SNAP_MID = 1;
+    var SNAP_EXPANDED = 2;
 
     var SHEETS = [
-        { panelId: 'guidedPanel', handleId: 'guidedSheetHandle', mode: 'guided'  },
-        { panelId: 'quizPanel',   handleId: 'quizSheetHandle',   mode: 'quiz'    },
-        { panelId: 'infoPanel',   handleId: 'infoSheetHandle',   mode: 'explore' }
+        { panelId: 'guidedPanel', handleId: 'guidedSheetHandle', mode: 'guided' },
+        { panelId: 'quizPanel', handleId: 'quizSheetHandle', mode: 'quiz' },
+        { panelId: 'infoPanel', handleId: 'infoSheetHandle', mode: 'explore' }
     ];
 
     /* Last-used snap index per mode — restored when switching back */
@@ -48,7 +48,7 @@
      * Returns [collapsedY, midY, expandedY].
      */
     function getSnapYs(panel) {
-        var h       = panel.offsetHeight || 300;
+        var h = panel.offsetHeight || 300;
         var midShow = Math.min(window.innerHeight * MID_VH, h);
         return [
             Math.max(0, h - HANDLE_H),   // COLLAPSED: only handle peeks
@@ -82,10 +82,10 @@
     function setBackdropAlpha(alpha) {
         var bd = ensureBackdrop();
         if (alpha <= 0) {
-            bd.style.background    = 'rgba(0,0,0,0)';
+            bd.style.background = 'rgba(0,0,0,0)';
             bd.style.pointerEvents = 'none';
         } else {
-            bd.style.background    = 'rgba(0,0,0,' + Math.min(alpha, 0.45).toFixed(3) + ')';
+            bd.style.background = 'rgba(0,0,0,' + Math.min(alpha, 0.45).toFixed(3) + ')';
             bd.style.pointerEvents = 'auto';
         }
     }
@@ -108,20 +108,20 @@
     function snapTo(panel, snapIndex, animate) {
         if (!panel) return;
         var snapYs = getSnapYs(panel);
-        var y      = snapYs[snapIndex];
+        var y = snapYs[snapIndex];
 
-        panel.dataset.snap     = String(snapIndex);
+        panel.dataset.snap = String(snapIndex);
         panel.style.willChange = 'auto';
 
         if (animate) {
             /* rAF ensures transition fires from the current painted position */
             requestAnimationFrame(function () {
                 panel.style.transition = TRANSITION;
-                panel.style.transform  = 'translateY(' + y + 'px)';
+                panel.style.transform = 'translateY(' + y + 'px)';
             });
         } else {
             panel.style.transition = 'none';
-            panel.style.transform  = 'translateY(' + y + 'px)';
+            panel.style.transform = 'translateY(' + y + 'px)';
         }
 
         /* CSS class drives chevron rotation */
@@ -131,11 +131,18 @@
             panel.classList.remove('sheet-expanded');
         }
 
-        /* Backdrop opacity: 0 → collapsed, 0.5 → mid, 1 → expanded */
+        /* Backdrop opacity: 0 → collapsed, 0.2 → mid, 0.4 → expanded */
         var alpha = snapIndex === SNAP_COLLAPSED ? 0
-                  : snapIndex === SNAP_MID       ? 0.2
-                  : 0.4;
+            : snapIndex === SNAP_MID ? 0.2
+                : 0.4;
         setBackdropAlpha(alpha);
+
+        /* Sync aria-expanded on the corresponding handle */
+        SHEETS.forEach(function (s) {
+            if (s.panelId !== panel.id) return;
+            var h = document.getElementById(s.handleId);
+            if (h) h.setAttribute('aria-expanded', snapIndex === SNAP_EXPANDED ? 'true' : 'false');
+        });
     }
 
     /* ─── Velocity-based nearest snap ─────────────────────── */
@@ -147,7 +154,7 @@
             if (d < bestDist) { bestDist = d; best = i; }
         }
         /* Velocity override: nudge one step further in drag direction */
-        if (velocity >  FLICK_VEL) return Math.max(best - 1, SNAP_COLLAPSED); // flick down → collapse
+        if (velocity > FLICK_VEL) return Math.max(best - 1, SNAP_COLLAPSED); // flick down → collapse
         if (velocity < -FLICK_VEL) return Math.min(best + 1, SNAP_EXPANDED);  // flick up → expand
         return best;
     }
@@ -163,32 +170,32 @@
 
     /* ─── Per-sheet initialization ────────────────────────── */
     function initSheet(sheetDef) {
-        var panel  = document.getElementById(sheetDef.panelId);
+        var panel = document.getElementById(sheetDef.panelId);
         var handle = document.getElementById(sheetDef.handleId);
         if (!panel || !handle) return;
 
         panel.dataset.snap = String(SNAP_COLLAPSED);
 
         /* ── Drag state ── */
-        var isDragging      = false;
-        var isAnimating     = false;   // spam-protection lock
+        var isDragging = false;
+        var isAnimating = false;   // spam-protection lock
         var dragStartTouchY = 0;
         var dragStartPanelY = 0;
-        var dragSnapYs      = null;
-        var lastTouchY      = 0;
-        var lastTouchTime   = 0;
-        var tapStartY       = 0;
+        var dragSnapYs = null;
+        var lastTouchY = 0;
+        var lastTouchTime = 0;
+        var tapStartY = 0;
 
         /* TOUCHSTART on handle — begin drag tracking */
         handle.addEventListener('touchstart', function (e) {
             if (!isMobile()) return;
-            tapStartY       = e.touches[0].clientY;
+            tapStartY = e.touches[0].clientY;
             dragStartTouchY = e.touches[0].clientY;
             dragStartPanelY = currentTranslateY(panel);
-            dragSnapYs      = getSnapYs(panel);
-            lastTouchY      = dragStartTouchY;
-            lastTouchTime   = e.timeStamp;
-            isDragging      = true;
+            dragSnapYs = getSnapYs(panel);
+            lastTouchY = dragStartTouchY;
+            lastTouchTime = e.timeStamp;
+            isDragging = true;
 
             /* Kill CSS transition and prime GPU layer */
             panel.style.transition = 'none';
@@ -200,7 +207,7 @@
         handle.addEventListener('touchmove', function (e) {
             if (!isDragging || !isMobile()) return;
 
-            var dy   = e.touches[0].clientY - dragStartTouchY;
+            var dy = e.touches[0].clientY - dragStartTouchY;
             var newY = dragStartPanelY + dy;
 
             /* Clamp with slight overscroll feel at both ends */
@@ -211,15 +218,15 @@
             panel.style.transform = 'translateY(' + newY + 'px)';
 
             /* Live backdrop opacity sync */
-            var expandedY  = dragSnapYs[SNAP_EXPANDED];
+            var expandedY = dragSnapYs[SNAP_EXPANDED];
             var collapsedY = dragSnapYs[SNAP_COLLAPSED];
-            var range      = collapsedY - expandedY;
+            var range = collapsedY - expandedY;
             if (range > 0) {
                 var progress = 1 - (newY - expandedY) / range;
                 setBackdropAlpha(Math.max(0, Math.min(1, progress)) * 0.4);
             }
 
-            lastTouchY    = e.touches[0].clientY;
+            lastTouchY = e.touches[0].clientY;
             lastTouchTime = e.timeStamp;
         }, { passive: true });
 
@@ -237,28 +244,49 @@
 
             /* Tap (minimal movement) → toggle collapsed ↔ expanded */
             if (totalDrag < 12) {
-                var curSnap  = parseInt(panel.dataset.snap || SNAP_COLLAPSED, 10);
+                var curSnap = parseInt(panel.dataset.snap || SNAP_COLLAPSED, 10);
                 var nextSnap = curSnap >= SNAP_MID ? SNAP_COLLAPSED : SNAP_EXPANDED;
                 snapTo(panel, nextSnap, true);
                 return;
             }
 
             /* Drag → velocity + proximity snap */
-            var dt        = e.timeStamp - lastTouchTime;
-            var velocity  = dt > 0 ? (e.changedTouches[0].clientY - lastTouchY) / dt : 0;
+            var dt = e.timeStamp - lastTouchTime;
+            var velocity = dt > 0 ? (e.changedTouches[0].clientY - lastTouchY) / dt : 0;
             var snapIndex = nearestSnap(dragSnapYs, currentTranslateY(panel), velocity);
             snapTo(panel, snapIndex, true);
         }, { passive: true });
 
+        /* TOUCHCANCEL on handle — orientation change or system interruption */
+        /* Prevents isDragging from getting stuck, restores panel to last snap */
+        handle.addEventListener('touchcancel', function () {
+            if (!isDragging) return;
+            isDragging = false;
+            panel.style.willChange = 'auto';
+            var snap = parseInt(panel.dataset.snap || SNAP_COLLAPSED, 10);
+            snapTo(panel, snap, true); // animate back to last committed position
+        }, { passive: true });
+
+        /* KEYDOWN on handle — Enter / Space for keyboard accessibility */
+        handle.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            if (!isMobile()) return;
+            e.preventDefault();
+            var curSnap  = parseInt(panel.dataset.snap || SNAP_COLLAPSED, 10);
+            var nextSnap = curSnap >= SNAP_MID ? SNAP_COLLAPSED : SNAP_EXPANDED;
+            snapTo(panel, nextSnap, true);
+            handle.focus(); // retain focus after state change
+        });
+
         /* Swipe-down on panel BODY (not handle) collapses one level */
-        var bodySwipeStartY    = 0;
+        var bodySwipeStartY = 0;
         var bodySwipeScrollTop = 0;
-        var touchOnHandle      = false;
+        var touchOnHandle = false;
 
         panel.addEventListener('touchstart', function (e) {
             if (!isMobile()) return;
-            touchOnHandle      = handle.contains(e.target);
-            bodySwipeStartY    = e.touches[0].clientY;
+            touchOnHandle = handle.contains(e.target);
+            bodySwipeStartY = e.touches[0].clientY;
             bodySwipeScrollTop = panel.scrollTop;
         }, { passive: true });
 
@@ -294,7 +322,7 @@
                 if (targetPanelId) {
                     /* Delay so modes.js has time to add .visible / remove .hidden */
                     setTimeout(function () {
-                        var p       = document.getElementById(targetPanelId);
+                        var p = document.getElementById(targetPanelId);
                         var savedSnap = modeSnapMemory[mode] !== undefined
                             ? modeSnapMemory[mode] : SNAP_COLLAPSED;
                         if (p) snapTo(p, savedSnap, true);
@@ -330,7 +358,7 @@
             SHEETS.forEach(function (s) {
                 var p = document.getElementById(s.panelId);
                 if (!p) return;
-                p.style.transform  = '';
+                p.style.transform = '';
                 p.style.transition = '';
                 p.style.willChange = 'auto';
                 p.classList.remove('sheet-expanded');
@@ -340,11 +368,30 @@
         }
         /* Mobile orientation change: recalculate snap positions instantly */
         SHEETS.forEach(function (s) {
-            var p    = document.getElementById(s.panelId);
+            var p = document.getElementById(s.panelId);
             var snap = p ? parseInt(p.dataset.snap || SNAP_COLLAPSED, 10) : SNAP_COLLAPSED;
             if (p) snapTo(p, snap, false);
         });
     });
+
+    /* ─── Global ESC key: collapse any open sheet ────────── */
+    function addEscapeHandler() {
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            var didCollapse = false;
+            SHEETS.forEach(function (s) {
+                var p = document.getElementById(s.panelId);
+                if (p && parseInt(p.dataset.snap || SNAP_COLLAPSED, 10) > SNAP_COLLAPSED) {
+                    snapTo(p, SNAP_COLLAPSED, true);
+                    didCollapse = true;
+                    /* Return keyboard focus to the handle that was open */
+                    var h = document.getElementById(s.handleId);
+                    if (h) setTimeout(function () { h.focus(); }, DURATION_MS);
+                }
+            });
+            if (didCollapse) e.preventDefault();
+        });
+    }
 
     /* ─── Public API ──────────────────────────────────────── */
     window.mobileCollapseSheets = function () { collapseAll(true); };
@@ -355,6 +402,7 @@
         SHEETS.forEach(function (s) { initSheet(s); });
         patchSwitchMode();
         syncInfoSheetLabel();
+        addEscapeHandler();
     }
 
     if (document.readyState === 'loading') {
